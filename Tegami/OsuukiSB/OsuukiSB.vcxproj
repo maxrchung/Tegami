@@ -14,7 +14,7 @@
     <ProjectGuid>{1441267D-3F87-43FD-BF1E-1B5A7919410D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>OsuukiSB</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
