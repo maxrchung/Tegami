@@ -171,8 +171,7 @@ MusicAnalysisData MusicAnalysis::TakeSnapshots(int snapshotRate, const std::vect
 
 			// Track the max value out of the respective bins
 			// You don't have to use max, but a resource I referenced used it: https://github.com/zardoru/osutk/blob/master/tools/musnalisys.py
-			// Special thanks to Mr. Zardoru btw, helped point me in the right direction
-			// to fix some frequency issues
+			// Special thanks to Mr. Zardoru btw, helped point me in the right direction to fix some frequency issues
 			float maxMagSquared = 0.0f;
 			for (int k = startBin; k < endBin; ++k) {
 				float magSquared = out[k].r * out[k].r + out[k].i * out[k].i;
