@@ -9,6 +9,7 @@ Public Class Form1
     Dim brushBlack As SolidBrush = New SolidBrush(Color.Black)
     Dim brushRed As SolidBrush = New SolidBrush(Color.Red)
     Dim brushRadius As Integer = 4
+    Dim openedFile As String = ""
 
     Protected Overrides Function ProcessCmdKey(ByRef message As Message, keys As Keys) As Boolean
         Select Case keys
@@ -24,32 +25,33 @@ Public Class Form1
     End Function
 
     Private Sub DeleteCurrentStroke()
-        Dim targetIndex As New Integer
-        For index As Integer = 0 To strokes.Count - 1
-            If currentStroke Is strokes(index) Then
-                targetIndex = index - 1
-                Exit For
+        If strokes(0).points.Count > 0 Then
+            Dim targetIndex As New Integer
+            For index As Integer = 0 To strokes.Count - 1
+                If currentStroke Is strokes(index) Then
+                    targetIndex = index - 1
+                    Exit For
+                End If
+            Next
+
+            strokes.Remove(currentStroke)
+
+            If strokes.Count = 0 Then
+                targetIndex = 0
+                strokes.Add(New Stroke())
+                currentStroke = strokes(targetIndex)
+            ElseIf targetIndex < 0 Then
+                targetIndex = 0
+                currentStroke = strokes(targetIndex)
+            Else
+                currentStroke = strokes(targetIndex)
             End If
-        Next
 
-        strokes.Remove(currentStroke)
+            UpdateTreeView()
+            TreeView1.SelectedNode = TreeView1.Nodes(targetIndex)
 
-        If strokes.Count = 0 Then
-            targetIndex = 0
-            Stroke.idCounter = 0
-            strokes.Add(New Stroke())
-            currentStroke = strokes(targetIndex)
-        ElseIf targetIndex < 0 Then
-            targetIndex = 0
-            currentStroke = strokes(targetIndex)
-        Else
-            currentStroke = strokes(targetIndex)
+            Panel1.Invalidate()
         End If
-
-        UpdateTreeView()
-        TreeView1.SelectedNode = TreeView1.Nodes(targetIndex)
-
-        Panel1.Invalidate()
     End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
@@ -204,7 +206,7 @@ Public Class Form1
             Using sw As System.IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(SaveFileDialog1.FileName, False)
                 sw.WriteLine("Strokes: " & strokes.Count)
                 For Each stroke In strokes
-                    sw.WriteLine(stroke.id & ": " & stroke.points.Count)
+                    sw.WriteLine("Stroke " & stroke.id & ": " & stroke.points.Count)
                     For Each point In stroke.points
                         sw.WriteLine(point.X & " " & point.Y)
                     Next
@@ -272,4 +274,12 @@ Public Class Form1
 
         Return numbers
     End Function
+
+    Private Function ParseFileName(fileName As String) As String
+        Return ""
+    End Function
+
+    Private Sub SaveToolStripMenuItem4_Click(sender As Object, e As EventArgs)
+
+    End Sub
 End Class

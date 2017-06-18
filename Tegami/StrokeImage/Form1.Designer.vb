@@ -33,7 +33,6 @@ Partial Class Form1
         Me.FileToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SaveToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.StrokeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -65,7 +64,7 @@ Partial Class Form1
         Me.TreeView1.AllowDrop = True
         Me.TreeView1.Location = New System.Drawing.Point(530, 37)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(242, 512)
+        Me.TreeView1.Size = New System.Drawing.Size(117, 512)
         Me.TreeView1.TabIndex = 3
         '
         'FileToolStripMenuItem
@@ -103,13 +102,13 @@ Partial Class Form1
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem3, Me.StrokeToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(784, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(659, 24)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'FileToolStripMenuItem3
         '
-        Me.FileToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem3, Me.OpenToolStripMenuItem2, Me.SaveToolStripMenuItem4, Me.SaveAsToolStripMenuItem3})
+        Me.FileToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem3, Me.OpenToolStripMenuItem2, Me.SaveAsToolStripMenuItem3})
         Me.FileToolStripMenuItem3.Name = "FileToolStripMenuItem3"
         Me.FileToolStripMenuItem3.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem3.Text = "File"
@@ -118,34 +117,22 @@ Partial Class Form1
         '
         Me.NewToolStripMenuItem3.Name = "NewToolStripMenuItem3"
         Me.NewToolStripMenuItem3.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem3.ShowShortcutKeys = False
-        Me.NewToolStripMenuItem3.Size = New System.Drawing.Size(201, 22)
-        Me.NewToolStripMenuItem3.Text = "New (Ctrl + N)"
+        Me.NewToolStripMenuItem3.Size = New System.Drawing.Size(163, 22)
+        Me.NewToolStripMenuItem3.Text = "New"
         '
         'OpenToolStripMenuItem2
         '
         Me.OpenToolStripMenuItem2.Name = "OpenToolStripMenuItem2"
         Me.OpenToolStripMenuItem2.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.OpenToolStripMenuItem2.ShowShortcutKeys = False
-        Me.OpenToolStripMenuItem2.Size = New System.Drawing.Size(201, 22)
-        Me.OpenToolStripMenuItem2.Text = "Open (Ctrl + O)"
-        '
-        'SaveToolStripMenuItem4
-        '
-        Me.SaveToolStripMenuItem4.Name = "SaveToolStripMenuItem4"
-        Me.SaveToolStripMenuItem4.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem4.ShowShortcutKeys = False
-        Me.SaveToolStripMenuItem4.Size = New System.Drawing.Size(201, 22)
-        Me.SaveToolStripMenuItem4.Text = "Save (Ctrl + S)"
+        Me.OpenToolStripMenuItem2.Size = New System.Drawing.Size(163, 22)
+        Me.OpenToolStripMenuItem2.Text = "Open"
         '
         'SaveAsToolStripMenuItem3
         '
         Me.SaveAsToolStripMenuItem3.Name = "SaveAsToolStripMenuItem3"
-        Me.SaveAsToolStripMenuItem3.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveAsToolStripMenuItem3.ShowShortcutKeys = False
-        Me.SaveAsToolStripMenuItem3.Size = New System.Drawing.Size(201, 22)
-        Me.SaveAsToolStripMenuItem3.Text = "Save As... (Ctrl + Shft + S)"
+        Me.SaveAsToolStripMenuItem3.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.SaveAsToolStripMenuItem3.Size = New System.Drawing.Size(163, 22)
+        Me.SaveAsToolStripMenuItem3.Text = "Save As..."
         '
         'StrokeToolStripMenuItem
         '
@@ -158,8 +145,9 @@ Partial Class Form1
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
-        Me.DeleteToolStripMenuItem.Text = "Delete (Backspace / Del)"
+        Me.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DeleteToolStripMenuItem.Text = "Delete"
         '
         'FileToolStripMenuItem1
         '
@@ -241,15 +229,15 @@ Partial Class Form1
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Silver
-        Me.ClientSize = New System.Drawing.Size(784, 561)
+        Me.ClientSize = New System.Drawing.Size(659, 561)
         Me.Controls.Add(Me.TreeView1)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.DoubleBuffered = True
         Me.MainMenuStrip = Me.MenuStrip1
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(800, 600)
-        Me.MinimumSize = New System.Drawing.Size(800, 600)
+        Me.MaximumSize = New System.Drawing.Size(675, 600)
+        Me.MinimumSize = New System.Drawing.Size(675, 600)
         Me.Name = "Form1"
         Me.Text = "StrokeImage"
         Me.MenuStrip1.ResumeLayout(False)
@@ -283,7 +271,6 @@ Partial Class Form1
     Friend WithEvents SaveAsToolStripMenuItem3 As ToolStripMenuItem
     Friend WithEvents SaveFileDialog1 As SaveFileDialog
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
-    Friend WithEvents SaveToolStripMenuItem4 As ToolStripMenuItem
     Friend WithEvents StrokeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DeleteToolStripMenuItem As ToolStripMenuItem
 End Class
