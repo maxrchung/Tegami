@@ -8,4 +8,11 @@
         idCounter += 1
     End Sub
 
+    Sub New(givenID As Integer)
+        id = givenID
+    End Sub
+
+    Function Clone() As Stroke
+        Return MemberwiseClone()
+    End Function
 End Class
