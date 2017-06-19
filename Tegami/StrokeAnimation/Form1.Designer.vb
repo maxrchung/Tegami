@@ -37,6 +37,7 @@ Partial Class Form1
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog()
         Me.TrackBar1 = New System.Windows.Forms.TrackBar()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         CType(Me.AxWindowsMediaPlayer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -102,13 +103,14 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.CheckBox3)
         Me.GroupBox1.Controls.Add(Me.TrackBar1)
         Me.GroupBox1.Controls.Add(Me.CheckBox2)
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.ForeColor = System.Drawing.Color.White
         Me.GroupBox1.Location = New System.Drawing.Point(1298, 37)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(213, 118)
+        Me.GroupBox1.Size = New System.Drawing.Size(213, 136)
         Me.GroupBox1.TabIndex = 5
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Display"
@@ -116,12 +118,12 @@ Partial Class Form1
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(6, 19)
+        Me.CheckBox2.Location = New System.Drawing.Point(6, 66)
         Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(99, 17)
+        Me.CheckBox2.Size = New System.Drawing.Size(138, 17)
         Me.CheckBox2.TabIndex = 0
         Me.CheckBox2.TabStop = False
-        Me.CheckBox2.Text = "Previous Frame"
+        Me.CheckBox2.Text = "Previous Frame Strokes"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
         'CheckBox1
@@ -129,7 +131,7 @@ Partial Class Form1
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.Checked = True
         Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(6, 93)
+        Me.CheckBox1.Location = New System.Drawing.Point(6, 19)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(114, 17)
         Me.CheckBox1.TabIndex = 3
@@ -145,7 +147,7 @@ Partial Class Form1
         'TrackBar1
         '
         Me.TrackBar1.LargeChange = 10
-        Me.TrackBar1.Location = New System.Drawing.Point(6, 42)
+        Me.TrackBar1.Location = New System.Drawing.Point(6, 89)
         Me.TrackBar1.Maximum = 100
         Me.TrackBar1.Name = "TrackBar1"
         Me.TrackBar1.Size = New System.Drawing.Size(201, 45)
@@ -153,6 +155,18 @@ Partial Class Form1
         Me.TrackBar1.TabStop = False
         Me.TrackBar1.TickFrequency = 10
         Me.TrackBar1.Value = 100
+        '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Checked = True
+        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox3.Location = New System.Drawing.Point(6, 43)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(131, 17)
+        Me.CheckBox3.TabIndex = 4
+        Me.CheckBox3.Text = "Current Frame Strokes"
+        Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -191,4 +205,5 @@ Partial Class Form1
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents OpenFileDialog2 As OpenFileDialog
     Friend WithEvents TrackBar1 As TrackBar
+    Friend WithEvents CheckBox3 As CheckBox
 End Class
