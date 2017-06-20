@@ -23,11 +23,21 @@ Public Class Form1
         OpenFileDialog2.Title = "Import"
     End Sub
 
+    Protected Overrides Sub OnPaint(e As PaintEventArgs)
+        MyBase.OnPaint(e)
+        Dim brush As New SolidBrush(Color.White)
+        e.Graphics.FillRectangle(brush, 100, 100, 1000, 1000)
+    End Sub
+
     Private Sub ImportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImportToolStripMenuItem.Click
         Dim result As DialogResult = OpenFileDialog2.ShowDialog()
         If result = DialogResult.OK Then
             AxWindowsMediaPlayer1.URL = OpenFileDialog2.FileName
         End If
+    End Sub
+
+    Private Sub Form1_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
+
     End Sub
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged

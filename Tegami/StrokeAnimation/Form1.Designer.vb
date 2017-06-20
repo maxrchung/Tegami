@@ -23,7 +23,6 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Me.AxWindowsMediaPlayer1 = New AxWMPLib.AxWindowsMediaPlayer()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -33,25 +32,17 @@ Partial Class Form1
         Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog()
-        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        CType(Me.AxWindowsMediaPlayer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+        Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog()
+        Me.AxWindowsMediaPlayer1 = New AxWMPLib.AxWindowsMediaPlayer()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.AxWindowsMediaPlayer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'AxWindowsMediaPlayer1
-        '
-        Me.AxWindowsMediaPlayer1.Enabled = True
-        Me.AxWindowsMediaPlayer1.Location = New System.Drawing.Point(12, 37)
-        Me.AxWindowsMediaPlayer1.Name = "AxWindowsMediaPlayer1"
-        Me.AxWindowsMediaPlayer1.OcxState = CType(resources.GetObject("AxWindowsMediaPlayer1.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxWindowsMediaPlayer1.Size = New System.Drawing.Size(1280, 760)
-        Me.AxWindowsMediaPlayer1.TabIndex = 0
         '
         'OpenFileDialog1
         '
@@ -103,10 +94,10 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.CheckBox3)
         Me.GroupBox1.Controls.Add(Me.TrackBar1)
         Me.GroupBox1.Controls.Add(Me.CheckBox2)
-        Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.ForeColor = System.Drawing.Color.White
         Me.GroupBox1.Location = New System.Drawing.Point(1298, 37)
         Me.GroupBox1.Name = "GroupBox1"
@@ -114,17 +105,6 @@ Partial Class Form1
         Me.GroupBox1.TabIndex = 5
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Display"
-        '
-        'CheckBox2
-        '
-        Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(6, 66)
-        Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(138, 17)
-        Me.CheckBox2.TabIndex = 0
-        Me.CheckBox2.TabStop = False
-        Me.CheckBox2.Text = "Previous Frame Strokes"
-        Me.CheckBox2.UseVisualStyleBackColor = True
         '
         'CheckBox1
         '
@@ -140,9 +120,17 @@ Partial Class Form1
         Me.CheckBox1.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
-        'OpenFileDialog2
+        'CheckBox3
         '
-        Me.OpenFileDialog2.FileName = "OpenFileDialog2"
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Checked = True
+        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox3.Location = New System.Drawing.Point(6, 43)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(131, 17)
+        Me.CheckBox3.TabIndex = 4
+        Me.CheckBox3.Text = "Current Frame Strokes"
+        Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'TrackBar1
         '
@@ -156,17 +144,29 @@ Partial Class Form1
         Me.TrackBar1.TickFrequency = 10
         Me.TrackBar1.Value = 100
         '
-        'CheckBox3
+        'CheckBox2
         '
-        Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Checked = True
-        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox3.Location = New System.Drawing.Point(6, 43)
-        Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(131, 17)
-        Me.CheckBox3.TabIndex = 4
-        Me.CheckBox3.Text = "Current Frame Strokes"
-        Me.CheckBox3.UseVisualStyleBackColor = True
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(6, 66)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(138, 17)
+        Me.CheckBox2.TabIndex = 0
+        Me.CheckBox2.TabStop = False
+        Me.CheckBox2.Text = "Previous Frame Strokes"
+        Me.CheckBox2.UseVisualStyleBackColor = True
+        '
+        'OpenFileDialog2
+        '
+        Me.OpenFileDialog2.FileName = "OpenFileDialog2"
+        '
+        'AxWindowsMediaPlayer1
+        '
+        Me.AxWindowsMediaPlayer1.Enabled = True
+        Me.AxWindowsMediaPlayer1.Location = New System.Drawing.Point(36, 56)
+        Me.AxWindowsMediaPlayer1.Name = "AxWindowsMediaPlayer1"
+        Me.AxWindowsMediaPlayer1.OcxState = CType(resources.GetObject("AxWindowsMediaPlayer1.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.AxWindowsMediaPlayer1.Size = New System.Drawing.Size(883, 406)
+        Me.AxWindowsMediaPlayer1.TabIndex = 6
         '
         'Form1
         '
@@ -178,20 +178,20 @@ Partial Class Form1
         Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.AxWindowsMediaPlayer1)
         Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(1534, 849)
+        Me.MinimumSize = New System.Drawing.Size(1534, 849)
         Me.Name = "Form1"
         Me.Text = "StrokeAnimation"
-        CType(Me.AxWindowsMediaPlayer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.AxWindowsMediaPlayer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents AxWindowsMediaPlayer1 As AxWMPLib.AxWindowsMediaPlayer
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
@@ -206,4 +206,5 @@ Partial Class Form1
     Friend WithEvents OpenFileDialog2 As OpenFileDialog
     Friend WithEvents TrackBar1 As TrackBar
     Friend WithEvents CheckBox3 As CheckBox
+    Friend WithEvents AxWindowsMediaPlayer1 As AxWMPLib.AxWindowsMediaPlayer
 End Class
