@@ -5,26 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StrokeAnimation"
         mc:Ignorable="d"
-        Title="StrokeAnimation" ResizeMode="CanMinimize" HorizontalAlignment="Left" VerticalAlignment="Top" SizeToContent="WidthAndHeight">
+        Title="StrokeAnimation" ResizeMode="CanMinimize" HorizontalAlignment="Left" VerticalAlignment="Top" SizeToContent="WidthAndHeight" Background="#FFBFBFBF">
 
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:Commands.Import}" Executed="Import_Click"/>
         <CommandBinding Command="{x:Static local:Commands.PlayPause}" Executed="Player_PlayPause"/>
     </Window.CommandBindings>
 
-    <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Width="1600" Height="786">
-        <Menu HorizontalAlignment="Left" Height="20" VerticalAlignment="Bottom" Width="1600" Grid.ColumnSpan="2" Canvas.Left="0" Canvas.Top="0">
-            <MenuItem Header="File">
-                <MenuItem x:Name="New"  Header="New" Click="New_Click" />
-                <MenuItem x:Name="Import"  Header="Import" Command="{x:Static local:Commands.Import}" />
-                <MenuItem x:Name="Open" Header="Open" Click="Open_Click" />
-                <MenuItem x:Name="Save" Header="Save" Click="Save_Click" />
+    <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Width="1500" Height="786" OpacityMask="Black">
+        <Menu HorizontalAlignment="Left" Height="20" VerticalAlignment="Bottom" Width="1500" Grid.ColumnSpan="2" Canvas.Left="0" Canvas.Top="0" Focusable="False">
+            <MenuItem Header="File" Focusable="False">
+                <MenuItem x:Name="New"  Header="New" Click="New_Click" Focusable="False" />
+                <MenuItem x:Name="Import"  Header="Import" Command="{x:Static local:Commands.Import}" Focusable="False" />
+                <MenuItem x:Name="Open" Header="Open" Click="Open_Click" Focusable="False" />
+                <MenuItem x:Name="Save" Header="Save" Click="Save_Click" Focusable="False" />
             </MenuItem>
         </Menu>
-        <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="25" Canvas.Left="10"/>
-        <ProgressBar x:Name="Progress" Height="26" Canvas.Left="10" Canvas.Top="750" Width="1280" Maximum="1" Loaded="Progress_Load"/>
-        <Label x:Name="CurrentTime" Content="00:00" Canvas.Left="1301" Canvas.Top="746" FontSize="18"/>
-        <Label Content="/" Canvas.Left="1348" Canvas.Top="746" FontSize="18"/>
-        <Label x:Name="TotalTime" Content="00:00" Canvas.Left="1359" Canvas.Top="746" FontSize="18"/>
+
+        <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="25" Canvas.Left="10" ScrubbingEnabled="True" OpacityMask="Black"/>
+        <ProgressBar x:Name="Progress" Height="26" Canvas.Left="10" Canvas.Top="750" Width="1280" Maximum="1" Loaded="Progress_Loaded"/>
+        <Label x:Name="CurrentTime" Content="00:00:000" Canvas.Left="1302" Canvas.Top="746" FontSize="18"/>
+        <Label Content="/" Canvas.Left="1386" Canvas.Top="746" FontSize="18"/>
+        <Label x:Name="TotalTime" Content="00:00:000" Canvas.Left="1403" Canvas.Top="746" FontSize="18"/>
+
+        <Canvas x:Name="Panel" Height="720" Canvas.Left="10" Canvas.Top="25" Width="1280" Loaded="Panel_Loaded" Background="Transparent">
+            <Canvas x:Name="Lines" Height="720" Width="1280" Background="Transparent"/>
+        </Canvas>
+
+        <Slider x:Name="VideoOpacity" Canvas.Left="1360" Canvas.Top="25" Width="130" Maximum="1" ValueChanged="VideoOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
+        <CheckBox x:Name="VideoDisplay" Content="Video" Canvas.Left="1295" Canvas.Top="25" Unchecked="VideoDisplay_Unchecked" Checked="VideoDisplay_Checked" IsChecked="True" Focusable="False"/>
+
+        <Slider x:Name="LinesOpacity" Canvas.Left="1360" Canvas.Top="45" Width="130" Maximum="1" ValueChanged="LinesOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
+        <CheckBox x:Name="LinesDisplay" Content="Lines" Canvas.Left="1295" Canvas.Top="45" Unchecked="LinesDisplay_Unchecked" Checked="LinesDisplay_Checked" Focusable="False" IsChecked="True"/>
+
+        <Slider x:Name="VolumeLevel" Canvas.Left="1360" Canvas.Top="726" Width="130" Maximum="1" ValueChanged="VolumeLevel_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
+        <CheckBox x:Name="Volume" Content="Volume" Canvas.Left="1295" Canvas.Top="726" Unchecked="Volume_Unchecked" Checked="Volume_Checked" Focusable="False" IsChecked="True"/>
     </Canvas>
 </Window>
