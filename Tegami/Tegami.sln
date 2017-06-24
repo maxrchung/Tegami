@@ -12,6 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OsuukiSB", "OsuukiSB\Osuuki
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "StrokeImage", "StrokeImage\StrokeImage.vbproj", "{36591920-2D57-49EA-9149-66D48BD73F2F}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "StrokeAnimation", "StrokeAnimation\StrokeAnimation.vbproj", "{3D84CE03-5613-45B1-81A1-76F538BA2572}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,18 @@ Global
 		{36591920-2D57-49EA-9149-66D48BD73F2F}.Release|x64.Build.0 = Release|Any CPU
 		{36591920-2D57-49EA-9149-66D48BD73F2F}.Release|x86.ActiveCfg = Release|Any CPU
 		{36591920-2D57-49EA-9149-66D48BD73F2F}.Release|x86.Build.0 = Release|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Debug|x64.Build.0 = Debug|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Release|x64.ActiveCfg = Release|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Release|x64.Build.0 = Release|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D84CE03-5613-45B1-81A1-76F538BA2572}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
