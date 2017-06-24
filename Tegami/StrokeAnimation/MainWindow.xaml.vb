@@ -5,9 +5,12 @@ Class MainWindow
     Dim playState As PlayState = PlayState.None
     Dim timeSpanTotal As TimeSpan
     Dim progressTimer As DispatcherTimer
+
     Dim currentPoint As Point
     Dim lineTimer As DispatcherTimer
     Dim currentLine As Line
+
+    Dim currentTool As Tool = Tool.Pointer
 
     Private Function FormatTime(timeSpan As TimeSpan)
         Dim time As String = String.Format("{0}:{1}:{2}", timeSpan.Minutes.ToString("D2"), timeSpan.Seconds.ToString("D2"), timeSpan.Milliseconds.ToString("D3"))
