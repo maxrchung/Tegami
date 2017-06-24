@@ -143,10 +143,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="PartGen.cpp" />
+    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Stroke.cpp" />
+    <ClCompile Include="StrokeManager.cpp" />
     <ClCompile Include="Tegami.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="StoryboardInputPath.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Character.hpp" />
+    <ClInclude Include="PartGen.hpp" />
+    <ClInclude Include="Stroke.hpp" />
+    <ClInclude Include="StrokeManager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
