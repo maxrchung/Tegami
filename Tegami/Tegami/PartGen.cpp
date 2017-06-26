@@ -1,6 +1,6 @@
 #include "Partgen.hpp"
 
-PartGen::PartGen(std::string timeStart, std::string timeEnd, std::string directory, int r, int g, int b,float scale, float opacity)
+PartGen::PartGen(std::string timeStart, std::string timeEnd, std::string directory, float r, float g, float b,float scale, float opacity)
 {
 	::Color color(r, g, b);
 	Sprite sprite = Sprite(directory, Vector2::Zero, Layer::Foreground, Origin::Centre);
