@@ -83,6 +83,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Color.vb" />
+    <Compile Include="Frame.vb" />
+    <Compile Include="Stroke.vb" />
     <Compile Include="PlayState.vb" />
     <Compile Include="Tool.vb" />
     <Page Include="MainWindow.xaml">

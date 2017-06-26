@@ -6,11 +6,22 @@ Class MainWindow
     Dim timeSpanTotal As TimeSpan
     Dim progressTimer As DispatcherTimer
 
+    Dim offset As Integer = 10000
+    Dim mspb As Integer = 100
+
     Dim currentPoint As Point
     Dim lineTimer As DispatcherTimer
     Dim currentLine As Line
+    Dim lineMaxThreshold As Integer = 25
+    Dim drawThreshold As Integer = 9
+    Dim rectTimer As DispatcherTimer
+    Dim currentRect As Rectangle
+    Dim rotationAngle As Integer = 10
 
-    Dim currentTool As Tool = Tool.Pointer
+    Dim currentTool As Tool = Tool.Draw
+
+    Dim frames As List(Of Frame)
+    Dim currentFrame As Frame
 
     Private Function FormatTime(timeSpan As TimeSpan)
         Dim time As String = String.Format("{0}:{1}:{2}", timeSpan.Minutes.ToString("D2"), timeSpan.Seconds.ToString("D2"), timeSpan.Milliseconds.ToString("D3"))
@@ -64,13 +75,10 @@ Class MainWindow
     End Sub
 
     Private Sub progressTimer_Tick(sender As Object, e As EventArgs)
-        If Player.NaturalDuration.TimeSpan.TotalSeconds > 0 Then
-            If timeSpanTotal.TotalSeconds > 0 Then
-                Progress.Value = Player.Position.TotalSeconds / timeSpanTotal.TotalSeconds
-
-                CurrentTime.Content = FormatTime(Player.Position)
-                TotalTime.Content = FormatTime(timeSpanTotal)
-            End If
+        If Player.NaturalDuration.HasTimeSpan AndAlso Player.NaturalDuration.TimeSpan.TotalSeconds > 0 AndAlso timeSpanTotal.TotalSeconds > 0 Then
+            Progress.Value = Player.Position.TotalSeconds / timeSpanTotal.TotalSeconds
+            CurrentTime.Content = FormatTime(Player.Position)
+            TotalTime.Content = FormatTime(timeSpanTotal)
         End If
     End Sub
 
@@ -78,7 +86,7 @@ Class MainWindow
         AddHandler Progress.MouseDown, AddressOf Progress_MouseDown
     End Sub
 
-    Private Sub Progress_MouseDown(sender As Object, e As MouseEventArgs)
+    Private Sub Progress_MouseDown(sender As Object, e As MouseButtonEventArgs)
         Dim ratio As Double = e.GetPosition(Progress).X / Progress.ActualWidth
         Progress.Value = ratio * Progress.Maximum
         Player.Position = New TimeSpan(0, 0, ratio * timeSpanTotal.TotalSeconds)
@@ -103,26 +111,133 @@ Class MainWindow
         AddHandler Panel.MouseUp, AddressOf Panel_MouseUp
     End Sub
 
-    Private Sub Panel_MouseDown(sender As Object, e As MouseEventArgs)
+    Private Sub Panel_MouseDown(sender As Object, e As MouseButtonEventArgs)
         currentPoint = e.GetPosition(Panel)
-        currentLine = ConstructLine(currentPoint, currentPoint)
-        Lines.Children.Add(currentLine)
+        If e.ChangedButton = MouseButton.Left Then
+            If currentTool = Tool.Draw Then
+                currentLine = ConstructLine(currentPoint, currentPoint)
+                Lines.Children.Add(currentLine)
 
-        lineTimer = New DispatcherTimer(DispatcherPriority.Render)
-        lineTimer.Interval = TimeSpan.FromSeconds(0.001)
-        AddHandler lineTimer.Tick, AddressOf lineTimer_Tick
-        lineTimer.Start()
+                If lineTimer IsNot Nothing Then
+                    lineTimer.Stop()
+                End If
+                lineTimer = New DispatcherTimer(DispatcherPriority.Render)
+                lineTimer.Interval = TimeSpan.FromSeconds(0.001)
+                AddHandler lineTimer.Tick, AddressOf lineTimer_Tick
+                lineTimer.Start()
+            ElseIf currentTool = Tool.Color Then
+                currentRect = New Rectangle()
+                currentRect.Width = 0
+                currentRect.Height = 0
+                currentRect.Fill = Brushes.White
+                currentRect.Visibility = Colors.Visibility
+                currentRect.Opacity = Lines.Opacity
+
+                Dim rotateTransform As New RotateTransform(0)
+                currentRect.RenderTransform = rotateTransform
+                currentRect.RenderTransformOrigin = New Point(0.5, 0.5)
+
+                Colors.Children.Add(currentRect)
+                Canvas.SetLeft(currentRect, currentPoint.X)
+                Canvas.SetTop(currentRect, currentPoint.Y)
+
+                If rectTimer IsNot Nothing Then
+                    rectTimer.Stop()
+                End If
+                rectTimer = New DispatcherTimer(DispatcherPriority.Render)
+                rectTimer.Interval = TimeSpan.FromSeconds(0.001)
+                AddHandler rectTimer.Tick, AddressOf rectTimer_Tick
+                rectTimer.Start()
+            End If
+        ElseIf e.ChangedButton = MouseButton.Right Then
+            If currentTool = Tool.Draw Then
+                For index As Integer = Lines.Children.Count - 1 To 0 Step -1
+                    Dim line As Line = Lines.Children(index)
+                    ' Initial check with a single point
+                    Dim diff As Vector = currentPoint - New Point(line.X1, line.X2)
+                    If diff.Length < lineMaxThreshold Then
+                        Lines.Children.Remove(line)
+                        Return
+                    End If
+
+                    Dim projected As Point = Project(New Point(line.X1, line.Y1), New Point(line.X2, line.Y2), currentPoint)
+                    Dim lengthSquared As Double = (currentPoint - projected).LengthSquared
+                    If lengthSquared < lineMaxThreshold Then
+                        Lines.Children.Remove(line)
+                        Return
+                    End If
+                Next
+            ElseIf currentTool = Tool.Color Then
+                For index As Integer = Colors.Children.Count - 1 To 0 Step -1
+                    Dim color As Rectangle = Colors.Children(index)
+                    Dim rect As New Rect(Canvas.GetLeft(color), Canvas.GetTop(color), color.Width, color.Height)
+                    If rect.Contains(currentPoint) Then
+                        Colors.Children.Remove(color)
+                        Return
+                    End If
+                Next
+            End If
+        End If
     End Sub
 
-    Private Sub Panel_MouseUp(sender As Object, e As MouseEventArgs)
-        Dim endPoint = e.GetPosition(Panel)
-        currentLine = ConstructLine(currentPoint, endPoint)
+    Private Sub Panel_MouseWheel(sender As Object, e As MouseWheelEventArgs)
+        If currentTool = Tool.Color And Mouse.LeftButton = MouseButtonState.Pressed Then
+            Dim rotateTransform As RotateTransform = currentRect.RenderTransform
+            If e.Delta > 0 Then
+                rotateTransform.Angle -= rotationAngle
+            Else
+                rotateTransform.Angle += rotationAngle
+            End If
+        End If
+    End Sub
+
+    ' http//www.vcskicks.com/code-snippet/point-projection.php
+    Private Function Project(lineStart As Point, lineEnd As Point, toProject As Point) As Point
+        Dim m As Double = (lineEnd.Y - lineStart.Y) / (lineEnd.X - lineStart.X)
+        Dim b As Double = lineStart.Y - (m * lineStart.X)
+
+        Dim x As Double = (m * toProject.Y + toProject.X - m * b) / (m * m + 1)
+        Dim y As Double = (m * m * toProject.Y + m * toProject.X + b) / (m * m + 1)
+
+        Return New Point(x, y)
+    End Function
+
+    Private Sub Panel_MouseUp(sender As Object, e As MouseButtonEventArgs)
+        If currentTool = Tool.Draw Then
+            If currentLine IsNot Nothing Then
+                Dim currentLinePos As Vector = New Point(currentLine.X2, currentLine.Y2) - New Point(currentLine.X1, currentLine.Y1)
+                If currentLinePos.LengthSquared < drawThreshold Then
+                    Lines.Children.Remove(currentLine)
+                End If
+            End If
+
+            If lineTimer IsNot Nothing Then
+                    lineTimer.Stop()
+                End If
+            ElseIf currentTool = Tool.Color Then
+                If currentRect.Width * currentRect.Height < drawThreshold Then
+                Colors.Children.Remove(currentRect)
+            End If
+
+            If rectTimer IsNot Nothing Then
+                rectTimer.Stop()
+            End If
+        End If
     End Sub
 
     Private Sub lineTimer_Tick(sender As Object, e As EventArgs)
         Dim point As Point = Mouse.GetPosition(Panel)
         currentLine.X2 = point.X
         currentLine.Y2 = point.Y
+    End Sub
+
+    Private Sub rectTimer_Tick(sender As Object, e As EventArgs)
+        Dim point As Point = Mouse.GetPosition(Panel)
+        Dim diff As New Point(Math.Abs(point.X - currentPoint.X), Math.Abs(point.Y - currentPoint.Y))
+        Canvas.SetLeft(currentRect, currentPoint.X - diff.X)
+        Canvas.SetTop(currentRect, currentPoint.Y - diff.Y)
+        currentRect.Width = diff.X * 2
+        currentRect.Height = diff.Y * 2
     End Sub
 
     Private Function ConstructLine(first As Point, second As Point) As Line
@@ -151,6 +266,20 @@ Class MainWindow
         Lines.Opacity = LinesOpacity.Value
     End Sub
 
+    Private Sub ColorsOpacity_ValueChanged(sender As Object, e As EventArgs)
+        Colors.Opacity = ColorsOpacity.Value
+    End Sub
+
+    Private Sub ColorsDisplay_Checked(sender As Object, e As EventArgs)
+        Colors.Visibility = Visibility.Visible
+        Colors.IsEnabled = True
+    End Sub
+
+    Private Sub ColorsDisplay_Unchecked(sender As Object, e As EventArgs)
+        Colors.Visibility = Visibility.Hidden
+        Colors.IsEnabled = False
+    End Sub
+
     Private Sub Volume_Checked(sender As Object, e As EventArgs)
         Player.IsMuted = False
         VolumeLevel.IsEnabled = True
@@ -163,5 +292,15 @@ Class MainWindow
 
     Private Sub VolumeLevel_ValueChanged(sender As Object, e As EventArgs)
         Player.Volume = VolumeLevel.Value
+    End Sub
+
+    Private Sub Draw_Click(sender As Object, e As RoutedEventArgs)
+        currentTool = Tool.Draw
+        Color.IsChecked = False
+    End Sub
+
+    Private Sub Color_Click(sender As Object, e As RoutedEventArgs)
+        currentTool = Tool.Color
+        Draw.IsChecked = False
     End Sub
 End Class

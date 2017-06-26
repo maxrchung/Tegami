@@ -23,14 +23,22 @@
         </Menu>
 
         <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="25" Canvas.Left="10" ScrubbingEnabled="True" OpacityMask="Black"/>
+
+        <Canvas x:Name="Panel" Height="720" Canvas.Left="10" Canvas.Top="25" Width="1280" Loaded="Panel_Loaded" Background="Transparent" MouseWheel="Panel_MouseWheel">
+            <Canvas x:Name="Colors" Height="720" Width="1280" Background="Transparent">
+            </Canvas>
+            <Canvas x:Name="Lines" Height="720" Width="1280" Background="Transparent">
+            </Canvas>
+        </Canvas>
+
         <ProgressBar x:Name="Progress" Height="26" Canvas.Left="10" Canvas.Top="750" Width="1280" Maximum="1" Loaded="Progress_Loaded"/>
         <Label x:Name="CurrentTime" Content="00:00:000" Canvas.Left="1302" Canvas.Top="746" FontSize="18"/>
         <Label Content="/" Canvas.Left="1386" Canvas.Top="746" FontSize="18"/>
         <Label x:Name="TotalTime" Content="00:00:000" Canvas.Left="1403" Canvas.Top="746" FontSize="18"/>
 
-        <Canvas x:Name="Panel" Height="720" Canvas.Left="10" Canvas.Top="25" Width="1280" Loaded="Panel_Loaded" Background="Transparent">
-            <Canvas x:Name="Lines" Height="720" Width="1280" Background="Transparent"/>
-        </Canvas>
+        <TreeView Height="530" Canvas.Left="1295" Canvas.Top="191" Width="194" Focusable="False"/>
+        <Slider x:Name="ColorsOpacity" Canvas.Left="1360" Canvas.Top="126" Width="130" Maximum="1" ValueChanged="ColorsOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
+        <CheckBox x:Name="ColorsDisplay" Content="Colors" Canvas.Left="1295" Canvas.Top="126" Unchecked="ColorsDisplay_Unchecked" Checked="ColorsDisplay_Checked" Focusable="False" IsChecked="True"/>
 
         <Slider x:Name="VideoOpacity" Canvas.Left="1360" Canvas.Top="86" Width="130" Maximum="1" ValueChanged="VideoOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
         <CheckBox x:Name="VideoDisplay" Content="Video" Canvas.Left="1295" Canvas.Top="86" Unchecked="VideoDisplay_Unchecked" Checked="VideoDisplay_Checked" IsChecked="True" Focusable="False"/>
@@ -43,18 +51,17 @@
 
         <GroupBox Header="Tools" Height="55" Canvas.Left="1295" Canvas.Top="25" Width="195" BorderThickness="1">
             <Canvas>
-                <Button Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32" Height="32">
-                    <Button.Background>
+                <ToggleButton x:Name="Draw" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32" Height="32" Click="Draw_Click" IsChecked="True" Focusable="False">
+                    <ToggleButton.Background>
                         <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/super waki.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32" Height="32" Canvas.Left="37">
-                    <Button.Background>
+                    </ToggleButton.Background>
+                </ToggleButton>
+                <ToggleButton x:Name="Color" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32" Height="32" Canvas.Left="37" Click="Color_Click" Focusable="False">
+                    <ToggleButton.Background>
                         <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/sesame street.jpg"/>
-                    </Button.Background>
-                </Button>
+                    </ToggleButton.Background>
+                </ToggleButton>
             </Canvas>
         </GroupBox>
-
     </Canvas>
 </Window>

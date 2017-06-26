@@ -1,4 +1,4 @@
 ﻿Enum Tool
-    Pointer
     Draw
+    Color
 End Enum
