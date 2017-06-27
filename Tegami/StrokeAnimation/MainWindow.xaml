@@ -56,7 +56,7 @@
                         <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/super waki.png"/>
                     </ToggleButton.Background>
                 </ToggleButton>
-                <ToggleButton x:Name="Color" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32" Height="32" Canvas.Left="37" Click="Color_Click" Focusable="False">
+                <ToggleButton x:Name="ColorWhite" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32" Height="32" Canvas.Left="37" Click="ColorWhite_Click" Focusable="False">
                     <ToggleButton.Background>
                         <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/sesame street.jpg"/>
                     </ToggleButton.Background>

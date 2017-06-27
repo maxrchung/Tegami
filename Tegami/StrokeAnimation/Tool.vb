@@ -1,4 +1,5 @@
 ﻿Enum Tool
     Draw
-    Color
+    ColorWhite
+    ColorBlack
 End Enum

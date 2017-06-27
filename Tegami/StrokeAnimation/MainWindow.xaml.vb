@@ -16,7 +16,7 @@ Class MainWindow
     Dim drawThreshold As Integer = 9
     Dim rectTimer As DispatcherTimer
     Dim currentRect As Rectangle
-    Dim rotationAngle As Integer = 10
+    Dim rotationAngle As Integer = 5
 
     Dim currentTool As Tool = Tool.Draw
 
@@ -125,7 +125,7 @@ Class MainWindow
                 lineTimer.Interval = TimeSpan.FromSeconds(0.001)
                 AddHandler lineTimer.Tick, AddressOf lineTimer_Tick
                 lineTimer.Start()
-            ElseIf currentTool = Tool.Color Then
+            Else
                 currentRect = New Rectangle()
                 currentRect.Width = 0
                 currentRect.Height = 0
@@ -154,24 +154,39 @@ Class MainWindow
                 For index As Integer = Lines.Children.Count - 1 To 0 Step -1
                     Dim line As Line = Lines.Children(index)
                     ' Initial check with a single point
-                    Dim diff As Vector = currentPoint - New Point(line.X1, line.X2)
+                    Dim diff As Vector = currentPoint - New Point(line.X1, line.Y1)
                     If diff.Length < lineMaxThreshold Then
                         Lines.Children.Remove(line)
                         Return
                     End If
 
                     Dim projected As Point = Project(New Point(line.X1, line.Y1), New Point(line.X2, line.Y2), currentPoint)
+
+                    ' Within bounds
+                    If (projected.X < line.X1 AndAlso projected.X < line.X2) OrElse
+                       (projected.X > line.X1 AndAlso projected.X > line.X2) OrElse
+                       (projected.Y > line.Y1 AndAlso projected.Y > line.Y2) OrElse
+                       (projected.Y < line.Y1 AndAlso projected.Y < line.Y2) Then
+                        Return
+                    End If
+
                     Dim lengthSquared As Double = (currentPoint - projected).LengthSquared
                     If lengthSquared < lineMaxThreshold Then
                         Lines.Children.Remove(line)
                         Return
                     End If
                 Next
-            ElseIf currentTool = Tool.Color Then
+            Else
                 For index As Integer = Colors.Children.Count - 1 To 0 Step -1
                     Dim color As Rectangle = Colors.Children(index)
+
+                    ' Rotate point to rectangle's rotation, check Contains
+                    Dim center As New Point(Canvas.GetLeft(color) + color.Width / 2, Canvas.GetTop(color) + color.Height / 2)
+                    Dim rotateTransform As RotateTransform = color.RenderTransform
+                    Dim rotate As Vector = RotateVector(currentPoint - center, rotateTransform.Angle)
                     Dim rect As New Rect(Canvas.GetLeft(color), Canvas.GetTop(color), color.Width, color.Height)
-                    If rect.Contains(currentPoint) Then
+                    'If rect.Contains(currentPoint) Then
+                    If rect.Contains(rotate + center) Then
                         Colors.Children.Remove(color)
                         Return
                     End If
@@ -180,8 +195,18 @@ Class MainWindow
         End If
     End Sub
 
+    Dim DToR = Math.PI / 180
+    Private Function RotateVector(vector As Vector, degrees As Integer)
+        Dim radians As Double = -degrees * DToR
+        Dim ca As Double = Math.Cos(radians)
+        Dim sa As Double = Math.Sin(radians)
+        Dim rotate As New Vector(ca * vector.X - sa * vector.Y,
+                                 sa * vector.X - ca * vector.Y)
+        Return rotate
+    End Function
+
     Private Sub Panel_MouseWheel(sender As Object, e As MouseWheelEventArgs)
-        If currentTool = Tool.Color And Mouse.LeftButton = MouseButtonState.Pressed Then
+        If Not currentTool = Tool.Draw AndAlso Mouse.LeftButton = MouseButtonState.Pressed Then
             Dim rotateTransform As RotateTransform = currentRect.RenderTransform
             If e.Delta > 0 Then
                 rotateTransform.Angle -= rotationAngle
@@ -189,6 +214,8 @@ Class MainWindow
                 rotateTransform.Angle += rotationAngle
             End If
         End If
+
+        Console.Write(Canvas.GetLeft(currentRect) & " ")
     End Sub
 
     ' http//www.vcskicks.com/code-snippet/point-projection.php
@@ -212,10 +239,10 @@ Class MainWindow
             End If
 
             If lineTimer IsNot Nothing Then
-                    lineTimer.Stop()
-                End If
-            ElseIf currentTool = Tool.Color Then
-                If currentRect.Width * currentRect.Height < drawThreshold Then
+                lineTimer.Stop()
+            End If
+        ElseIf Not currentTool = Tool.Draw Then
+            If currentRect.Width * currentRect.Height < drawThreshold Then
                 Colors.Children.Remove(currentRect)
             End If
 
@@ -296,11 +323,11 @@ Class MainWindow
 
     Private Sub Draw_Click(sender As Object, e As RoutedEventArgs)
         currentTool = Tool.Draw
-        Color.IsChecked = False
+        ColorWhite.IsChecked = False
     End Sub
 
-    Private Sub Color_Click(sender As Object, e As RoutedEventArgs)
-        currentTool = Tool.Color
+    Private Sub ColorWhite_Click(sender As Object, e As RoutedEventArgs)
+        currentTool = Tool.ColorWhite
         Draw.IsChecked = False
     End Sub
 End Class
