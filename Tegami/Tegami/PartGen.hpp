@@ -8,7 +8,7 @@
 class PartGen
 {
 public:
-	PartGen(std::string timeStart, std::string timeEnd, std::string directory, int r, int g, int b, float scale, float opacity);
+	PartGen(std::string timeStart, std::string timeEnd, std::string directory, float r, float g, float b, float scale, float opacity);
 	~PartGen();
 };
 

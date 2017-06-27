@@ -11,16 +11,45 @@ StrokeManager::StrokeManager(std::string directory) {
 		std::stringstream ss;
 		ss << dirEntry;
 
-		std::string strokeImage = ss.str();
-		std::ifstream file(strokeImage);
+		std::string fileName = ss.str();
+		std::ifstream file(fileName);
 
-		char noStrokes;
-		file >> noStrokes;
-		std::string line;
-		
-		while (std::getline(file, line)) {
-			std::cout << line << std::endl;
+		std::string tag;
+
+		std::vector<Stroke> strokes;
+		int numStrokes;
+
+		file >> tag >> numStrokes;
+
+		for (int i = 0; i < numStrokes; i++) {
+
+			std::vector<Vector2> points;
+			int numPoints;
+
+			file >> tag >> tag >> numPoints;
+
+			for (int j = 0; j < numPoints; j++) {
+				int xPoint;
+				int yPoint;
+
+				file >> xPoint >> yPoint;
+				xPoint -= 256;
+				yPoint = 256- yPoint;
+
+				Vector2 point(xPoint, yPoint);
+				points.push_back(point);
+			}
+			Stroke stroke(points);
+			strokes.push_back(stroke);
 		}
+		Character character(strokes);
+		int startIndex = directory.size() + 1;
+		int numChars = fileName.size()-3-startIndex;
+
+
+		std::string keyName = fileName.substr(startIndex, numChars);
+		characters[keyName] = character;
+
 	}
  }
 
