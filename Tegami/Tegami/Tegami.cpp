@@ -30,7 +30,7 @@ void main() {
 	std::ifstream file("storyboardinputpath.txt");
 	std::string path;
 	std::getline(file, path);
-	storyboard::instance()->write(path);
+	Storyboard::Instance()->Write(path);
 
 
 	std::cin.get();
