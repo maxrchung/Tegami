@@ -129,15 +129,22 @@ Class MainWindow
                 currentRect = New Rectangle()
                 currentRect.Width = 0
                 currentRect.Height = 0
-                currentRect.Fill = Brushes.White
-                currentRect.Visibility = Colors.Visibility
-                currentRect.Opacity = Lines.Opacity
+                If currentTool = Tool.ColorWhite Then
+                    currentRect.Fill = Brushes.White
+                Else
+                    currentRect.Fill = Brushes.Black
+                End If
 
                 Dim rotateTransform As New RotateTransform(0)
                 currentRect.RenderTransform = rotateTransform
                 currentRect.RenderTransformOrigin = New Point(0.5, 0.5)
 
-                Colors.Children.Add(currentRect)
+                If currentTool = Tool.ColorWhite Then
+                    ColorWhites.Children.Add(currentRect)
+                Else
+                    ColorBlacks.Children.Add(currentRect)
+                End If
+
                 Canvas.SetLeft(currentRect, currentPoint.X)
                 Canvas.SetTop(currentRect, currentPoint.Y)
 
@@ -177,6 +184,13 @@ Class MainWindow
                     End If
                 Next
             Else
+                Dim Colors As Canvas
+                If currentTool = Tool.ColorWhite Then
+                    Colors = ColorWhites
+                Else
+                    Colors = ColorBlacks
+                End If
+
                 For index As Integer = Colors.Children.Count - 1 To 0 Step -1
                     Dim color As Rectangle = Colors.Children(index)
 
@@ -214,8 +228,6 @@ Class MainWindow
                 rotateTransform.Angle += rotationAngle
             End If
         End If
-
-        Console.Write(Canvas.GetLeft(currentRect) & " ")
     End Sub
 
     ' http//www.vcskicks.com/code-snippet/point-projection.php
@@ -241,9 +253,13 @@ Class MainWindow
             If lineTimer IsNot Nothing Then
                 lineTimer.Stop()
             End If
-        ElseIf Not currentTool = Tool.Draw Then
+        Else
             If currentRect.Width * currentRect.Height < drawThreshold Then
-                Colors.Children.Remove(currentRect)
+                If currentTool = Tool.ColorWhite Then
+                    ColorWhites.Children.Remove(currentRect)
+                Else
+                    ColorBlacks.Children.Remove(currentRect)
+                End If
             End If
 
             If rectTimer IsNot Nothing Then
@@ -274,8 +290,6 @@ Class MainWindow
         line.X2 = second.X
         line.Y2 = second.Y
         line.Stroke = Brushes.Black
-        line.Visibility = Lines.Visibility
-        line.Opacity = Lines.Opacity
         Return line
     End Function
 
@@ -294,17 +308,22 @@ Class MainWindow
     End Sub
 
     Private Sub ColorsOpacity_ValueChanged(sender As Object, e As EventArgs)
-        Colors.Opacity = ColorsOpacity.Value
+        ColorWhites.Opacity = ColorsOpacity.Value
+        ColorBlacks.Opacity = ColorsOpacity.Value
     End Sub
 
     Private Sub ColorsDisplay_Checked(sender As Object, e As EventArgs)
-        Colors.Visibility = Visibility.Visible
-        Colors.IsEnabled = True
+        ColorWhites.Visibility = Visibility.Visible
+        ColorWhites.IsEnabled = True
+        ColorBlacks.Visibility = Visibility.Visible
+        ColorBlacks.IsEnabled = True
     End Sub
 
     Private Sub ColorsDisplay_Unchecked(sender As Object, e As EventArgs)
-        Colors.Visibility = Visibility.Hidden
-        Colors.IsEnabled = False
+        ColorWhites.Visibility = Visibility.Hidden
+        ColorWhites.IsEnabled = False
+        ColorBlacks.Visibility = Visibility.Hidden
+        ColorBlacks.IsEnabled = False
     End Sub
 
     Private Sub Volume_Checked(sender As Object, e As EventArgs)
@@ -323,11 +342,22 @@ Class MainWindow
 
     Private Sub Draw_Click(sender As Object, e As RoutedEventArgs)
         currentTool = Tool.Draw
+        Draw.IsChecked = True
         ColorWhite.IsChecked = False
+        ColorBlack.IsChecked = False
     End Sub
 
     Private Sub ColorWhite_Click(sender As Object, e As RoutedEventArgs)
         currentTool = Tool.ColorWhite
         Draw.IsChecked = False
+        ColorWhite.IsChecked = True
+        ColorBlack.IsChecked = False
+    End Sub
+
+    Private Sub ColorBlack_Click(sender As Object, e As RoutedEventArgs)
+        currentTool = Tool.ColorBlack
+        Draw.IsChecked = False
+        ColorWhite.IsChecked = False
+        ColorBlack.IsChecked = True
     End Sub
 End Class
