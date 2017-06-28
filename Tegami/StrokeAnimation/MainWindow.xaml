@@ -26,12 +26,12 @@
 
         <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="25" Canvas.Left="10" ScrubbingEnabled="True" OpacityMask="Black"/>
 
-        <Canvas x:Name="Panel" Height="720" Canvas.Left="10" Canvas.Top="25" Width="1280" Loaded="Panel_Loaded" Background="Transparent" MouseWheel="Panel_MouseWheel">
-            <Canvas x:Name="ColorWhites" Height="720" Width="1280" Background="Transparent">
+        <Canvas x:Name="Panel" Height="730" Canvas.Left="5" Canvas.Top="20" Width="1290" Loaded="Panel_Loaded" Background="Transparent" MouseWheel="Panel_MouseWheel">
+            <Canvas x:Name="ColorWhites" Height="730" Width="1290" Background="Transparent">
             </Canvas>
-            <Canvas x:Name="ColorBlacks" Height="720" Width="1280" Background="Transparent">
+            <Canvas x:Name="ColorBlacks" Height="730" Width="1290" Background="Transparent">
             </Canvas>
-            <Canvas x:Name="Lines" Height="720" Width="1280" Background="Transparent">
+            <Canvas x:Name="Lines" Height="730" Width="1290" Background="Transparent">
             </Canvas>
         </Canvas>
 
