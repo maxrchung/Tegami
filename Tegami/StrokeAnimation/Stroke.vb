@@ -1,6 +1,6 @@
 ﻿Public Class Stroke
-    Public first As Point
-    Public second As Point
+    Public first As New Point
+    Public second As New Point
 
     Sub New(first As Point, second As Point)
         Me.first = first

@@ -3,25 +3,25 @@ Imports System.Windows.Threading
 
 Class MainWindow
     Dim playState As PlayState = PlayState.None
-    Dim timeSpanTotal As TimeSpan
-    Dim progressTimer As DispatcherTimer
+    Dim timeSpanTotal As New TimeSpan
+    Dim progressTimer As New DispatcherTimer
 
     Dim offset As Integer = 10000
     Dim mspb As Integer = 100
 
-    Dim currentPoint As Point
-    Dim lineTimer As DispatcherTimer
-    Dim currentLine As Line
+    Dim currentPoint As New Point
+    Dim lineTimer As New DispatcherTimer
+    Dim currentLine As New Line
     Dim lineMaxThreshold As Integer = 25
     Dim drawThreshold As Integer = 9
-    Dim rectTimer As DispatcherTimer
-    Dim currentRect As Rectangle
+    Dim rectTimer As New DispatcherTimer
+    Dim currentRect As New Rectangle
     Dim rotationAngle As Integer = 5
 
     Dim currentTool As Tool = Tool.Draw
 
-    Dim frames As List(Of Frame)
-    Dim currentFrame As Frame
+    Dim frames As New List(Of Frame)
+    Dim currentFrame As New Frame()
 
     Private Function FormatTime(timeSpan As TimeSpan)
         Dim time As String = String.Format("{0}:{1}:{2}", timeSpan.Minutes.ToString("D2"), timeSpan.Seconds.ToString("D2"), timeSpan.Milliseconds.ToString("D3"))
@@ -118,9 +118,7 @@ Class MainWindow
                 currentLine = ConstructLine(currentPoint, currentPoint)
                 Lines.Children.Add(currentLine)
 
-                If lineTimer IsNot Nothing Then
-                    lineTimer.Stop()
-                End If
+                lineTimer.Stop()
                 lineTimer = New DispatcherTimer(DispatcherPriority.Render)
                 lineTimer.Interval = TimeSpan.FromSeconds(0.001)
                 AddHandler lineTimer.Tick, AddressOf lineTimer_Tick
@@ -148,9 +146,7 @@ Class MainWindow
                 Canvas.SetLeft(currentRect, currentPoint.X)
                 Canvas.SetTop(currentRect, currentPoint.Y)
 
-                If rectTimer IsNot Nothing Then
-                    rectTimer.Stop()
-                End If
+                rectTimer.Stop()
                 rectTimer = New DispatcherTimer(DispatcherPriority.Render)
                 rectTimer.Interval = TimeSpan.FromSeconds(0.001)
                 AddHandler rectTimer.Tick, AddressOf rectTimer_Tick
@@ -243,16 +239,13 @@ Class MainWindow
 
     Private Sub Panel_MouseUp(sender As Object, e As MouseButtonEventArgs)
         If currentTool = Tool.Draw Then
-            If currentLine IsNot Nothing Then
-                Dim currentLinePos As Vector = New Point(currentLine.X2, currentLine.Y2) - New Point(currentLine.X1, currentLine.Y1)
-                If currentLinePos.LengthSquared < drawThreshold Then
-                    Lines.Children.Remove(currentLine)
-                End If
+            Dim currentLinePos As Vector = New Point(currentLine.X2, currentLine.Y2) - New Point(currentLine.X1, currentLine.Y1)
+            If currentLinePos.LengthSquared < drawThreshold Then
+                Lines.Children.Remove(currentLine)
             End If
 
-            If lineTimer IsNot Nothing Then
-                lineTimer.Stop()
-            End If
+            lineTimer.Stop()
+            currentFrame.AddLine(currentLine)
         Else
             If currentRect.Width * currentRect.Height < drawThreshold Then
                 If currentTool = Tool.ColorWhite Then
@@ -262,9 +255,7 @@ Class MainWindow
                 End If
             End If
 
-            If rectTimer IsNot Nothing Then
-                rectTimer.Stop()
-            End If
+            rectTimer.Stop()
         End If
     End Sub
 
