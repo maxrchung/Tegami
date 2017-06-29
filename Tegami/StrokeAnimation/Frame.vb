@@ -23,7 +23,12 @@
     Public Sub RemoveLine(line As Line)
         Dim stroke As New Stroke(New Point(line.X1, line.Y1),
                                  New Point(line.X2, line.Y2))
-        strokes.Remove(stroke)
+        For Each compare As Stroke In strokes
+            If compare.first.Equals(stroke.first) AndAlso compare.second.Equals(stroke.second) Then
+                strokes.Remove(compare)
+                Return
+            End If
+        Next
     End Sub
 
     Public Sub AddColorWhite(rectangle As Rectangle)
@@ -33,7 +38,12 @@
 
     Public Sub RemoveColorWhite(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        colorWhites.Remove(colorRectangle)
+        For Each compare As ColorRectangle In colorWhites
+            If compare.rect.Equals(colorRectangle.rect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
+                colorWhites.Remove(compare)
+                Return
+            End If
+        Next
     End Sub
 
     Public Sub AddColorBlack(rectangle As Rectangle)
@@ -43,7 +53,12 @@
 
     Public Sub RemoveColorBlack(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        colorBlacks.Remove(colorRectangle)
+        For Each compare As ColorRectangle In colorBlacks
+            If compare.rect.Equals(colorRectangle.rect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
+                colorWhites.Remove(compare)
+                Return
+            End If
+        Next
     End Sub
 
     Private Function GetColorRectangle(rectangle As Rectangle) As ColorRectangle

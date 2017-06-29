@@ -127,24 +127,22 @@ Class MainWindow
                 currentRect = New Rectangle()
                 currentRect.Width = 0
                 currentRect.Height = 0
-                If currentTool = Tool.ColorWhite Then
-                    currentRect.Fill = Brushes.White
-                Else
-                    currentRect.Fill = Brushes.Black
-                End If
 
                 Dim rotateTransform As New RotateTransform(0)
                 currentRect.RenderTransform = rotateTransform
                 currentRect.RenderTransformOrigin = New Point(0.5, 0.5)
 
-                If currentTool = Tool.ColorWhite Then
-                    ColorWhites.Children.Add(currentRect)
-                Else
-                    ColorBlacks.Children.Add(currentRect)
-                End If
-
                 Canvas.SetLeft(currentRect, currentPoint.X)
                 Canvas.SetTop(currentRect, currentPoint.Y)
+
+                If currentTool = Tool.ColorWhite Then
+                    currentRect.Fill = Brushes.White
+                    ColorWhites.Children.Add(currentRect)
+                Else
+                    currentRect.Fill = Brushes.Black
+                    ColorBlacks.Children.Add(currentRect)
+                    currentFrame.AddColorBlack(currentRect)
+                End If
 
                 rectTimer.Stop()
                 rectTimer = New DispatcherTimer(DispatcherPriority.Render)
@@ -159,12 +157,12 @@ Class MainWindow
                     ' Initial check with a single point
                     Dim diff As Vector = currentPoint - New Point(line.X1, line.Y1)
                     If diff.Length < lineMaxThreshold Then
+                        currentFrame.RemoveLine(line)
                         Lines.Children.Remove(line)
                         Return
                     End If
 
                     Dim projected As Point = Project(New Point(line.X1, line.Y1), New Point(line.X2, line.Y2), currentPoint)
-
                     ' Within bounds
                     If (projected.X < line.X1 AndAlso projected.X < line.X2) OrElse
                        (projected.X > line.X1 AndAlso projected.X > line.X2) OrElse
@@ -175,6 +173,7 @@ Class MainWindow
 
                     Dim lengthSquared As Double = (currentPoint - projected).LengthSquared
                     If lengthSquared < lineMaxThreshold Then
+                        currentFrame.RemoveLine(line)
                         Lines.Children.Remove(line)
                         Return
                     End If
@@ -195,8 +194,12 @@ Class MainWindow
                     Dim rotateTransform As RotateTransform = color.RenderTransform
                     Dim rotate As Vector = RotateVector(currentPoint - center, rotateTransform.Angle)
                     Dim rect As New Rect(Canvas.GetLeft(color), Canvas.GetTop(color), color.Width, color.Height)
-                    'If rect.Contains(currentPoint) Then
                     If rect.Contains(rotate + center) Then
+                        If currentTool = Tool.ColorWhite Then
+                            currentFrame.RemoveColorWhite(color)
+                        Else
+                            currentFrame.RemoveColorBlack(color)
+                        End If
                         Colors.Children.Remove(color)
                         Return
                     End If
@@ -238,24 +241,31 @@ Class MainWindow
     End Function
 
     Private Sub Panel_MouseUp(sender As Object, e As MouseButtonEventArgs)
-        If currentTool = Tool.Draw Then
-            Dim currentLinePos As Vector = New Point(currentLine.X2, currentLine.Y2) - New Point(currentLine.X1, currentLine.Y1)
-            If currentLinePos.LengthSquared < drawThreshold Then
-                Lines.Children.Remove(currentLine)
-            End If
+        If e.ChangedButton = MouseButton.Left Then
+            If currentTool = Tool.Draw Then
+                Dim currentLinePos As Vector = New Point(currentLine.X2, currentLine.Y2) - New Point(currentLine.X1, currentLine.Y1)
+                If currentLinePos.LengthSquared < drawThreshold Then
+                    Lines.Children.Remove(currentLine)
+                End If
 
-            lineTimer.Stop()
-            currentFrame.AddLine(currentLine)
-        Else
-            If currentRect.Width * currentRect.Height < drawThreshold Then
+                lineTimer.Stop()
+                currentFrame.AddLine(currentLine)
+            Else
+                If currentRect.Width * currentRect.Height < drawThreshold Then
+                    If currentTool = Tool.ColorWhite Then
+                        ColorWhites.Children.Remove(currentRect)
+                    Else
+                        ColorBlacks.Children.Remove(currentRect)
+                    End If
+                End If
+
+                rectTimer.Stop()
                 If currentTool = Tool.ColorWhite Then
-                    ColorWhites.Children.Remove(currentRect)
+                    currentFrame.AddColorWhite(currentRect)
                 Else
-                    ColorBlacks.Children.Remove(currentRect)
+                    currentFrame.AddColorBlack(currentRect)
                 End If
             End If
-
-            rectTimer.Stop()
         End If
     End Sub
 

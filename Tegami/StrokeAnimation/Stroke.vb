@@ -4,7 +4,7 @@
 
     Sub New(first As Point, second As Point)
         Me.first = first
-        Me.second = first
+        Me.second = second
     End Sub
 
     Sub New()
