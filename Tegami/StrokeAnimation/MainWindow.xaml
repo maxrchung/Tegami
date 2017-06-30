@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StrokeAnimation"
         mc:Ignorable="d"
-        Title="StrokeAnimation" ResizeMode="CanMinimize" HorizontalAlignment="Left" VerticalAlignment="Top" SizeToContent="WidthAndHeight" Background="#FFBFBFBF">
+        Title="StrokeAnimation" ResizeMode="CanMinimize" HorizontalAlignment="Left" VerticalAlignment="Top" SizeToContent="WidthAndHeight" Background="#FFBFBFBF" Loaded="MainWindow_Loaded">
 
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:Commands.Import}" Executed="Import_Click"/>
@@ -40,7 +40,24 @@
         <Label Content="/" Canvas.Left="1386" Canvas.Top="746" FontSize="18"/>
         <Label x:Name="TotalTime" Content="00:00:000" Canvas.Left="1403" Canvas.Top="746" FontSize="18"/>
 
-        <TreeView Height="572" Canvas.Left="1295" Canvas.Top="149" Width="194" Focusable="False"/>
+        <ListBox x:Name="FramesView" Height="572" Canvas.Left="1295" Canvas.Top="149" Width="195" Focusable="False">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Focusable="False">
+                        <TextBlock Text="{Binding TimeSpanString}" Focusable="False"/>
+                        <TextBlock Text=" (" Focusable="False"/>
+                        <TextBlock Text="{Binding Count}" Focusable="False"/>
+                        <TextBlock Text=")" Focusable="False"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <Slider x:Name="ColorsOpacity" Canvas.Left="1360" Canvas.Top="126" Width="130" Maximum="1" ValueChanged="ColorsOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
         <CheckBox x:Name="ColorsDisplay" Content="Colors" Canvas.Left="1295" Canvas.Top="126" Unchecked="ColorsDisplay_Unchecked" Checked="ColorsDisplay_Checked" Focusable="False" IsChecked="True"/>
 

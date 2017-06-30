@@ -4,11 +4,36 @@
     Public colorBlacks As New List(Of ColorRectangle)
     Public timeSpan As New TimeSpan
 
+    Private timeSpanStringProp As String
+    Public Property TimeSpanString() As String
+        Get
+            Return timeSpanStringProp
+        End Get
+        Set(ByVal value As String)
+            timeSpanStringProp = value
+        End Set
+    End Property
+
+    Private countProp As Integer
+    Public Property Count() As Integer
+        Get
+            Return countProp
+        End Get
+        Set(ByVal value As Integer)
+            countProp = value
+        End Set
+    End Property
+
     Sub New(strokes As List(Of Stroke), colorWhites As List(Of ColorRectangle), colorBlacks As List(Of ColorRectangle), timeSpan As TimeSpan)
         Me.strokes = strokes
         Me.colorWhites = colorWhites
         Me.colorBlacks = colorBlacks
         Me.timeSpan = timeSpan
+    End Sub
+
+    Sub New(timeSpan As TimeSpan)
+        Me.timeSpan = timeSpan
+        TimeSpanString = MainWindow.FormatTime(timeSpan)
     End Sub
 
     Sub New()
@@ -18,6 +43,7 @@
         Dim stroke As New Stroke(New Point(line.X1, line.Y1),
                                  New Point(line.X2, line.Y2))
         strokes.Add(stroke)
+        count += 1
     End Sub
 
     Public Sub RemoveLine(line As Line)
@@ -29,11 +55,13 @@
                 Return
             End If
         Next
+        count -= 1
     End Sub
 
     Public Sub AddColorWhite(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         colorWhites.Add(colorRectangle)
+        count += 1
     End Sub
 
     Public Sub RemoveColorWhite(rectangle As Rectangle)
@@ -44,11 +72,13 @@
                 Return
             End If
         Next
+        count -= 1
     End Sub
 
     Public Sub AddColorBlack(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         colorBlacks.Add(colorRectangle)
+        count += 1
     End Sub
 
     Public Sub RemoveColorBlack(rectangle As Rectangle)
@@ -59,6 +89,7 @@
                 Return
             End If
         Next
+        count -= 1
     End Sub
 
     Private Function GetColorRectangle(rectangle As Rectangle) As ColorRectangle

@@ -2,12 +2,19 @@
 Imports System.Windows.Threading
 
 Class MainWindow
+    Dim DToR = Math.PI / 180
+
     Dim playState As PlayState = PlayState.None
     Dim timeSpanTotal As New TimeSpan
     Dim progressTimer As New DispatcherTimer
 
-    Dim offset As Integer = 10000
-    Dim mspb As Integer = 100
+    Dim offset As Double = 2222
+    Dim songLength As Double = 300000
+    Dim bpm As Double = 77
+    Dim mpb As Double = 1 / bpm
+    Dim spb As Double = mpb * 60
+    Dim mspb As Double = spb * 1000
+    Dim mspf As Double = mspb / 4
 
     Dim currentPoint As New Point
     Dim lineTimer As New DispatcherTimer
@@ -23,11 +30,115 @@ Class MainWindow
     Dim frames As New List(Of Frame)
     Dim currentFrame As New Frame()
 
-    Private Function FormatTime(timeSpan As TimeSpan)
+#Region "Helper Functions"
+    Private Function ConstructLine(first As Point, second As Point) As Line
+        Dim line As New Line()
+        line.X1 = first.X
+        line.Y1 = first.Y
+        line.X2 = second.X
+        line.Y2 = second.Y
+        line.Stroke = Brushes.Black
+        Return line
+    End Function
+
+    Private Function FindFrameIndex() As Integer
+        For index As Integer = 0 To frames.Count - 1
+            If currentFrame Is frames(index) Then
+                Return index
+            End If
+        Next
+    End Function
+
+    Private Function FindNextFrame(timeSpan As TimeSpan) As Frame
+        Dim nextFrame As Frame = frames.First()
+        For Each frame As Frame In frames
+            If frame.timeSpan > timeSpan Then
+                Return nextFrame
+            End If
+            nextFrame = frame
+        Next
+    End Function
+
+    Public Shared Function FormatTime(timeSpan As TimeSpan)
         Dim time As String = String.Format("{0}:{1}:{2}", timeSpan.Minutes.ToString("D2"), timeSpan.Seconds.ToString("D2"), timeSpan.Milliseconds.ToString("D3"))
         Return time
     End Function
 
+    ' http//www.vcskicks.com/code-snippet/point-projection.php
+    Private Function Project(lineStart As Point, lineEnd As Point, toProject As Point) As Point
+        Dim m As Double = (lineEnd.Y - lineStart.Y) / (lineEnd.X - lineStart.X)
+        Dim b As Double = lineStart.Y - (m * lineStart.X)
+
+        Dim x As Double = (m * toProject.Y + toProject.X - m * b) / (m * m + 1)
+        Dim y As Double = (m * m * toProject.Y + m * toProject.X + b) / (m * m + 1)
+
+        Return New Point(x, y)
+    End Function
+
+    Private Sub LoadFrame(frame As Frame)
+        If currentFrame Is frame Then
+            Return
+        End If
+
+        Lines.Children.Clear()
+        ColorWhites.Children.Clear()
+        ColorBlacks.Children.Clear()
+
+        currentFrame = frame
+        For Each stroke As Stroke In currentFrame.strokes
+            Dim line As New Line()
+            line.X1 = stroke.first.X
+            line.Y1 = stroke.first.Y
+            line.X2 = stroke.second.X
+            line.Y2 = stroke.second.Y
+            Lines.Children.Add(line)
+        Next
+        For Each colorWhite As ColorRectangle In currentFrame.colorWhites
+            Dim rectangle As Rectangle = LoadRectangle(colorWhite)
+            rectangle.Fill = colorWhite.color
+            ColorWhites.Children.Add(rectangle)
+        Next
+        For Each colorBlack As ColorRectangle In currentFrame.colorBlacks
+            Dim rectangle As Rectangle = LoadRectangle(colorBlack)
+            rectangle.Fill = colorBlack.color
+            ColorBlacks.Children.Add(rectangle)
+        Next
+    End Sub
+
+    Private Function LoadRectangle(colorRect As ColorRectangle) As Rectangle
+        Dim rect As Rect = colorRect.rect
+        Dim rectangle As New Rectangle()
+        Canvas.SetLeft(rectangle, rect.Left)
+        Canvas.SetTop(rectangle, rect.Top)
+        rectangle.Width = rect.Width
+        rectangle.Height = rect.Height
+
+
+        Dim rotateTransform As New RotateTransform(0)
+        rectangle.RenderTransform = rotateTransform
+        rectangle.RenderTransformOrigin = New Point(0.5, 0.5)
+        rotateTransform.Angle = colorRect.rotation
+
+        rectangle.Fill = colorRect.color
+
+        Return rectangle
+    End Function
+
+    Private Function TimeSpanMilliseconds(milliseconds As Double) As TimeSpan
+        Return New TimeSpan(0, 0, 0, 0, milliseconds)
+    End Function
+#End Region
+
+    Private Sub MainWindow_Loaded(sender As Object, e As EventArgs)
+        For time As Double = offset To offset + songLength Step mspf
+            Dim frame As New Frame(TimeSpanMilliseconds(time))
+            frames.Add(frame)
+        Next
+        FramesView.ItemsSource = frames
+        LoadFrame(frames.First())
+    End Sub
+
+#Region "File"
     Private Sub New_Click(sender As Object, e As RoutedEventArgs)
 
     End Sub
@@ -46,7 +157,9 @@ Class MainWindow
     Private Sub Save_Click(sender As Object, e As RoutedEventArgs)
 
     End Sub
+#End Region
 
+#Region "Player"
     Private Sub Player_PlayPause(sender As Object, e As RoutedEventArgs)
         Select Case playState
             Case PlayState.None
@@ -73,12 +186,24 @@ Class MainWindow
         AddHandler progressTimer.Tick, AddressOf progressTimer_Tick
         progressTimer.Start()
     End Sub
+#End Region
 
+#Region "Progress"
     Private Sub progressTimer_Tick(sender As Object, e As EventArgs)
         If Player.NaturalDuration.HasTimeSpan AndAlso Player.NaturalDuration.TimeSpan.TotalSeconds > 0 AndAlso timeSpanTotal.TotalSeconds > 0 Then
             Progress.Value = Player.Position.TotalSeconds / timeSpanTotal.TotalSeconds
             CurrentTime.Content = FormatTime(Player.Position)
             TotalTime.Content = FormatTime(timeSpanTotal)
+
+            If Player.Position < frames.First().timeSpan Then
+                LoadFrame(frames.First())
+            Else
+                Dim index As Integer = FindFrameIndex()
+                If Not index = frames.Count - 1 Then
+                    Dim frame As Frame = FindNextFrame(Player.Position)
+                    LoadFrame(frame)
+                End If
+            End If
         End If
     End Sub
 
@@ -91,7 +216,9 @@ Class MainWindow
         Progress.Value = ratio * Progress.Maximum
         Player.Position = New TimeSpan(0, 0, ratio * timeSpanTotal.TotalSeconds)
     End Sub
+#End Region
 
+#Region "Display"
     Private Sub VideoDisplay_Checked(sender As Object, e As EventArgs)
         Player.Visibility = Visibility.Visible
         VideoOpacity.IsEnabled = True
@@ -106,6 +233,55 @@ Class MainWindow
         Player.Opacity = VideoOpacity.Value
     End Sub
 
+    Private Sub LinesDisplay_Checked(sender As Object, e As EventArgs)
+        Lines.Visibility = Visibility.Visible
+        LinesOpacity.IsEnabled = True
+    End Sub
+
+    Private Sub LinesDisplay_Unchecked(sender As Object, e As EventArgs)
+        Lines.Visibility = Visibility.Hidden
+        LinesOpacity.IsEnabled = False
+    End Sub
+
+    Private Sub LinesOpacity_ValueChanged(sender As Object, e As EventArgs)
+        Lines.Opacity = LinesOpacity.Value
+    End Sub
+
+    Private Sub ColorsOpacity_ValueChanged(sender As Object, e As EventArgs)
+        ColorWhites.Opacity = ColorsOpacity.Value
+        ColorBlacks.Opacity = ColorsOpacity.Value
+    End Sub
+
+    Private Sub ColorsDisplay_Checked(sender As Object, e As EventArgs)
+        ColorWhites.Visibility = Visibility.Visible
+        ColorWhites.IsEnabled = True
+        ColorBlacks.Visibility = Visibility.Visible
+        ColorBlacks.IsEnabled = True
+    End Sub
+
+    Private Sub ColorsDisplay_Unchecked(sender As Object, e As EventArgs)
+        ColorWhites.Visibility = Visibility.Hidden
+        ColorWhites.IsEnabled = False
+        ColorBlacks.Visibility = Visibility.Hidden
+        ColorBlacks.IsEnabled = False
+    End Sub
+
+    Private Sub Volume_Checked(sender As Object, e As EventArgs)
+        Player.IsMuted = False
+        VolumeLevel.IsEnabled = True
+    End Sub
+
+    Private Sub Volume_Unchecked(sender As Object, e As EventArgs)
+        Player.IsMuted = True
+        VolumeLevel.IsEnabled = False
+    End Sub
+
+    Private Sub VolumeLevel_ValueChanged(sender As Object, e As EventArgs)
+        Player.Volume = VolumeLevel.Value
+    End Sub
+#End Region
+
+#Region "Panel"
     Private Sub Panel_Loaded(sender As Object, e As EventArgs)
         AddHandler Panel.MouseDown, AddressOf Panel_MouseDown
         AddHandler Panel.MouseUp, AddressOf Panel_MouseUp
@@ -208,7 +384,6 @@ Class MainWindow
         End If
     End Sub
 
-    Dim DToR = Math.PI / 180
     Private Function RotateVector(vector As Vector, degrees As Integer)
         Dim radians As Double = -degrees * DToR
         Dim ca As Double = Math.Cos(radians)
@@ -228,17 +403,6 @@ Class MainWindow
             End If
         End If
     End Sub
-
-    ' http//www.vcskicks.com/code-snippet/point-projection.php
-    Private Function Project(lineStart As Point, lineEnd As Point, toProject As Point) As Point
-        Dim m As Double = (lineEnd.Y - lineStart.Y) / (lineEnd.X - lineStart.X)
-        Dim b As Double = lineStart.Y - (m * lineStart.X)
-
-        Dim x As Double = (m * toProject.Y + toProject.X - m * b) / (m * m + 1)
-        Dim y As Double = (m * m * toProject.Y + m * toProject.X + b) / (m * m + 1)
-
-        Return New Point(x, y)
-    End Function
 
     Private Sub Panel_MouseUp(sender As Object, e As MouseButtonEventArgs)
         If e.ChangedButton = MouseButton.Left Then
@@ -268,79 +432,9 @@ Class MainWindow
             End If
         End If
     End Sub
+#End Region
 
-    Private Sub lineTimer_Tick(sender As Object, e As EventArgs)
-        Dim point As Point = Mouse.GetPosition(Panel)
-        currentLine.X2 = point.X
-        currentLine.Y2 = point.Y
-    End Sub
-
-    Private Sub rectTimer_Tick(sender As Object, e As EventArgs)
-        Dim point As Point = Mouse.GetPosition(Panel)
-        Dim diff As New Point(Math.Abs(point.X - currentPoint.X), Math.Abs(point.Y - currentPoint.Y))
-        Canvas.SetLeft(currentRect, currentPoint.X - diff.X)
-        Canvas.SetTop(currentRect, currentPoint.Y - diff.Y)
-        currentRect.Width = diff.X * 2
-        currentRect.Height = diff.Y * 2
-    End Sub
-
-    Private Function ConstructLine(first As Point, second As Point) As Line
-        Dim line As New Line()
-        line.X1 = first.X
-        line.Y1 = first.Y
-        line.X2 = second.X
-        line.Y2 = second.Y
-        line.Stroke = Brushes.Black
-        Return line
-    End Function
-
-    Private Sub LinesDisplay_Checked(sender As Object, e As EventArgs)
-        Lines.Visibility = Visibility.Visible
-        LinesOpacity.IsEnabled = True
-    End Sub
-
-    Private Sub LinesDisplay_Unchecked(sender As Object, e As EventArgs)
-        Lines.Visibility = Visibility.Hidden
-        LinesOpacity.IsEnabled = False
-    End Sub
-
-    Private Sub LinesOpacity_ValueChanged(sender As Object, e As EventArgs)
-        Lines.Opacity = LinesOpacity.Value
-    End Sub
-
-    Private Sub ColorsOpacity_ValueChanged(sender As Object, e As EventArgs)
-        ColorWhites.Opacity = ColorsOpacity.Value
-        ColorBlacks.Opacity = ColorsOpacity.Value
-    End Sub
-
-    Private Sub ColorsDisplay_Checked(sender As Object, e As EventArgs)
-        ColorWhites.Visibility = Visibility.Visible
-        ColorWhites.IsEnabled = True
-        ColorBlacks.Visibility = Visibility.Visible
-        ColorBlacks.IsEnabled = True
-    End Sub
-
-    Private Sub ColorsDisplay_Unchecked(sender As Object, e As EventArgs)
-        ColorWhites.Visibility = Visibility.Hidden
-        ColorWhites.IsEnabled = False
-        ColorBlacks.Visibility = Visibility.Hidden
-        ColorBlacks.IsEnabled = False
-    End Sub
-
-    Private Sub Volume_Checked(sender As Object, e As EventArgs)
-        Player.IsMuted = False
-        VolumeLevel.IsEnabled = True
-    End Sub
-
-    Private Sub Volume_Unchecked(sender As Object, e As EventArgs)
-        Player.IsMuted = True
-        VolumeLevel.IsEnabled = False
-    End Sub
-
-    Private Sub VolumeLevel_ValueChanged(sender As Object, e As EventArgs)
-        Player.Volume = VolumeLevel.Value
-    End Sub
-
+#Region "Tools"
     Private Sub Draw_Click(sender As Object, e As RoutedEventArgs)
         currentTool = Tool.Draw
         Draw.IsChecked = True
@@ -361,4 +455,23 @@ Class MainWindow
         ColorWhite.IsChecked = False
         ColorBlack.IsChecked = True
     End Sub
+#End Region
+
+#Region "Tool Timers"
+    Private Sub lineTimer_Tick(sender As Object, e As EventArgs)
+        Dim point As Point = Mouse.GetPosition(Panel)
+        currentLine.X2 = point.X
+        currentLine.Y2 = point.Y
+    End Sub
+
+    Private Sub rectTimer_Tick(sender As Object, e As EventArgs)
+        Dim point As Point = Mouse.GetPosition(Panel)
+        Dim diff As New Point(Math.Abs(point.X - currentPoint.X), Math.Abs(point.Y - currentPoint.Y))
+        Canvas.SetLeft(currentRect, currentPoint.X - diff.X)
+        Canvas.SetTop(currentRect, currentPoint.Y - diff.Y)
+        currentRect.Width = diff.X * 2
+        currentRect.Height = diff.Y * 2
+    End Sub
+#End Region
+
 End Class
