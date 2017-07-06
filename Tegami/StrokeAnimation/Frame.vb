@@ -43,7 +43,7 @@
         Dim stroke As New Stroke(New Point(line.X1, line.Y1),
                                  New Point(line.X2, line.Y2))
         strokes.Add(stroke)
-        count += 1
+        Count += 1
     End Sub
 
     Public Sub RemoveLine(line As Line)
@@ -55,7 +55,7 @@
                 Return
             End If
         Next
-        count -= 1
+        Count -= 1
     End Sub
 
     Public Sub AddColorWhite(rectangle As Rectangle)

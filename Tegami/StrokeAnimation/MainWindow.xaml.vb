@@ -1,7 +1,10 @@
 ﻿Imports Microsoft.Win32
 Imports System.Windows.Threading
+Imports System.Xml.Serialization
+Imports System.IO
 
 Class MainWindow
+#Region "Variables"
     Dim DToR = Math.PI / 180
 
     Dim playState As PlayState = PlayState.None
@@ -29,6 +32,7 @@ Class MainWindow
 
     Dim frames As New List(Of Frame)
     Dim currentFrame As New Frame()
+#End Region
 
 #Region "Helper Functions"
     Private Function ConstructLine(first As Point, second As Point) As Line
@@ -47,16 +51,27 @@ Class MainWindow
                 Return index
             End If
         Next
+        Throw New Exception("Could not find frame index")
     End Function
 
-    Private Function FindNextFrame(timeSpan As TimeSpan) As Frame
-        Dim nextFrame As Frame = frames.First()
+    Private Function FindFrameIndex(frame As Frame) As Integer
+        For index As Integer = 0 To frames.Count - 1
+            If frame Is frames(index) Then
+                Return index
+            End If
+        Next
+        Throw New Exception("Could not find frame index from existing frame")
+    End Function
+
+    Private Function FindFrame(timeSpan As TimeSpan) As Frame
+        Dim prevFrame As Frame = frames.First()
         For Each frame As Frame In frames
             If frame.timeSpan > timeSpan Then
-                Return nextFrame
+                Return prevFrame
             End If
-            nextFrame = frame
+            prevFrame = frame
         Next
+        Throw New Exception("Could not find next frame")
     End Function
 
     Public Shared Function FormatTime(timeSpan As TimeSpan)
@@ -86,11 +101,7 @@ Class MainWindow
 
         currentFrame = frame
         For Each stroke As Stroke In currentFrame.strokes
-            Dim line As New Line()
-            line.X1 = stroke.first.X
-            line.Y1 = stroke.first.Y
-            line.X2 = stroke.second.X
-            line.Y2 = stroke.second.Y
+            Dim line As Line = ConstructLine(stroke.first, stroke.second)
             Lines.Children.Add(line)
         Next
         For Each colorWhite As ColorRectangle In currentFrame.colorWhites
@@ -113,7 +124,6 @@ Class MainWindow
         rectangle.Width = rect.Width
         rectangle.Height = rect.Height
 
-
         Dim rotateTransform As New RotateTransform(0)
         rectangle.RenderTransform = rotateTransform
         rectangle.RenderTransformOrigin = New Point(0.5, 0.5)
@@ -129,6 +139,7 @@ Class MainWindow
     End Function
 #End Region
 
+#Region "MainWindow"
     Private Sub MainWindow_Loaded(sender As Object, e As EventArgs)
         For time As Double = offset To offset + songLength Step mspf
             Dim frame As New Frame(TimeSpanMilliseconds(time))
@@ -137,10 +148,23 @@ Class MainWindow
         FramesView.ItemsSource = frames
         LoadFrame(frames.First())
     End Sub
+#End Region
 
 #Region "File"
     Private Sub New_Click(sender As Object, e As RoutedEventArgs)
+        Lines.Children.Clear()
+        ColorWhites.Children.Clear()
+        ColorBlacks.Children.Clear()
 
+        For Each frame In frames
+            If frame.Count > 0 Then
+                frame.strokes.Clear()
+                frame.colorWhites.Clear()
+                frame.colorBlacks.Clear()
+                frame.Count = 0
+            End If
+        Next
+        FramesView.Items.Refresh()
     End Sub
 
     Private Sub Import_Click(sender As Object, e As RoutedEventArgs)
@@ -151,11 +175,28 @@ Class MainWindow
     End Sub
 
     Private Sub Open_Click(sender As Object, e As RoutedEventArgs)
-
+        Dim dialog As New OpenFileDialog
+        dialog.Filter = "StrokeAnimation files (*.sa)|*.sa|All files (*.*)|*.*"
+        If dialog.ShowDialog() = True Then
+            Dim fileName As String = dialog.FileName
+            Using reader As StreamReader = My.Computer.FileSystem.OpenTextFileReader(dialog.FileName)
+                Dim serializer As New XmlSerializer(GetType(List(Of Frame)))
+                frames = serializer.Deserialize(reader)
+                FramesView.Items.Refresh()
+            End Using
+        End If
     End Sub
 
     Private Sub Save_Click(sender As Object, e As RoutedEventArgs)
-
+        Dim dialog As New SaveFileDialog
+        dialog.Filter = "StrokeAnimation files (*.sa)"
+        If dialog.ShowDialog() = True Then
+            Using writer As StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(dialog.FileName, False)
+                Dim serializer As New XmlSerializer(GetType(List(Of Frame)))
+                serializer.Serialize(writer, frames)
+                FramesView.Items.Refresh()
+            End Using
+        End If
     End Sub
 #End Region
 
@@ -200,7 +241,7 @@ Class MainWindow
             Else
                 Dim index As Integer = FindFrameIndex()
                 If Not index = frames.Count - 1 Then
-                    Dim frame As Frame = FindNextFrame(Player.Position)
+                    Dim frame As Frame = FindFrame(Player.Position)
                     LoadFrame(frame)
                 End If
             End If
@@ -431,6 +472,9 @@ Class MainWindow
                 End If
             End If
         End If
+
+        ' Probably the simplest way to refresh everything zzz
+        FramesView.Items.Refresh()
     End Sub
 #End Region
 
@@ -472,6 +516,18 @@ Class MainWindow
         currentRect.Width = diff.X * 2
         currentRect.Height = diff.Y * 2
     End Sub
+#End Region
+
+#Region "FramesView"
+    Private Sub FramesView_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs)
+        Dim item As ListBoxItem = ItemsControl.ContainerFromElement(FramesView, e.OriginalSource)
+        If Not item Is Nothing Then
+            item.IsSelected = True
+            Dim viewIndex As Integer = FramesView.Items.IndexOf(item.DataContext)
+
+        End If
+    End Sub
+
 #End Region
 
 End Class

@@ -9,6 +9,9 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:Commands.Import}" Executed="Import_Click"/>
+        <CommandBinding Command="{x:Static local:Commands.Open}" Executed="Open_Click"/>
+        <CommandBinding Command="{x:Static local:Commands.NewFile}" Executed="New_Click"/>
+        <CommandBinding Command="{x:Static local:Commands.Save}" Executed="Save_Click"/>
         <CommandBinding Command="{x:Static local:Commands.PlayPause}" Executed="Player_PlayPause"/>
         <CommandBinding Command="{x:Static local:Commands.Draw}" Executed="Draw_Click"/>
         <CommandBinding Command="{x:Static local:Commands.ColorBlack}" Executed="ColorBlack_Click"/>
@@ -17,10 +20,10 @@
     <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Width="1500" Height="786" OpacityMask="Black">
         <Menu HorizontalAlignment="Left" Height="20" VerticalAlignment="Bottom" Width="1500" Grid.ColumnSpan="2" Canvas.Left="0" Canvas.Top="0" Focusable="False">
             <MenuItem Header="File" Focusable="False">
-                <MenuItem x:Name="New"  Header="New" Click="New_Click" Focusable="False" />
-                <MenuItem x:Name="Import"  Header="Import" Command="{x:Static local:Commands.Import}" Focusable="False" />
-                <MenuItem x:Name="Open" Header="Open" Click="Open_Click" Focusable="False" />
-                <MenuItem x:Name="Save" Header="Save" Click="Save_Click" Focusable="False" />
+                <MenuItem x:Name="New" Header="New" Command="{x:Static local:Commands.NewFile}" Focusable="False" />
+                <MenuItem x:Name="Import" Header="Import" Command="{x:Static local:Commands.Import}" Focusable="False" />
+                <MenuItem x:Name="Open" Header="Open" Command="{x:Static local:Commands.Open}" Focusable="False" />
+                <MenuItem x:Name="Save" Header="Save" Command="{x:Static local:Commands.Save}" Focusable="False" />
             </MenuItem>
         </Menu>
 
@@ -40,7 +43,7 @@
         <Label Content="/" Canvas.Left="1386" Canvas.Top="746" FontSize="18"/>
         <Label x:Name="TotalTime" Content="00:00:000" Canvas.Left="1403" Canvas.Top="746" FontSize="18"/>
 
-        <ListBox x:Name="FramesView" Height="572" Canvas.Left="1295" Canvas.Top="149" Width="195" Focusable="False">
+        <ListBox x:Name="FramesView" Height="572" Canvas.Left="1295" Canvas.Top="149" Width="195" Focusable="False" PreviewMouseDown="FramesView_PreviewMouseDown">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Focusable" Value="False"/>
