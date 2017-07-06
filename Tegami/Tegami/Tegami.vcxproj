@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="PartGen.hpp" />
+    <ClInclude Include="PoissonGenerator.h" />
     <ClInclude Include="Stroke.hpp" />
     <ClInclude Include="StrokeManager.hpp" />
   </ItemGroup>
