@@ -36,6 +36,8 @@ Class MainWindow
 #End Region
 
 #Region "Helper Functions"
+
+
     Private Function ConstructLine(first As Point, second As Point) As Line
         Dim line As New Line()
         line.X1 = first.X
@@ -111,12 +113,12 @@ Class MainWindow
             Next
             For Each colorWhite As ColorRectangle In previousFrame.colorWhites
                 Dim rectangle As Rectangle = LoadRectangle(colorWhite)
-                rectangle.Fill = colorWhite.color
+                rectangle.Fill = colorWhite.simpleColor.GetColor()
                 PreviousColorWhites.Children.Add(rectangle)
             Next
             For Each colorBlack As ColorRectangle In previousFrame.colorBlacks
                 Dim rectangle As Rectangle = LoadRectangle(colorBlack)
-                rectangle.Fill = colorBlack.color
+                rectangle.Fill = colorBlack.simpleColor.GetColor()
                 PreviousColorBlacks.Children.Add(rectangle)
             Next
         End If
@@ -132,12 +134,12 @@ Class MainWindow
         Next
         For Each colorWhite As ColorRectangle In currentFrame.colorWhites
             Dim rectangle As Rectangle = LoadRectangle(colorWhite)
-            rectangle.Fill = colorWhite.color
+            rectangle.Fill = colorWhite.simpleColor.GetColor()
             ColorWhites.Children.Add(rectangle)
         Next
         For Each colorBlack As ColorRectangle In currentFrame.colorBlacks
             Dim rectangle As Rectangle = LoadRectangle(colorBlack)
-            rectangle.Fill = colorBlack.color
+            rectangle.Fill = colorBlack.simpleColor.GetColor()
             ColorBlacks.Children.Add(rectangle)
         Next
 
@@ -146,7 +148,7 @@ Class MainWindow
     End Sub
 
     Private Function LoadRectangle(colorRect As ColorRectangle) As Rectangle
-        Dim rect As Rect = colorRect.rect
+        Dim rect As Rect = colorRect.simpleRect.GetRect()
         Dim rectangle As New Rectangle()
         Canvas.SetLeft(rectangle, rect.Left)
         Canvas.SetTop(rectangle, rect.Top)
@@ -158,7 +160,7 @@ Class MainWindow
         rectangle.RenderTransformOrigin = New Point(0.5, 0.5)
         rotateTransform.Angle = colorRect.rotation
 
-        rectangle.Fill = colorRect.color
+        rectangle.Fill = colorRect.simpleColor.GetColor()
 
         Return rectangle
     End Function

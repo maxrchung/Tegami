@@ -67,7 +67,7 @@
     Public Sub RemoveColorWhite(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         For Each compare As ColorRectangle In colorWhites
-            If compare.rect.Equals(colorRectangle.rect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
+            If compare.simpleRect.Equals(colorRectangle.simpleRect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
                 colorWhites.Remove(compare)
                 Count -= 1
                 Return
@@ -84,7 +84,7 @@
     Public Sub RemoveColorBlack(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         For Each compare As ColorRectangle In colorBlacks
-            If compare.rect.Equals(colorRectangle.rect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
+            If compare.simpleRect.Equals(colorRectangle.simpleRect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
                 colorWhites.Remove(compare)
                 Count -= 1
                 Return

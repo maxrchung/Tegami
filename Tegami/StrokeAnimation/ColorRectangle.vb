@@ -1,12 +1,12 @@
 ﻿Public Class ColorRectangle
-    Public rect As New Rect
+    Public simpleRect As New SimpleRect
     Public rotation As New Integer
-    Public color As New SolidColorBrush
+    Public simpleColor As New SimpleColor
 
     Sub New(rect As Rect, rotation As Integer, color As SolidColorBrush)
-        Me.rect = rect
+        Me.simpleRect = New SimpleRect(rect)
         Me.rotation = rotation
-        Me.color = color
+        Me.simpleColor = New SimpleColor(color)
     End Sub
 
     Sub New()
