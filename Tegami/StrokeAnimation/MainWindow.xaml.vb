@@ -212,10 +212,16 @@ Class MainWindow
                 Dim serializer As New XmlSerializer(GetType(List(Of Frame)))
                 Dim timeSpan As TimeSpan = currentFrame.timeSpan
                 Dim frameIndex As Integer = FindFrameIndex(currentFrame)
+                frames.Clear()
                 frames = serializer.Deserialize(reader)
-                currentFrame = New Frame()
-                LoadFrame(frames.First())
                 FramesView.ItemsSource = frames
+                currentFrame = New Frame
+                currentRect = New Rectangle
+                currentRect.Width = 0
+                currentRect.Height = 0
+                currentLine = New Line
+                LoadFrame(frames(frameIndex))
+                FramesView.SelectedValue = FramesView.Items(frameIndex)
                 FramesView.Items.Refresh()
             End Using
         End If
@@ -509,7 +515,9 @@ Class MainWindow
                     Else
                         ColorBlacks.Children.Remove(currentRect)
                     End If
-                Else
+                ' Sometimes needs to account for this case when you don't have a mouse down
+                ' and then mouse up inside of panel
+                ElseIf Not Double.IsNaN(currentRect.Width) Then
                     If currentTool = Tool.ColorWhite Then
                         currentFrame.AddColorWhite(currentRect)
                     Else
