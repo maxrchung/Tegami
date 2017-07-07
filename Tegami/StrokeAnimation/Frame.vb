@@ -1,7 +1,11 @@
-﻿Public Class Frame
+﻿Imports System.Xml
+Imports System.Xml.Serialization
+
+Public Class Frame
     Public strokes As New List(Of Stroke)
     Public colorWhites As New List(Of ColorRectangle)
     Public colorBlacks As New List(Of ColorRectangle)
+    <XmlIgnore>
     Public timeSpan As New TimeSpan
 
     Private timeSpanStringProp As String
@@ -13,6 +17,16 @@
             timeSpanStringProp = value
         End Set
     End Property
+
+    Public Property MyTimeSpan() As String
+        Get
+            Return timeSpan.ToString()
+        End Get
+        Set(value As String)
+            timeSpan = TimeSpan.Parse(value)
+        End Set
+    End Property
+
 
     Private countProp As Integer
     Public Property Count() As Integer
@@ -67,7 +81,7 @@
     Public Sub RemoveColorWhite(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         For Each compare As ColorRectangle In colorWhites
-            If compare.simpleRect.Equals(colorRectangle.simpleRect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
+            If compare.simpleRect.GetRect().Equals(colorRectangle.simpleRect.GetRect()) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
                 colorWhites.Remove(compare)
                 Count -= 1
                 Return
@@ -84,8 +98,8 @@
     Public Sub RemoveColorBlack(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         For Each compare As ColorRectangle In colorBlacks
-            If compare.simpleRect.Equals(colorRectangle.simpleRect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
-                colorWhites.Remove(compare)
+            If compare.simpleRect.GetRect().Equals(colorRectangle.simpleRect.GetRect()) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
+                colorBlacks.Remove(compare)
                 Count -= 1
                 Return
             End If

@@ -22,14 +22,7 @@
     </Window.CommandBindings>
 
     <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Width="1500" Height="786" OpacityMask="Black">
-        <Menu HorizontalAlignment="Left" Height="20" VerticalAlignment="Bottom" Width="1500" Grid.ColumnSpan="2" Canvas.Left="0" Canvas.Top="0" Focusable="False">
-            <MenuItem Header="File" Focusable="False">
-                <MenuItem x:Name="New" Header="New" Command="{x:Static local:Commands.NewFile}" Focusable="False" />
-                <MenuItem x:Name="Import" Header="Import" Command="{x:Static local:Commands.Import}" Focusable="False" />
-                <MenuItem x:Name="Open" Header="Open" Command="{x:Static local:Commands.Open}" Focusable="False" />
-                <MenuItem x:Name="Save" Header="Save" Command="{x:Static local:Commands.Save}" Focusable="False" />
-            </MenuItem>
-        </Menu>  
+        <Menu HorizontalAlignment="Left" Height="20" VerticalAlignment="Bottom" Width="1500" Grid.ColumnSpan="2" Canvas.Left="0" Canvas.Top="0" Focusable="False"/>
 
         <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="25" Canvas.Left="10" ScrubbingEnabled="True" OpacityMask="Black"/>
 

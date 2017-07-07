@@ -36,8 +36,6 @@ Class MainWindow
 #End Region
 
 #Region "Helper Functions"
-
-
     Private Function ConstructLine(first As Point, second As Point) As Line
         Dim line As New Line()
         line.X1 = first.X
@@ -212,7 +210,12 @@ Class MainWindow
             Dim fileName As String = dialog.FileName
             Using reader As StreamReader = My.Computer.FileSystem.OpenTextFileReader(dialog.FileName)
                 Dim serializer As New XmlSerializer(GetType(List(Of Frame)))
+                Dim timeSpan As TimeSpan = currentFrame.timeSpan
+                Dim frameIndex As Integer = FindFrameIndex(currentFrame)
                 frames = serializer.Deserialize(reader)
+                currentFrame = New Frame()
+                LoadFrame(frames.First())
+                FramesView.ItemsSource = frames
                 FramesView.Items.Refresh()
             End Using
         End If
@@ -403,7 +406,6 @@ Class MainWindow
                 Else
                     currentRect.Fill = Brushes.Black
                     ColorBlacks.Children.Add(currentRect)
-                    currentFrame.AddColorBlack(currentRect)
                 End If
 
                 rectTimer.Stop()
