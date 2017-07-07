@@ -32,6 +32,7 @@ Class MainWindow
 
     Dim frames As New List(Of Frame)
     Dim currentFrame As New Frame()
+    Dim prevFrame As New Frame()
 #End Region
 
 #Region "Helper Functions"
@@ -64,6 +65,8 @@ Class MainWindow
     End Function
 
     Private Function FindFrame(timeSpan As TimeSpan) As Frame
+        ' Yolo accounting for floating point errors?
+        timeSpan += New TimeSpan(0, 0, 0, 0, 1)
         Dim prevFrame As Frame = frames.First()
         For Each frame As Frame In frames
             If frame.timeSpan > timeSpan Then
@@ -95,6 +98,29 @@ Class MainWindow
             Return
         End If
 
+        PreviousColorWhites.Children.Clear()
+        PreviousColorBlacks.Children.Clear()
+        PreviousLines.Children.Clear()
+
+        Dim frameIndex As Integer = FindFrameIndex(frame)
+        If Not frameIndex = 0 Then
+            Dim previousFrame As Frame = frames(frameIndex - 1)
+            For Each stroke As Stroke In previousFrame.strokes
+                Dim line As Line = ConstructLine(stroke.first, stroke.second)
+                PreviousLines.Children.Add(line)
+            Next
+            For Each colorWhite As ColorRectangle In previousFrame.colorWhites
+                Dim rectangle As Rectangle = LoadRectangle(colorWhite)
+                rectangle.Fill = colorWhite.color
+                PreviousColorWhites.Children.Add(rectangle)
+            Next
+            For Each colorBlack As ColorRectangle In previousFrame.colorBlacks
+                Dim rectangle As Rectangle = LoadRectangle(colorBlack)
+                rectangle.Fill = colorBlack.color
+                PreviousColorBlacks.Children.Add(rectangle)
+            Next
+        End If
+
         Lines.Children.Clear()
         ColorWhites.Children.Clear()
         ColorBlacks.Children.Clear()
@@ -114,6 +140,9 @@ Class MainWindow
             rectangle.Fill = colorBlack.color
             ColorBlacks.Children.Add(rectangle)
         Next
+
+        FramesView.ScrollIntoView(FramesView.Items(frameIndex))
+        FramesView.SelectedValue = FramesView.Items(frameIndex)
     End Sub
 
     Private Function LoadRectangle(colorRect As ColorRectangle) As Rectangle
@@ -189,7 +218,7 @@ Class MainWindow
 
     Private Sub Save_Click(sender As Object, e As RoutedEventArgs)
         Dim dialog As New SaveFileDialog
-        dialog.Filter = "StrokeAnimation files (*.sa)"
+        dialog.Filter = "StrokeAnimation files (*.sa)|*.sa"
         If dialog.ShowDialog() = True Then
             Using writer As StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(dialog.FileName, False)
                 Dim serializer As New XmlSerializer(GetType(List(Of Frame)))
@@ -272,6 +301,20 @@ Class MainWindow
 
     Private Sub VideoOpacity_ValueChanged(sender As Object, e As EventArgs)
         Player.Opacity = VideoOpacity.Value
+    End Sub
+
+    Private Sub PreviousDisplay_Checked(sender As Object, e As EventArgs)
+        PreviousPanel.Visibility = Visibility.Visible
+        PreviousOpacity.IsEnabled = True
+    End Sub
+
+    Private Sub PreviousDisplay_Unchecked(sender As Object, e As EventArgs)
+        PreviousPanel.Visibility = Visibility.Hidden
+        PreviousOpacity.IsEnabled = False
+    End Sub
+
+    Private Sub PreviousOpacity_ValueChanged(sender As Object, e As EventArgs)
+        PreviousPanel.Opacity = PreviousOpacity.Value
     End Sub
 
     Private Sub LinesDisplay_Checked(sender As Object, e As EventArgs)
@@ -451,10 +494,10 @@ Class MainWindow
                 Dim currentLinePos As Vector = New Point(currentLine.X2, currentLine.Y2) - New Point(currentLine.X1, currentLine.Y1)
                 If currentLinePos.LengthSquared < drawThreshold Then
                     Lines.Children.Remove(currentLine)
+                Else
+                    currentFrame.AddLine(currentLine)
                 End If
-
                 lineTimer.Stop()
-                currentFrame.AddLine(currentLine)
             Else
                 If currentRect.Width * currentRect.Height < drawThreshold Then
                     If currentTool = Tool.ColorWhite Then
@@ -462,14 +505,14 @@ Class MainWindow
                     Else
                         ColorBlacks.Children.Remove(currentRect)
                     End If
-                End If
-
-                rectTimer.Stop()
-                If currentTool = Tool.ColorWhite Then
-                    currentFrame.AddColorWhite(currentRect)
                 Else
-                    currentFrame.AddColorBlack(currentRect)
+                    If currentTool = Tool.ColorWhite Then
+                        currentFrame.AddColorWhite(currentRect)
+                    Else
+                        currentFrame.AddColorBlack(currentRect)
+                    End If
                 End If
+                rectTimer.Stop()
             End If
         End If
 
@@ -524,10 +567,27 @@ Class MainWindow
         If Not item Is Nothing Then
             item.IsSelected = True
             Dim viewIndex As Integer = FramesView.Items.IndexOf(item.DataContext)
-
+            Dim frameToLoad As Frame = frames(viewIndex)
+            LoadFrame(frameToLoad)
+            Player.Position = frameToLoad.timeSpan
         End If
     End Sub
 
+    Private Sub PreviousFrame(sender As Object, e As RoutedEventArgs)
+        Dim previousIndex As Integer = FindFrameIndex() - 1
+        If previousIndex > -1 Then
+            LoadFrame(frames(previousIndex))
+            Player.Position = frames(previousIndex).timeSpan
+        End If
+    End Sub
+
+    Private Sub NextFrame(sender As Object, e As RoutedEventArgs)
+        Dim nextIndex As Integer = FindFrameIndex() + 1
+        If nextIndex < frames.Count Then
+            LoadFrame(frames(nextIndex))
+            Player.Position = frames(nextIndex).timeSpan
+        End If
+    End Sub
 #End Region
 
 End Class

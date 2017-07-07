@@ -52,16 +52,16 @@
         For Each compare As Stroke In strokes
             If compare.first.Equals(stroke.first) AndAlso compare.second.Equals(stroke.second) Then
                 strokes.Remove(compare)
+                Count -= 1
                 Return
             End If
         Next
-        Count -= 1
     End Sub
 
     Public Sub AddColorWhite(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         colorWhites.Add(colorRectangle)
-        count += 1
+        Count += 1
     End Sub
 
     Public Sub RemoveColorWhite(rectangle As Rectangle)
@@ -69,16 +69,16 @@
         For Each compare As ColorRectangle In colorWhites
             If compare.rect.Equals(colorRectangle.rect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
                 colorWhites.Remove(compare)
+                Count -= 1
                 Return
             End If
         Next
-        count -= 1
     End Sub
 
     Public Sub AddColorBlack(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         colorBlacks.Add(colorRectangle)
-        count += 1
+        Count += 1
     End Sub
 
     Public Sub RemoveColorBlack(rectangle As Rectangle)
@@ -86,10 +86,10 @@
         For Each compare As ColorRectangle In colorBlacks
             If compare.rect.Equals(colorRectangle.rect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
                 colorWhites.Remove(compare)
+                Count -= 1
                 Return
             End If
         Next
-        count -= 1
     End Sub
 
     Private Function GetColorRectangle(rectangle As Rectangle) As ColorRectangle
