@@ -295,7 +295,7 @@ Class MainWindow
     Private Sub Progress_MouseDown(sender As Object, e As MouseButtonEventArgs)
         Dim ratio As Double = e.GetPosition(Progress).X / Progress.ActualWidth
         Progress.Value = ratio * Progress.Maximum
-        Player.Position = New TimeSpan(0, 0, ratio * timeSpanTotal.TotalSeconds)
+        Player.Position = New TimeSpan(0, 0, 0, 0, ratio * timeSpanTotal.TotalMilliseconds)
     End Sub
 #End Region
 
@@ -342,21 +342,30 @@ Class MainWindow
         Lines.Opacity = LinesOpacity.Value
     End Sub
 
-    Private Sub ColorsOpacity_ValueChanged(sender As Object, e As EventArgs)
-        ColorWhites.Opacity = ColorsOpacity.Value
-        ColorBlacks.Opacity = ColorsOpacity.Value
+    Private Sub WhiteOpacity_ValueChanged(sender As Object, e As EventArgs)
+        ColorWhites.Opacity = WhiteOpacity.Value
     End Sub
 
-    Private Sub ColorsDisplay_Checked(sender As Object, e As EventArgs)
+    Private Sub WhiteDisplay_Checked(sender As Object, e As EventArgs)
         ColorWhites.Visibility = Visibility.Visible
         ColorWhites.IsEnabled = True
+    End Sub
+
+    Private Sub WhiteDisplay_Unchecked(sender As Object, e As EventArgs)
+        ColorWhites.Visibility = Visibility.Hidden
+        ColorWhites.IsEnabled = False
+    End Sub
+
+    Private Sub BlackOpacity_ValueChanged(sender As Object, e As EventArgs)
+        ColorBlacks.Opacity = BlackOpacity.Value
+    End Sub
+
+    Private Sub BlackDisplay_Checked(sender As Object, e As EventArgs)
         ColorBlacks.Visibility = Visibility.Visible
         ColorBlacks.IsEnabled = True
     End Sub
 
-    Private Sub ColorsDisplay_Unchecked(sender As Object, e As EventArgs)
-        ColorWhites.Visibility = Visibility.Hidden
-        ColorWhites.IsEnabled = False
+    Private Sub BlackDisplay_Unchecked(sender As Object, e As EventArgs)
         ColorBlacks.Visibility = Visibility.Hidden
         ColorBlacks.IsEnabled = False
     End Sub
@@ -438,7 +447,7 @@ Class MainWindow
                        (projected.X > line.X1 AndAlso projected.X > line.X2) OrElse
                        (projected.Y > line.Y1 AndAlso projected.Y > line.Y2) OrElse
                        (projected.Y < line.Y1 AndAlso projected.Y < line.Y2) Then
-                        Return
+                        Continue For
                     End If
 
                     Dim lengthSquared As Double = (currentPoint - projected).LengthSquared
@@ -599,6 +608,10 @@ Class MainWindow
             LoadFrame(frames(nextIndex))
             Player.Position = frames(nextIndex).timeSpan
         End If
+    End Sub
+
+    Private Sub FramesView_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles FramesView.SelectionChanged
+
     End Sub
 #End Region
 

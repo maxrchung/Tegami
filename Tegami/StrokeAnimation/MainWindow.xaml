@@ -22,7 +22,14 @@
     </Window.CommandBindings>
 
     <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Width="1500" Height="786" OpacityMask="Black">
-        <Menu HorizontalAlignment="Left" Height="20" VerticalAlignment="Bottom" Width="1500" Grid.ColumnSpan="2" Canvas.Left="0" Canvas.Top="0" Focusable="False"/>
+        <Menu HorizontalAlignment="Left" Height="20" VerticalAlignment="Bottom" Width="1500" Grid.ColumnSpan="2" Canvas.Left="0" Canvas.Top="0" Focusable="False">
+            <MenuItem Header="File" Focusable="False">
+                <MenuItem x:Name="New" Header="New" Command="{x:Static local:Commands.NewFile}" Focusable="False" />
+                <MenuItem x:Name="Import" Header="Import" Command="{x:Static local:Commands.Import}" Focusable="False" />
+                <MenuItem x:Name="Open" Header="Open" Command="{x:Static local:Commands.Open}" Focusable="False" />
+                <MenuItem x:Name="Save" Header="Save" Command="{x:Static local:Commands.Save}" Focusable="False" />
+            </MenuItem>
+        </Menu>
 
         <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="25" Canvas.Left="10" ScrubbingEnabled="True" OpacityMask="Black"/>
 
@@ -49,7 +56,7 @@
         <Label Content="/" Canvas.Left="1386" Canvas.Top="746" FontSize="18"/>
         <Label x:Name="TotalTime" Content="00:00:000" Canvas.Left="1403" Canvas.Top="746" FontSize="18"/>
 
-        <ListBox x:Name="FramesView" Height="552" Canvas.Left="1295" Canvas.Top="189" Width="195" Focusable="False" PreviewMouseDown="FramesView_PreviewMouseDown">
+        <ListBox x:Name="FramesView" Height="532" Canvas.Left="1295" Canvas.Top="209" Width="195" Focusable="False" PreviewMouseDown="FramesView_PreviewMouseDown">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Focusable" Value="False"/>
@@ -67,8 +74,11 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Slider x:Name="ColorsOpacity" Canvas.Left="1365" Canvas.Top="166" Width="125" Maximum="1" ValueChanged="ColorsOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
-        <CheckBox x:Name="ColorsDisplay" Content="Colors" Canvas.Left="1295" Canvas.Top="166" Unchecked="ColorsDisplay_Unchecked" Checked="ColorsDisplay_Checked" Focusable="False" IsChecked="True"/>
+        <Slider x:Name="WhiteOpacity" Canvas.Left="1365" Canvas.Top="166" Width="125" Maximum="1" ValueChanged="WhiteOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
+        <CheckBox x:Name="WhiteDisplay" Content="White" Canvas.Left="1295" Canvas.Top="166" Unchecked="WhiteDisplay_Unchecked" Checked="WhiteDisplay_Checked" Focusable="False" IsChecked="True"/>
+
+        <Slider x:Name="BlackOpacity" Canvas.Left="1365" Canvas.Top="186" Width="125" Maximum="1" ValueChanged="BlackOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
+        <CheckBox x:Name="BlackDisplay" Content="Black" Canvas.Left="1295" Canvas.Top="186" Unchecked="BlackDisplay_Unchecked" Checked="BlackDisplay_Checked" Focusable="False" IsChecked="True"/>
 
         <Slider x:Name="VideoOpacity" Canvas.Left="1365" Canvas.Top="86" Width="125" Maximum="1" ValueChanged="VideoOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
         <CheckBox x:Name="VideoDisplay" Content="Video" Canvas.Left="1295" Canvas.Top="86" Unchecked="VideoDisplay_Unchecked" Checked="VideoDisplay_Checked" IsChecked="True" Focusable="False"/>
