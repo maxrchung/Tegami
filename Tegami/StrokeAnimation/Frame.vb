@@ -3,8 +3,7 @@ Imports System.Xml.Serialization
 
 Public Class Frame
     Public strokes As New List(Of Stroke)
-    Public colorWhites As New List(Of ColorRectangle)
-    Public colorBlacks As New List(Of ColorRectangle)
+    Public colorRectangles As New List(Of ColorRectangle)
     <XmlIgnore>
     Public timeSpan As New TimeSpan
 
@@ -38,10 +37,9 @@ Public Class Frame
         End Set
     End Property
 
-    Sub New(strokes As List(Of Stroke), colorWhites As List(Of ColorRectangle), colorBlacks As List(Of ColorRectangle), timeSpan As TimeSpan)
+    Sub New(strokes As List(Of Stroke), colorRectangles As List(Of ColorRectangle), timeSpan As TimeSpan)
         Me.strokes = strokes
-        Me.colorWhites = colorWhites
-        Me.colorBlacks = colorBlacks
+        Me.colorRectangles = colorRectangles
         Me.timeSpan = timeSpan
     End Sub
 
@@ -74,32 +72,15 @@ Public Class Frame
 
     Public Sub AddColorWhite(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        colorWhites.Add(colorRectangle)
+        colorRectangles.Add(colorRectangle)
         Count += 1
     End Sub
 
     Public Sub RemoveColorWhite(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        For Each compare As ColorRectangle In colorWhites
+        For Each compare As ColorRectangle In colorRectangles
             If compare.simpleRect.GetRect().Equals(colorRectangle.simpleRect.GetRect()) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
-                colorWhites.Remove(compare)
-                Count -= 1
-                Return
-            End If
-        Next
-    End Sub
-
-    Public Sub AddColorBlack(rectangle As Rectangle)
-        Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        colorBlacks.Add(colorRectangle)
-        Count += 1
-    End Sub
-
-    Public Sub RemoveColorBlack(rectangle As Rectangle)
-        Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        For Each compare As ColorRectangle In colorBlacks
-            If compare.simpleRect.GetRect().Equals(colorRectangle.simpleRect.GetRect()) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
-                colorBlacks.Remove(compare)
+                colorRectangles.Remove(compare)
                 Count -= 1
                 Return
             End If
@@ -114,7 +95,7 @@ Public Class Frame
         Dim rotateTransform As RotateTransform = rectangle.RenderTransform
         Dim rotation As Double = rotateTransform.Angle
         Dim fill As SolidColorBrush = rectangle.Fill
-        Dim colorRectangle As New ColorRectangle(rect, rotation, fill)
+        Dim colorRectangle As New ColorRectangle(rect, rotation)
 
         Return colorRectangle
     End Function

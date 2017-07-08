@@ -98,8 +98,7 @@ Class MainWindow
             Return
         End If
 
-        PreviousColorWhites.Children.Clear()
-        PreviousColorBlacks.Children.Clear()
+        PreviousColors.Children.Clear()
         PreviousLines.Children.Clear()
 
         Dim frameIndex As Integer = FindFrameIndex(frame)
@@ -109,36 +108,25 @@ Class MainWindow
                 Dim line As Line = ConstructLine(stroke.first, stroke.second)
                 PreviousLines.Children.Add(line)
             Next
-            For Each colorWhite As ColorRectangle In previousFrame.colorWhites
-                Dim rectangle As Rectangle = LoadRectangle(colorWhite)
-                rectangle.Fill = colorWhite.simpleColor.GetColor()
-                PreviousColorWhites.Children.Add(rectangle)
-            Next
-            For Each colorBlack As ColorRectangle In previousFrame.colorBlacks
-                Dim rectangle As Rectangle = LoadRectangle(colorBlack)
-                rectangle.Fill = colorBlack.simpleColor.GetColor()
-                PreviousColorBlacks.Children.Add(rectangle)
+            For Each colorRectangle As ColorRectangle In previousFrame.colorRectangles
+                Dim rectangle As Rectangle = LoadRectangle(colorRectangle)
+                rectangle.Fill = Brushes.White
+                PreviousColors.Children.Add(rectangle)
             Next
         End If
 
         Lines.Children.Clear()
-        ColorWhites.Children.Clear()
-        ColorBlacks.Children.Clear()
+        Colors.Children.Clear()
 
         currentFrame = frame
         For Each stroke As Stroke In currentFrame.strokes
             Dim line As Line = ConstructLine(stroke.first, stroke.second)
             Lines.Children.Add(line)
         Next
-        For Each colorWhite As ColorRectangle In currentFrame.colorWhites
-            Dim rectangle As Rectangle = LoadRectangle(colorWhite)
-            rectangle.Fill = colorWhite.simpleColor.GetColor()
-            ColorWhites.Children.Add(rectangle)
-        Next
-        For Each colorBlack As ColorRectangle In currentFrame.colorBlacks
-            Dim rectangle As Rectangle = LoadRectangle(colorBlack)
-            rectangle.Fill = colorBlack.simpleColor.GetColor()
-            ColorBlacks.Children.Add(rectangle)
+        For Each colorRectangle As ColorRectangle In currentFrame.colorRectangles
+            Dim rectangle As Rectangle = LoadRectangle(colorRectangle)
+            rectangle.Fill = Brushes.White
+            Colors.Children.Add(rectangle)
         Next
 
         FramesView.ScrollIntoView(FramesView.Items(frameIndex))
@@ -157,8 +145,7 @@ Class MainWindow
         rectangle.RenderTransform = rotateTransform
         rectangle.RenderTransformOrigin = New Point(0.5, 0.5)
         rotateTransform.Angle = colorRect.rotation
-
-        rectangle.Fill = colorRect.simpleColor.GetColor()
+        rectangle.Fill = Brushes.White
 
         Return rectangle
     End Function
@@ -182,14 +169,12 @@ Class MainWindow
 #Region "File"
     Private Sub New_Click(sender As Object, e As RoutedEventArgs)
         Lines.Children.Clear()
-        ColorWhites.Children.Clear()
-        ColorBlacks.Children.Clear()
+        Colors.Children.Clear()
 
         For Each frame In frames
             If frame.Count > 0 Then
                 frame.strokes.Clear()
-                frame.colorWhites.Clear()
-                frame.colorBlacks.Clear()
+                frame.colorRectangles.Clear()
                 frame.Count = 0
             End If
         Next
@@ -342,32 +327,18 @@ Class MainWindow
         Lines.Opacity = LinesOpacity.Value
     End Sub
 
-    Private Sub WhiteOpacity_ValueChanged(sender As Object, e As EventArgs)
-        ColorWhites.Opacity = WhiteOpacity.Value
+    Private Sub ColorsOpacity_ValueChanged(sender As Object, e As EventArgs)
+        Colors.Opacity = WhiteOpacity.Value
     End Sub
 
-    Private Sub WhiteDisplay_Checked(sender As Object, e As EventArgs)
-        ColorWhites.Visibility = Visibility.Visible
-        ColorWhites.IsEnabled = True
+    Private Sub ColorsDisplay_Checked(sender As Object, e As EventArgs)
+        Colors.Visibility = Visibility.Visible
+        Colors.IsEnabled = True
     End Sub
 
-    Private Sub WhiteDisplay_Unchecked(sender As Object, e As EventArgs)
-        ColorWhites.Visibility = Visibility.Hidden
-        ColorWhites.IsEnabled = False
-    End Sub
-
-    Private Sub BlackOpacity_ValueChanged(sender As Object, e As EventArgs)
-        ColorBlacks.Opacity = BlackOpacity.Value
-    End Sub
-
-    Private Sub BlackDisplay_Checked(sender As Object, e As EventArgs)
-        ColorBlacks.Visibility = Visibility.Visible
-        ColorBlacks.IsEnabled = True
-    End Sub
-
-    Private Sub BlackDisplay_Unchecked(sender As Object, e As EventArgs)
-        ColorBlacks.Visibility = Visibility.Hidden
-        ColorBlacks.IsEnabled = False
+    Private Sub ColorsDisplay_Unchecked(sender As Object, e As EventArgs)
+        Colors.Visibility = Visibility.Hidden
+        Colors.IsEnabled = False
     End Sub
 
     Private Sub Volume_Checked(sender As Object, e As EventArgs)
@@ -415,13 +386,8 @@ Class MainWindow
                 Canvas.SetLeft(currentRect, currentPoint.X)
                 Canvas.SetTop(currentRect, currentPoint.Y)
 
-                If currentTool = Tool.ColorWhite Then
-                    currentRect.Fill = Brushes.White
-                    ColorWhites.Children.Add(currentRect)
-                Else
-                    currentRect.Fill = Brushes.Black
-                    ColorBlacks.Children.Add(currentRect)
-                End If
+                currentRect.Fill = Brushes.White
+                Colors.Children.Add(currentRect)
 
                 rectTimer.Stop()
                 rectTimer = New DispatcherTimer(DispatcherPriority.Render)
@@ -458,13 +424,6 @@ Class MainWindow
                     End If
                 Next
             Else
-                Dim Colors As Canvas
-                If currentTool = Tool.ColorWhite Then
-                    Colors = ColorWhites
-                Else
-                    Colors = ColorBlacks
-                End If
-
                 For index As Integer = Colors.Children.Count - 1 To 0 Step -1
                     Dim color As Rectangle = Colors.Children(index)
 
@@ -474,11 +433,7 @@ Class MainWindow
                     Dim rotate As Vector = RotateVector(currentPoint - center, rotateTransform.Angle)
                     Dim rect As New Rect(Canvas.GetLeft(color), Canvas.GetTop(color), color.Width, color.Height)
                     If rect.Contains(rotate + center) Then
-                        If currentTool = Tool.ColorWhite Then
-                            currentFrame.RemoveColorWhite(color)
-                        Else
-                            currentFrame.RemoveColorBlack(color)
-                        End If
+                        currentFrame.RemoveColorWhite(color)
                         Colors.Children.Remove(color)
                         Return
                     End If
@@ -519,19 +474,11 @@ Class MainWindow
                 lineTimer.Stop()
             Else
                 If currentRect.Width * currentRect.Height < drawThreshold Then
-                    If currentTool = Tool.ColorWhite Then
-                        ColorWhites.Children.Remove(currentRect)
-                    Else
-                        ColorBlacks.Children.Remove(currentRect)
-                    End If
-                ' Sometimes needs to account for this case when you don't have a mouse down
-                ' and then mouse up inside of panel
+                    Colors.Children.Remove(currentRect)
+                    ' Sometimes needs to account for this case when you don't have a mouse down
+                    ' and then mouse up inside of panel
                 ElseIf Not Double.IsNaN(currentRect.Width) Then
-                    If currentTool = Tool.ColorWhite Then
-                        currentFrame.AddColorWhite(currentRect)
-                    Else
-                        currentFrame.AddColorBlack(currentRect)
-                    End If
+                    currentFrame.AddColorWhite(currentRect)
                 End If
                 rectTimer.Stop()
             End If
@@ -547,21 +494,12 @@ Class MainWindow
         currentTool = Tool.Draw
         Draw.IsChecked = True
         ColorWhite.IsChecked = False
-        ColorBlack.IsChecked = False
     End Sub
 
     Private Sub ColorWhite_Click(sender As Object, e As RoutedEventArgs)
         currentTool = Tool.ColorWhite
         Draw.IsChecked = False
         ColorWhite.IsChecked = True
-        ColorBlack.IsChecked = False
-    End Sub
-
-    Private Sub ColorBlack_Click(sender As Object, e As RoutedEventArgs)
-        currentTool = Tool.ColorBlack
-        Draw.IsChecked = False
-        ColorWhite.IsChecked = False
-        ColorBlack.IsChecked = True
     End Sub
 #End Region
 
@@ -608,10 +546,6 @@ Class MainWindow
             LoadFrame(frames(nextIndex))
             Player.Position = frames(nextIndex).timeSpan
         End If
-    End Sub
-
-    Private Sub FramesView_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles FramesView.SelectionChanged
-
     End Sub
 #End Region
 

@@ -7,7 +7,6 @@ Public Module Commands
     Public ReadOnly PlayPause As New RoutedUICommand("PlayPause", "PlayPause", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Space, ModifierKeys.None)}))
     Public ReadOnly Draw As New RoutedUICommand("Draw", "Draw", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Q, ModifierKeys.Control)}))
     Public ReadOnly ColorWhite As New RoutedUICommand("ColorWhite", "ColorWhite", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.W, ModifierKeys.Control)}))
-    Public ReadOnly ColorBlack As New RoutedUICommand("ColorBlack", "ColorBlack", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.E, ModifierKeys.Control)}))
     Public ReadOnly Left As New RoutedUICommand("Left", "Left", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Left, ModifierKeys.None)}))
     Public ReadOnly Right As New RoutedUICommand("Right", "Right", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Right, ModifierKeys.None)}))
     Public ReadOnly Up As New RoutedUICommand("Up", "Up", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Up, ModifierKeys.None)}))
