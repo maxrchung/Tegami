@@ -90,6 +90,7 @@
     <ClInclude Include="Range.hpp" />
     <ClInclude Include="Sprite.hpp" />
     <ClInclude Include="Storyboard.hpp" />
+    <ClInclude Include="SpritePool.hpp" />
     <ClInclude Include="Time.hpp" />
     <ClInclude Include="Vector2.hpp" />
     <ClInclude Include="Vector3.hpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="Origin.cpp" />
     <ClCompile Include="Range.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SpritePool.cpp" />
     <ClCompile Include="Storyboard.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Vector2.cpp" />
