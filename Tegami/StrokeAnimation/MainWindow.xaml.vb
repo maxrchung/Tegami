@@ -246,6 +246,7 @@ Class MainWindow
     ' https://stackoverflow.com/questions/10208959/binding-mediaelement-to-slider-position-in-wpf
     Private Sub Player_MediaOpened(sender As Object, e As RoutedEventArgs)
         timeSpanTotal = Player.NaturalDuration.TimeSpan
+        TotalTime.Content = FormatTime(timeSpanTotal)
 
         progressTimer = New DispatcherTimer(DispatcherPriority.Render)
         progressTimer.Interval = TimeSpan.FromSeconds(0.001)
@@ -259,7 +260,6 @@ Class MainWindow
         If Player.NaturalDuration.HasTimeSpan AndAlso Player.NaturalDuration.TimeSpan.TotalSeconds > 0 AndAlso timeSpanTotal.TotalSeconds > 0 Then
             Progress.Value = Player.Position.TotalSeconds / timeSpanTotal.TotalSeconds
             CurrentTime.Content = FormatTime(Player.Position)
-            TotalTime.Content = FormatTime(timeSpanTotal)
 
             If Player.Position < frames.First().timeSpan Then
                 LoadFrame(frames.First())
