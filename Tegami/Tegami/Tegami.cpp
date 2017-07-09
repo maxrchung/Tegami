@@ -18,7 +18,7 @@ void main() {
 	Utility *utility = new Utility();
 
 	Sprite* bg = new Sprite("sprite/whiteblock.png", Vector2::Zero, Layer::Background);
-	bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(0, 0, 0), Color(0, 0, 0));
+	bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(150), Color(150));
 	bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
 
 	int numberOfDots = 25;

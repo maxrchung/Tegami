@@ -70,13 +70,13 @@ Public Class Frame
         Next
     End Sub
 
-    Public Sub AddColorWhite(rectangle As Rectangle)
+    Public Sub AddColorRectangle(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         colorRectangles.Add(colorRectangle)
         Count += 1
     End Sub
 
-    Public Sub RemoveColorWhite(rectangle As Rectangle)
+    Public Sub RemoveColorRectangle(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
         For Each compare As ColorRectangle In colorRectangles
             If compare.simpleRect.GetRect().Equals(colorRectangle.simpleRect.GetRect()) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then

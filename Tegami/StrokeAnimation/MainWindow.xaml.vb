@@ -366,15 +366,26 @@ Class MainWindow
         currentPoint = e.GetPosition(Panel)
         If e.ChangedButton = MouseButton.Left Then
             If currentTool = Tool.Draw Then
+                If lineTimer.IsEnabled() Then
+                    currentFrame.RemoveLine(currentLine)
+                    Lines.Children.Remove(currentLine)
+                    lineTimer.Stop()
+                End If
+
                 currentLine = ConstructLine(currentPoint, currentPoint)
                 Lines.Children.Add(currentLine)
 
-                lineTimer.Stop()
                 lineTimer = New DispatcherTimer(DispatcherPriority.Render)
                 lineTimer.Interval = TimeSpan.FromSeconds(0.001)
                 AddHandler lineTimer.Tick, AddressOf lineTimer_Tick
                 lineTimer.Start()
             Else
+                If rectTimer.IsEnabled() Then
+                    currentFrame.RemoveColorRectangle(currentRect)
+                    Colors.Children.Remove(currentRect)
+                    rectTimer.Stop()
+                End If
+
                 currentRect = New Rectangle()
                 currentRect.Width = 0
                 currentRect.Height = 0
@@ -389,7 +400,6 @@ Class MainWindow
                 currentRect.Fill = Brushes.White
                 Colors.Children.Add(currentRect)
 
-                rectTimer.Stop()
                 rectTimer = New DispatcherTimer(DispatcherPriority.Render)
                 rectTimer.Interval = TimeSpan.FromSeconds(0.001)
                 AddHandler rectTimer.Tick, AddressOf rectTimer_Tick
@@ -433,7 +443,7 @@ Class MainWindow
                     Dim rotate As Vector = RotateVector(currentPoint - center, rotateTransform.Angle)
                     Dim rect As New Rect(Canvas.GetLeft(color), Canvas.GetTop(color), color.Width, color.Height)
                     If rect.Contains(rotate + center) Then
-                        currentFrame.RemoveColorWhite(color)
+                        currentFrame.RemoveColorRectangle(color)
                         Colors.Children.Remove(color)
                         Return
                     End If
@@ -478,7 +488,7 @@ Class MainWindow
                     ' Sometimes needs to account for this case when you don't have a mouse down
                     ' and then mouse up inside of panel
                 ElseIf Not Double.IsNaN(currentRect.Width) Then
-                    currentFrame.AddColorWhite(currentRect)
+                    currentFrame.AddColorRectangle(currentRect)
                 End If
                 rectTimer.Stop()
             End If

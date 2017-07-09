@@ -15,7 +15,21 @@ StrokeAnimation::StrokeAnimation(Utility* utility, std::string path)
 }
 
 void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Frame> frames) {
+	for (auto& frame : frames) {
+		for (int i = 0; i < frame.rectangles.size(); i++) {
+			Sprite* sprite = rectanglePool->Get(i);
+			float startTime = frame.time.ms;
+			float endTime = startTime + utility->mspf;
+			Vector2 pos = frame.rectangles[i].center;
+			Vector2 size = frame.rectangles[i].size;
+			float rotation = frame.rectangles[i].rotation;
+			float radians = utility->DToR(rotation);
 
+			sprite->Move(startTime, endTime, pos, pos);
+			sprite->ScaleVector(startTime, endTime, size, size);
+			sprite->Rotate(startTime, endTime, radians, radians);
+		}
+	}
 }
 
 void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames) {
@@ -23,17 +37,22 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 		for (int i = 0; i < frame.lines.size(); i++) {
 			Sprite* sprite = linePool->Get(i);
 			float startTime = frame.time.ms;
+			float endTime = startTime + utility->mspf;
 			Vector2 startPos = frame.lines[i].start;
 			Vector2 endPos = frame.lines[i].end;
 
-			sprite->Move(startTime, startTime, startPos, startPos);
+			sprite->Move(startTime, endTime, startPos, startPos);
 
 			Vector2 diff = endPos - startPos;
 			float rotation = Vector2(1, 0).AngleBetween(diff);
-			sprite->Rotate(startTime, startTime, rotation, rotation);
+			sprite->Rotate(startTime, endTime, rotation, rotation);
 
 			float dist = diff.Magnitude();
-			sprite->ScaleVector(startTime, startTime, dist, 1, dist, 1);
+			sprite->ScaleVector(startTime, endTime, dist, 1, dist, 1);
+
+			if (sprite->color != Color(0)){
+				sprite->Color(startTime, startTime, Color(0), Color(0));
+			}
 		}
 	}
 }
@@ -95,7 +114,7 @@ Vector2 StrokeAnimation::parsePoint(XMLElement* element) {
 	float y = std::atof(Y->GetText());
 
 	Vector2 panelCoordinate(x, y);
-	Vector2 osuCoordinate = utility->panelToOsu(panelCoordinate);
+	Vector2 osuCoordinate = utility->panelToOsuPoint(panelCoordinate);
 	return osuCoordinate;
 }
 
@@ -106,8 +125,9 @@ Vector2 StrokeAnimation::parseSize(XMLElement* element) {
 	XMLElement* height = width->NextSiblingElement();
 	float heightValue = std::atof(height->GetText());
 
-	Vector2 size(widthValue, heightValue);
-	return size;
+	Vector2 panelSize(widthValue, heightValue);
+	Vector2 osuSize = utility->panelToOsuSize(panelSize);
+	return osuSize;
 }
 
 Rectangle StrokeAnimation::parseRectangle(XMLElement* element) {

@@ -10,5 +10,6 @@ Sprite* SpritePool::Get(int index) {
 		Sprite* sprite = new Sprite(imagePath, Vector2::Zero, Layer::Foreground, origin);
 		sprites.push_back(sprite);
 	}
+
 	return sprites[index];
 }

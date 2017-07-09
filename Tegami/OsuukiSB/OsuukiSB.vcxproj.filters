@@ -75,9 +75,6 @@
     <ClInclude Include="Vector4.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpritePool.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Origin.cpp">
@@ -129,9 +126,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vector4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpritePool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

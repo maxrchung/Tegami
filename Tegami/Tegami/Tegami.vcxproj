@@ -150,6 +150,7 @@
     <ClCompile Include="PartGen.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SpritePool.cpp" />
     <ClCompile Include="Stroke.cpp" />
     <ClCompile Include="StrokeAnimation.cpp" />
     <ClCompile Include="StrokeManager.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Line.hpp" />
     <ClInclude Include="PartGen.hpp" />
     <ClInclude Include="PoissonGenerator.h" />
+    <ClInclude Include="SpritePool.hpp" />
     <ClInclude Include="Stroke.hpp" />
     <ClInclude Include="StrokeAnimation.hpp" />
     <ClInclude Include="StrokeManager.hpp" />
