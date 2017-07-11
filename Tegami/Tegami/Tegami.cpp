@@ -27,9 +27,10 @@ void main() {
 	DotGenerator *dotGenerator1 = new DotGenerator(utility, numberOfDots, dotScale, dotVelocity, Time("00:14:690").ms, Time("01:38:846").ms);
 	DotGenerator *dotGenerator2 = new DotGenerator(utility, numberOfDots, dotScale, dotVelocity, Time("02:44:300").ms, Time("03:06:118").ms);
 
-	
-
 	//Violin part or something
+
+	//weird bass thing
+
 
 	//// Create a file StoryboardInputPath.txt in Tegami\Tegami\Tegami
 	//// That's kind of a confusing directory, so to be a bit more clear, make sure the text file is placed on the same level as this Tegami.cpp file

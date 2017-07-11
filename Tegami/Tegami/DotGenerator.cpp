@@ -39,6 +39,10 @@ DotGenerator::DotGenerator(Utility *utility, int numberOfDots, float dotScale, f
 		rcolor = rand() % (gcolor + 1);
 		bcolor = rand() % 10 + 245;
 
+		int sign = rand() % 2;
+
+		dotVelocity += (pow(-1, sign)*fmod(rand(), 0.02));
+
 		for (int j = 0; currTime < endTime; j++) {
 
 			currTime = currTime2;
@@ -65,6 +69,7 @@ DotGenerator::DotGenerator(Utility *utility, int numberOfDots, float dotScale, f
 		float startY = dotCoord[i].y*Vector2::ScreenSize.y - Vector2::ScreenSize.y / 2;
 
 		float time = startTime;
+
 
 		DotTrajectory coord = box_collision(startX, startY, angle);
 		timeNext = time + coord.distance / (dotVelocity);
