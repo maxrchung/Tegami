@@ -85,6 +85,7 @@
     </ApplicationDefinition>
     <Compile Include="ColorRectangle.vb" />
     <Compile Include="Frame.vb" />
+    <Compile Include="SimpleRect.vb" />
     <Compile Include="Stroke.vb" />
     <Compile Include="PlayState.vb" />
     <Compile Include="Tool.vb" />

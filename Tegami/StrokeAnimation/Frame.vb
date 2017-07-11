@@ -1,7 +1,10 @@
-﻿Public Class Frame
+﻿Imports System.Xml
+Imports System.Xml.Serialization
+
+Public Class Frame
     Public strokes As New List(Of Stroke)
-    Public colorWhites As New List(Of ColorRectangle)
-    Public colorBlacks As New List(Of ColorRectangle)
+    Public colorRectangles As New List(Of ColorRectangle)
+    <XmlIgnore>
     Public timeSpan As New TimeSpan
 
     Private timeSpanStringProp As String
@@ -14,6 +17,16 @@
         End Set
     End Property
 
+    Public Property MyTimeSpan() As String
+        Get
+            Return timeSpan.ToString()
+        End Get
+        Set(value As String)
+            timeSpan = TimeSpan.Parse(value)
+        End Set
+    End Property
+
+
     Private countProp As Integer
     Public Property Count() As Integer
         Get
@@ -24,10 +37,9 @@
         End Set
     End Property
 
-    Sub New(strokes As List(Of Stroke), colorWhites As List(Of ColorRectangle), colorBlacks As List(Of ColorRectangle), timeSpan As TimeSpan)
+    Sub New(strokes As List(Of Stroke), colorRectangles As List(Of ColorRectangle), timeSpan As TimeSpan)
         Me.strokes = strokes
-        Me.colorWhites = colorWhites
-        Me.colorBlacks = colorBlacks
+        Me.colorRectangles = colorRectangles
         Me.timeSpan = timeSpan
     End Sub
 
@@ -52,44 +64,27 @@
         For Each compare As Stroke In strokes
             If compare.first.Equals(stroke.first) AndAlso compare.second.Equals(stroke.second) Then
                 strokes.Remove(compare)
+                Count -= 1
                 Return
             End If
         Next
-        Count -= 1
     End Sub
 
-    Public Sub AddColorWhite(rectangle As Rectangle)
+    Public Sub AddColorRectangle(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        colorWhites.Add(colorRectangle)
-        count += 1
+        colorRectangles.Add(colorRectangle)
+        Count += 1
     End Sub
 
-    Public Sub RemoveColorWhite(rectangle As Rectangle)
+    Public Sub RemoveColorRectangle(rectangle As Rectangle)
         Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        For Each compare As ColorRectangle In colorWhites
-            If compare.rect.Equals(colorRectangle.rect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
-                colorWhites.Remove(compare)
+        For Each compare As ColorRectangle In colorRectangles
+            If compare.simpleRect.GetRect().Equals(colorRectangle.simpleRect.GetRect()) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
+                colorRectangles.Remove(compare)
+                Count -= 1
                 Return
             End If
         Next
-        count -= 1
-    End Sub
-
-    Public Sub AddColorBlack(rectangle As Rectangle)
-        Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        colorBlacks.Add(colorRectangle)
-        count += 1
-    End Sub
-
-    Public Sub RemoveColorBlack(rectangle As Rectangle)
-        Dim colorRectangle As ColorRectangle = GetColorRectangle(rectangle)
-        For Each compare As ColorRectangle In colorBlacks
-            If compare.rect.Equals(colorRectangle.rect) AndAlso compare.rotation.Equals(colorRectangle.rotation) Then
-                colorWhites.Remove(compare)
-                Return
-            End If
-        Next
-        count -= 1
     End Sub
 
     Private Function GetColorRectangle(rectangle As Rectangle) As ColorRectangle
@@ -100,7 +95,7 @@
         Dim rotateTransform As RotateTransform = rectangle.RenderTransform
         Dim rotation As Double = rotateTransform.Angle
         Dim fill As SolidColorBrush = rectangle.Fill
-        Dim colorRectangle As New ColorRectangle(rect, rotation, fill)
+        Dim colorRectangle As New ColorRectangle(rect, rotation)
 
         Return colorRectangle
     End Function
