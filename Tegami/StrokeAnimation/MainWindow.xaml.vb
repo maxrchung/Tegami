@@ -11,7 +11,7 @@ Class MainWindow
     Dim timeSpanTotal As New TimeSpan
     Dim progressTimer As New DispatcherTimer
 
-    Dim offset As Double = 2222
+    Dim offset As Double = 37753
     Dim songLength As Double = 300000
     Dim bpm As Double = 77
     Dim mpb As Double = 1 / bpm
@@ -22,11 +22,11 @@ Class MainWindow
     Dim currentPoint As New Point
     Dim lineTimer As New DispatcherTimer
     Dim currentLine As New Line
-    Dim lineMaxThreshold As Integer = 25
+    Dim lineMaxThreshold As Integer = 5
     Dim drawThreshold As Integer = 9
     Dim rectTimer As New DispatcherTimer
     Dim currentRect As New Rectangle
-    Dim rotationAngle As Integer = 5
+    Dim rotationAngle As Integer = 4
 
     Dim currentTool As Tool = Tool.Draw
 
