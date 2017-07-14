@@ -34,13 +34,13 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 
 void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames) {
 	for (auto& frame : frames) {
+		float startTime = frame.time.ms;
+		float endTime = startTime + utility->mspf;
+
 		for (int i = 0; i < frame.lines.size(); i++) {
 			Sprite* sprite = linePool->Get(i);
-			float startTime = frame.time.ms;
-			float endTime = startTime + utility->mspf;
 			Vector2 startPos = frame.lines[i].start;
 			Vector2 endPos = frame.lines[i].end;
-
 			sprite->Move(startTime, endTime, startPos, startPos);
 
 			Vector2 diff = endPos - startPos;
@@ -50,8 +50,18 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 			float dist = diff.Magnitude();
 			sprite->ScaleVector(startTime, endTime, dist, 1, dist, 1);
 
+			if (sprite->fade == 0) {
+				sprite->Fade(startTime, endTime, 1, 1);
+			}
+
 			if (sprite->color != Color(0)){
 				sprite->Color(startTime, startTime, Color(0), Color(0));
+			}
+		}
+
+		for (int i = frame.lines.size(); i < linePool->sprites.size(); i++) {
+			if (linePool->sprites[i]->fade != 0) {
+				linePool->sprites[i]->Fade(startTime, startTime, 0, 0);
 			}
 		}
 	}
@@ -84,9 +94,10 @@ std::vector<Frame> StrokeAnimation::parseFrames(std::string path) {
 		}
 
 		XMLElement* TimeSpanString = colorRectangles->NextSiblingElement();
-		Time time(TimeSpanString->GetText());
+		Time globalTime(TimeSpanString->GetText());
+		Time localTime = offsetVideoTime(globalTime);
 
-		Frame newFrame(lines, rectangles, time);
+		Frame newFrame(lines, rectangles, localTime);
 		frames.push_back(newFrame);
 
 		frame = frame->NextSiblingElement();
@@ -114,7 +125,7 @@ Vector2 StrokeAnimation::parsePoint(XMLElement* element) {
 	float y = std::atof(Y->GetText());
 
 	Vector2 panelCoordinate(x, y);
-	Vector2 osuCoordinate = utility->panelToOsuPoint(panelCoordinate);
+	Vector2 osuCoordinate = panelToOsuPoint(panelCoordinate);
 	return osuCoordinate;
 }
 
@@ -126,7 +137,7 @@ Vector2 StrokeAnimation::parseSize(XMLElement* element) {
 	float heightValue = std::atof(height->GetText());
 
 	Vector2 panelSize(widthValue, heightValue);
-	Vector2 osuSize = utility->panelToOsuSize(panelSize);
+	Vector2 osuSize = panelToOsuSize(panelSize);
 	return osuSize;
 }
 
@@ -143,4 +154,26 @@ Rectangle StrokeAnimation::parseRectangle(XMLElement* element) {
 
 	Rectangle rectangle(positionValue, sizeValue, rotationValue);
 	return rectangle;
+}
+
+Vector2 StrokeAnimation::panelToOsuPoint(Vector2 panelCoordinates) {
+	float convertedX = (panelCoordinates.x - panelMidPoint.x + panelPosition.x) * panelToOsuScaling.x;
+	float convertedY = (-panelCoordinates.y + panelMidPoint.y - panelPosition.y) * panelToOsuScaling.y;
+
+	Vector2 osuCoordinate(convertedX, convertedY);
+	return osuCoordinate;
+}
+
+Vector2 StrokeAnimation::panelToOsuSize(Vector2 panelSize) {
+	float convertedWidth = panelSize.x * panelToOsuScaling.x;
+	float convertedHeight = panelSize.y * panelToOsuScaling.y;
+
+	Vector2 osuSize(convertedWidth, convertedHeight);
+	return osuSize;
+}
+
+Time StrokeAnimation::offsetVideoTime(Time globalTime) {
+	float localMilliseconds = globalTime.ms - videoOffset;
+	Time localTime = Time(localMilliseconds);
+	return localTime;
 }

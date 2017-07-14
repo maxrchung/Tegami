@@ -26,5 +26,19 @@ private:
 	Vector2 parseSize(XMLElement* element);
 	Rectangle parseRectangle(XMLElement* element);
 
+	// Offset of actual video
+	float videoOffset = 37753;
+	Time offsetVideoTime(Time globalTime);
+
+	// Referenced from StrokeAnimation project
+	Vector2 panelPosition = Vector2(11, 26);
+	Vector2 panelScreenSize = Vector2(1380, 820);
+	Vector2 panelDrawSize = Vector2(1280, 720);
+	Vector2 panelMidPoint = Vector2(panelScreenSize.x / 2 + panelPosition.x, panelScreenSize.y / 2 + panelPosition.y);
+	Vector2 panelToOsuScaling = Vector2(Vector2::ScreenSize.x / panelDrawSize.x, Vector2::ScreenSize.y / panelDrawSize.y);
+	// Converts a coordiante in panel to osu! - Applies coordinate system/scaling changes
+	Vector2 panelToOsuPoint(Vector2 panelCoordinates);
+	Vector2 panelToOsuSize(Vector2 panelSize);
+
 	Utility* utility;
 };

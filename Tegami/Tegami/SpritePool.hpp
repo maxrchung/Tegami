@@ -9,8 +9,8 @@ class SpritePool {
 public:
 	SpritePool(std::string imagePath, Origin origin);
 	Sprite* Get(int index);
-private:
 	std::vector<Sprite*> sprites;
+private:
 	std::string imagePath;
 	Origin origin;
 };
