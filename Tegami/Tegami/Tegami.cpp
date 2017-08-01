@@ -27,7 +27,7 @@ void main() {
 	//DotGenerator *dotGenerator1 = new DotGenerator(utility, numberOfDots, dotScale, dotVelocity, Time("00:14:690").ms, Time("01:38:846").ms);
 	//DotGenerator *dotGenerator2 = new DotGenerator(utility, numberOfDots, dotScale, dotVelocity, Time("02:44:300").ms, Time("03:06:118").ms);
 
-	std::string filePath("X:\\Videos\\Tegami\\tegami.sa");
+	std::string filePath(R"(C:\Users\Wax Chug da Gwad\Desktop\Tegami\Tegami\Tegami\StrokeAnimation\tegami.sa)");
 	StrokeAnimation strokeAnimation(utility, filePath);
 	
 	//Violin part or something
