@@ -3,6 +3,7 @@
 #include "Storyboard.hpp"
 #include "StrokeAnimation.hpp"
 #include "Time.hpp"
+#include "DotWave.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -16,19 +17,31 @@ void main() {
 	srand(time(NULL));
 
 	Utility *utility = new Utility();
+	Wave *wave = new Wave(100, Time("00:00:000").ms, Time("01:00:000").ms);
 
 	Sprite* bg = new Sprite("sprite/whiteblock.png", Vector2::Zero, Layer::Background);
 	bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(150), Color(150));
 	bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
+	
+	std::vector<Wave> *wave1;
+	
+	wave1->push_back(*wave);
+
+	//Wave killme;
+	//killme.timeStart = Time("00:00:000").ms;
+	//killme.timeEnd = Time("01:00:000").ms;
+	//killme.velocity = 100;
+	//wave1->push_back(&killme);
+
+	DotWave *waveshit = new DotWave(utility, wave1, 10, 30, 100, Time("00:00:000").ms, Time("01:00:000").ms, 10,100, 10);
 
 	//int numberOfDots = 25;
 	//float dotVelocity = 0.1;
 	//float dotScale = 2;
 	//DotGenerator *dotGenerator1 = new DotGenerator(utility, numberOfDots, dotScale, dotVelocity, Time("00:14:690").ms, Time("01:38:846").ms);
 	//DotGenerator *dotGenerator2 = new DotGenerator(utility, numberOfDots, dotScale, dotVelocity, Time("02:44:300").ms, Time("03:06:118").ms);
-
-	std::string filePath(R"(C:\Users\Wax Chug da Gwad\Desktop\Tegami\Tegami\Tegami\StrokeAnimation\tegami.sa)");
-	StrokeAnimation strokeAnimation(utility, filePath);
+	//std::string filePath(R"(C:\Users\Wax Chug da Gwad\Desktop\Tegami\Tegami\Tegami\StrokeAnimation\tegami.sa)");
+	//StrokeAnimation strokeAnimation(utility, filePath);
 	
 	//Violin part or something
 

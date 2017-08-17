@@ -54,6 +54,12 @@
     <ClCompile Include="SpritePool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DotWave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="StoryboardInputPath.txt">
@@ -98,6 +104,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpritePool.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DotWave.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wave.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
