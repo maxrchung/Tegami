@@ -17,23 +17,26 @@ void main() {
 	srand(time(NULL));
 
 	Utility *utility = new Utility();
-	Wave *wave = new Wave(100, Time("00:00:000").ms, Time("01:00:000").ms);
 
 	Sprite* bg = new Sprite("sprite/whiteblock.png", Vector2::Zero, Layer::Background);
 	bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(150), Color(150));
 	bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
 	
-	std::vector<Wave> *wave1;
-	
-	wave1->push_back(*wave);
 
-	//Wave killme;
-	//killme.timeStart = Time("00:00:000").ms;
-	//killme.timeEnd = Time("01:00:000").ms;
-	//killme.velocity = 100;
-	//wave1->push_back(&killme);
 
-	DotWave *waveshit = new DotWave(utility, wave1, 10, 30, 100, Time("00:00:000").ms, Time("01:00:000").ms, 10,100, 10);
+	float velocity = 0.01;
+	Wave wave = Wave(velocity, Time("00:00:000").ms, Time("01:00:000").ms);
+	std::vector<Wave> wave1;
+	wave1.push_back(wave);
+
+	float numberOfDots = 10;
+	float wavelength = 100;
+	float amplitude = 30;
+	int startX = 10;
+	int endX = 1000;
+	int lineY = 100;
+
+	DotWave *waveshit = new DotWave(utility, wave1, numberOfDots, amplitude, wavelength, Time("00:00:000").ms, Time("01:00:000").ms, startX, endX, lineY);
 
 	//int numberOfDots = 25;
 	//float dotVelocity = 0.1;
