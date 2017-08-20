@@ -421,13 +421,21 @@ Class MainWindow
 
                     ' Straight vertical lines (cannot use projection)
                     If line.X1 = line.X2 Then
-                        For Each diff In diffs
-                            If Math.Abs(diff.X) < lineMaxThreshold Then
-                                currentFrame.RemoveLine(line)
-                                Lines.Children.Remove(line)
-                                Return
-                            End If
-                        Next
+                        Dim topY As Double
+                        Dim botY As Double
+                        If line.Y1 < line.Y2 Then
+                            topY = line.Y1
+                            botY = line.Y2
+                        Else
+                            topY = line.Y2
+                            botY = line.Y1
+                        End If
+
+                        If currentPoint.Y > topY AndAlso currentPoint.Y < botY AndAlso Math.Abs(currentPoint.X - line.X1) < lineMaxThreshold Then
+                            currentFrame.RemoveLine(line)
+                            Lines.Children.Remove(line)
+                            Return
+                        End If
                     End If
 
                     ' Within bounds
