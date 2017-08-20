@@ -21,7 +21,7 @@ void Sprite::Move(int startTime, int endTime, float startX, float startY, float 
 	Vector2 offsetEnd = Vector2::Midpoint + Vector2(endX, -endY);
 
 	std::ostringstream command;
-	command << "_M," << easing << "," << startTime << "," << endTime << "," << offsetStart.x << "," << offsetStart.y << "," << offsetEnd.x << "," << offsetEnd.y;
+	command << "_M," << easing << "," << startTime << "," << endTime << "," << (int)offsetStart.x << "," << (int)offsetStart.y << "," << (int)offsetEnd.x << "," << (int)offsetEnd.y;
 	commands.push_back(command.str());
 }
 
@@ -36,8 +36,8 @@ void Sprite::MoveX(int startTime, int endTime, float startX, float endX, Easing 
 	}
 
 	position.x = endX;
-	float offsetStart = Vector2::Midpoint.x + startX;
-	float offsetEnd = Vector2::Midpoint.x + endX;
+	int offsetStart = Vector2::Midpoint.x + startX;
+	int offsetEnd = Vector2::Midpoint.x + endX;
 
 	std::ostringstream command;
 	command << "_MX," << easing << "," << startTime << "," << endTime << "," << offsetStart << "," << offsetEnd;
@@ -51,8 +51,8 @@ void Sprite::MoveY(int startTime, int endTime, float startY, float endY, Easing 
 	}
 
 	position.y = endY;
-	float offsetStart = Vector2::Midpoint.y + startY;
-	float offsetEnd = Vector2::Midpoint.y + endY;
+	int offsetStart = Vector2::Midpoint.y + startY;
+	int offsetEnd = Vector2::Midpoint.y + endY;
 
 	std::ostringstream command;
 	command << "_MY," << easing << "," << startTime << "," << endTime << "," << offsetStart << "," << offsetEnd;
