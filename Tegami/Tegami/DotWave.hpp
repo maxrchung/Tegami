@@ -10,5 +10,8 @@
 class DotWave{
 public:
 	DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, float startX, float endX, float lineY);
+
+private:
+
 };
 
