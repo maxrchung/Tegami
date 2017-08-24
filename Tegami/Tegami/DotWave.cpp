@@ -13,12 +13,9 @@ DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, flo
 	float timeElapse;
 
 	std::vector<int> waveCheck;
-
+	float startTime = wave[0].timeStart;
 
 	for (int i = 0; i < numberOfDots; i++) {
-
-
-		float startTime = wave[0].timeStart;
 		Sprite *dot = new Sprite("sprite/wavedot.png", Vector2(startX + (i*(abs(endX - startX) / numberOfDots)), lineY), Layer::Foreground, Origin::Centre);
 		dot->Fade(startTime, startTime + utility->quarterTimeStep, 0, 1);
 
