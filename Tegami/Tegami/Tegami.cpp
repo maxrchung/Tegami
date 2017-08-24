@@ -51,10 +51,8 @@ void main() {
 	std::vector<Wave> wave4{
 		Wave(100, 200, 20, Time("03:09:235").ms, Time("03:43:521").ms, Color(0, 0, 255), 0.5),
 		Wave(100, 200, 20, Time("03:43:521").ms, Time("03:46:648").ms, Color(0, 0, 255), 0.5),
-		Wave(100, 200, 20, Time("03:46:648").ms, Time("03:55 : 989").ms, Color(0, 0, 255), 0.5)
+		Wave(100, 200, 20, Time("03:46:648").ms, Time("03:55:989").ms, Color(0, 0, 255), 0.5)
 	};
-	//3:55:989 
-
 	DotWave *waves4 = new DotWave(utility, wave4, numberOfDots, startX, endX, lineY);
 
 	//int numberOfDots = 25;

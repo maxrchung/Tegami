@@ -9,17 +9,16 @@
 
 DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, float startX, float endX, float lineY) {
 	std::vector<Sprite*> waves;
-	int i = 0;
-	float currTime = wave[0].timeStart;
 	float endTime = wave.back().timeEnd;
 	float timeElapse;
 
 	std::vector<int> waveCheck;
 
-	float startTime = wave[0].timeStart;
 
-	for (i = 0; i < numberOfDots; i++) {
+	for (int i = 0; i < numberOfDots; i++) {
 
+
+		float startTime = wave[0].timeStart;
 		Sprite *dot = new Sprite("sprite/wavedot.png", Vector2(startX + (i*(abs(endX - startX) / numberOfDots)), lineY), Layer::Foreground, Origin::Centre);
 		dot->Fade(startTime, startTime + utility->quarterTimeStep, 0, 1);
 
@@ -34,13 +33,17 @@ DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, flo
 
 		float offsetValue;
 
-		currTime = startTime;
+		float currTime = startTime;
 
 		for (int j = 0; j < wave.size(); j++) {
+
 			int a = 0;
+			float initialTime, finalTime;
 
 			topPosition = lineY + wave[j].amplitude;
 			bottomPosition = lineY - wave[j].amplitude;
+
+			std::vector<float> posVec {topPosition, bottomPosition};
 
 			dot->Color(wave[j].timeStart, wave[j].timeEnd, wave[j].color, wave[j].color);
 			dot->Scale(wave[j].timeStart, wave[j].timeEnd, wave[j].scale, wave[j].scale);
@@ -49,18 +52,12 @@ DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, flo
 
 			timeElapse = (wave[j].wavelength / wave[j].velocity) / 4;
 
-			while (((currTime < wave[j].timeEnd) && (i == 0)) || ((i != 0) && (a < waveCheck[j]))) { //the order of ((i != 0) && (c < waveCheck[j])) is important, don't change
+			while (((currTime < wave[j].timeEnd) && (!i)) || ((i) && (a < waveCheck[j]))) { //the order of ((i) && (c < waveCheck[j])) is important, don't change
+				
 				initialPosition = finalPosition;
+				finalPosition = posVec[directionFlag];
 
-				if (directionFlag == 1) { //down
-					finalPosition = bottomPosition;
-					directionFlag = 0;
-				}
-				else if (directionFlag == 0) { //up
-					finalPosition = topPosition;
-					directionFlag = 1;
-				}
-
+				directionFlag = !directionFlag;
 				initialTime = currTime;
 				currTime += (2 * timeElapse);
 				finalTime = currTime;
