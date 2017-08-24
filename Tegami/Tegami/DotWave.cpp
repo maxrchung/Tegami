@@ -50,7 +50,9 @@ DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, flo
 		}
 
 		for (j = 0; j < wave.size(); j++) {
-			
+			dot->Color(wave[j].timeStart, wave[j].timeEnd, wave[j].color, wave[j].color);
+			dot->Scale(wave[j].timeStart, wave[j].timeEnd, wave[j].scale, wave[j].scale);
+
 			topPosition = lineY + wave[j].amplitude;
 			bottomPosition = lineY - wave[j].amplitude;
 
