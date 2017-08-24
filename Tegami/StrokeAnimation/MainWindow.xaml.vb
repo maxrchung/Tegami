@@ -409,16 +409,37 @@ Class MainWindow
             If currentTool = Tool.Draw Then
                 For index As Integer = Lines.Children.Count - 1 To 0 Step -1
                     Dim line As Line = Lines.Children(index)
-                    ' Initial check with a single point
-                    Dim diff As Vector = currentPoint - New Point(line.X1, line.Y1)
-                    If diff.Length < lineMaxThreshold Then
-                        currentFrame.RemoveLine(line)
-                        Lines.Children.Remove(line)
-                        Return
+                    ' Initial check with points
+                    Dim diffs As Vector() = {currentPoint - New Point(line.X1, line.Y1), currentPoint - New Point(line.X2, line.Y2)}
+                    For Each diff In diffs
+                        If diff.Length < lineMaxThreshold Then
+                            currentFrame.RemoveLine(line)
+                            Lines.Children.Remove(line)
+                            Return
+                        End If
+                    Next
+
+                    ' Straight vertical lines (cannot use projection)
+                    If line.X1 = line.X2 Then
+                        Dim topY As Double
+                        Dim botY As Double
+                        If line.Y1 < line.Y2 Then
+                            topY = line.Y1
+                            botY = line.Y2
+                        Else
+                            topY = line.Y2
+                            botY = line.Y1
+                        End If
+
+                        If currentPoint.Y > topY AndAlso currentPoint.Y < botY AndAlso Math.Abs(currentPoint.X - line.X1) < lineMaxThreshold Then
+                            currentFrame.RemoveLine(line)
+                            Lines.Children.Remove(line)
+                            Return
+                        End If
                     End If
 
-                    Dim projected As Point = Project(New Point(line.X1, line.Y1), New Point(line.X2, line.Y2), currentPoint)
                     ' Within bounds
+                    Dim projected As Point = Project(New Point(line.X1, line.Y1), New Point(line.X2, line.Y2), currentPoint)
                     If (projected.X < line.X1 AndAlso projected.X < line.X2) OrElse
                        (projected.X > line.X1 AndAlso projected.X > line.X2) OrElse
                        (projected.Y > line.Y1 AndAlso projected.Y > line.Y2) OrElse
