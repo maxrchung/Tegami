@@ -60,6 +60,9 @@
     <ClCompile Include="Wave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="StoryboardInputPath.txt">
@@ -110,6 +113,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wave.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

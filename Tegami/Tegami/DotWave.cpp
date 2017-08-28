@@ -58,6 +58,7 @@ DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, flo
 				initialTime = currTime;
 				currTime += (2 * timeElapse);
 				finalTime = currTime;
+
 				dot->MoveY(initialTime, finalTime, initialPosition, finalPosition, Easing::SineInOut);
 				a++;
 			} //end of while loop1

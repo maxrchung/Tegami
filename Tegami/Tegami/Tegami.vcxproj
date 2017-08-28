@@ -156,6 +156,7 @@
     <ClCompile Include="StrokeAnimation.cpp" />
     <ClCompile Include="StrokeManager.cpp" />
     <ClCompile Include="Tegami.cpp" />
+    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="Wave.cpp" />
   </ItemGroup>
@@ -176,6 +177,7 @@
     <ClInclude Include="Stroke.hpp" />
     <ClInclude Include="StrokeAnimation.hpp" />
     <ClInclude Include="StrokeManager.hpp" />
+    <ClInclude Include="Tree.hpp" />
     <ClInclude Include="Utility.hpp" />
     <ClInclude Include="Wave.hpp" />
   </ItemGroup>
