@@ -24,7 +24,7 @@ void main() {
 	bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(0,0,0), Color(0,0,0));
 	bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
 
-	Tree *tree = new Tree(utility, Vector2::Vector2(0, -100), 0, 0, Time("01:00:000").ms, 0.1, 8);
+	Tree *tree = new Tree(utility, Vector2::Vector2(0, -100), 0, PI/5, 0, Time("01:00:000").ms, 0.2, 0.8, 8, Color::Color(255,255,255), Color::Color(255,170,180));
 
 	//int numberOfDots = 20;
 	//int startX = -50;
