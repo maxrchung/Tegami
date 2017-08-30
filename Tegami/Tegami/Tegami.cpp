@@ -65,12 +65,21 @@ void main() {
 	DotGenerator *dotGenerator2 = new DotGenerator(utility, numberOfDots2, dotScale, dotVelocity, Time("02:44:300").ms, Time("03:06:118").ms);
 
 
-	std::string filePath(R"(C:\Users\Royce\Documents\Tegami\Tegami\Tegami\StrokeAnimation\tegami.sa)");
-	StrokeAnimation strokeAnimation(utility, filePath);
+	// Create a file StrokeAnimationInputPath.txt in Tegami\Tegami\Tegami
+	// Make sure the text file is placed on the same level as this Tegami.cpp file
+	// In the first line of the file, put the target SA file path, e.g. C:\Users\Wax Chug da Gwad\Desktop\Tegami\Tegami\Tegami\StrokeAnimation\tegami.sa
+	// Make sure it's the absolute path and don't worry about escape characters
+	std::ifstream saFile("StrokeAnimationInputPath.txt");
+	std::string saPath;
+	std::getline(saFile, saPath);
+	StrokeAnimation strokeAnimation(utility, saPath);
 	
-	//This shit's for writing to the storyboard file
-	std::ifstream file("storyboardinputpath.txt");
-	std::string path;
-	std::getline(file, path);
-	Storyboard::Instance()->Write(path);
+	// Create a file named StoryboardInputPath.txt in Tegami\Tegami\Tegami
+	// That's kind of a confusing directory, so to be a bit more clear, make sure the text file is placed on the same level as this Tegami.cpp file
+	// In the first line of the file, put the target storyboard path, e.g. C:\Users\Wax Chug da Gwad\AppData\Local\osu!\Songs\696969 Nekomata Master - Tegami\Nekomata Master - Tegami (niseboi).osb
+	// Make sure it's the absolute path and don't worry about escape characters
+	std::ifstream sbFile("StoryboardInputPath.txt");
+	std::string sbPath;
+	std::getline(sbFile, sbPath);
+	Storyboard::Instance()->Write(sbPath);
 }
