@@ -28,7 +28,6 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 		for (int i = 0; i < frame.rectangles.size(); i++) {
 			Sprite* sprite = rectanglePool->Get(i);
 
-
 			Vector2 pos = frame.rectangles[i].center;
 			Vector2 size = frame.rectangles[i].size;
 			float rotation = frame.rectangles[i].rotation;
