@@ -11,4 +11,5 @@ Public Module Commands
     Public ReadOnly Right As New RoutedUICommand("Right", "Right", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Right, ModifierKeys.None)}))
     Public ReadOnly Up As New RoutedUICommand("Up", "Up", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Up, ModifierKeys.None)}))
     Public ReadOnly Down As New RoutedUICommand("Down", "Down", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Down, ModifierKeys.None)}))
+    Public ReadOnly Delete As New RoutedUICommand("Delete", "Delete", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Delete, ModifierKeys.None)}))
 End Module

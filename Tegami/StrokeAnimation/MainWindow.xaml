@@ -18,6 +18,7 @@
         <CommandBinding Command="{x:Static local:Commands.Right}" Executed="NextFrame"/>
         <CommandBinding Command="{x:Static local:Commands.Up}" Executed="PreviousFrame"/>
         <CommandBinding Command="{x:Static local:Commands.Down}" Executed="NextFrame"/>
+        <CommandBinding Command="{x:Static local:Commands.Delete}" Executed="DeleteFrame"/>
     </Window.CommandBindings>
 
     <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Width="1600" Height="886" OpacityMask="Black">
