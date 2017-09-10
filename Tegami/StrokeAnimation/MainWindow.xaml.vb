@@ -23,7 +23,7 @@ Class MainWindow
     Dim lineTimer As New DispatcherTimer
     Dim currentLine As New Line
     Dim lineMaxThreshold As Integer = 5
-    Dim drawThreshold As Integer = 9
+    Dim drawThreshold As Integer = 4
     Dim rectTimer As New DispatcherTimer
     Dim currentRect As New Rectangle
     Dim rotationAngle As Integer = 4
@@ -168,17 +168,19 @@ Class MainWindow
 
 #Region "File"
     Private Sub New_Click(sender As Object, e As RoutedEventArgs)
-        Lines.Children.Clear()
-        Colors.Children.Clear()
+        If MessageBox.Show("Start new StrokeAnimation project?", "New", MessageBoxButton.OKCancel) = MessageBoxResult.OK Then
+            Lines.Children.Clear()
+            Colors.Children.Clear()
 
-        For Each frame In frames
-            If frame.Count > 0 Then
-                frame.strokes.Clear()
-                frame.colorRectangles.Clear()
-                frame.Count = 0
-            End If
-        Next
-        FramesView.Items.Refresh()
+            For Each frame In frames
+                If frame.Count > 0 Then
+                    frame.strokes.Clear()
+                    frame.colorRectangles.Clear()
+                    frame.Count = 0
+                End If
+            Next
+            FramesView.Items.Refresh()
+        End If
     End Sub
 
     Private Sub Import_Click(sender As Object, e As RoutedEventArgs)
@@ -576,6 +578,19 @@ Class MainWindow
         If nextIndex < frames.Count Then
             LoadFrame(frames(nextIndex))
             Player.Position = frames(nextIndex).timeSpan
+        End If
+    End Sub
+
+    Private Sub DeleteFrame(sender As Object, e As RoutedEventArgs)
+        If MessageBox.Show("Delete current frame lines and rectangles?", "Delete", MessageBoxButton.OKCancel) = MessageBoxResult.OK Then
+            Lines.Children.Clear()
+            Colors.Children.Clear()
+
+            currentFrame.strokes.Clear()
+            currentFrame.colorRectangles.Clear()
+            currentFrame.Count = 0
+
+            FramesView.Items.Refresh()
         End If
     End Sub
 #End Region
