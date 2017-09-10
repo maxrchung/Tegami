@@ -23,7 +23,7 @@ Class MainWindow
     Dim lineTimer As New DispatcherTimer
     Dim currentLine As New Line
     Dim lineMaxThreshold As Integer = 5
-    Dim drawThreshold As Integer = 9
+    Dim drawThreshold As Integer = 4
     Dim rectTimer As New DispatcherTimer
     Dim currentRect As New Rectangle
     Dim rotationAngle As Integer = 4
