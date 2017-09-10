@@ -20,11 +20,11 @@ void main() {
 	Utility *utility = new Utility();
 
 
-	Sprite* bg = new Sprite("sprite/whiteblock.png", Vector2::Zero, Layer::Background);
-	bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(0,0,0), Color(0,0,0));
-	bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
+	//Sprite* bg = new Sprite("sprite/whiteblock.png", Vector2::Zero, Layer::Background);
+	//bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(0,0,0), Color(0,0,0));
+	//bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
 
-	Tree *tree = new Tree(utility, Vector2::Vector2(0, -100), 0, PI/5, 0, Time("01:00:000").ms, 0.2, 0.8, 8, Color::Color(255,255,255), Color::Color(255,170,180));
+	//Tree *tree = new Tree(utility, Vector2::Vector2(0, -100), 0, PI/5, 0, Time("01:00:000").ms, 0.2, 0.8, 8, Color::Color(255,255,255), Color::Color(255,170,180));
 
 	//int numberOfDots = 20;
 	//int startX = -50;
@@ -57,12 +57,12 @@ void main() {
 	//};
 	//DotWave *waves4 = new DotWave(utility, wave4, numberOfDots, startX, endX, lineY);
 
-	//
-	//int numberOfDots2 = 25;
-	//float dotVelocity = 0.1;
-	//float dotScale = 2;
-	//DotGenerator *dotGenerator1 = new DotGenerator(utility, numberOfDots2, dotScale, dotVelocity, Time("00:14:690").ms, Time("01:38:846").ms);
-	//DotGenerator *dotGenerator2 = new DotGenerator(utility, numberOfDots2, dotScale, dotVelocity, Time("02:44:300").ms, Time("03:06:118").ms);
+	
+	int numberOfDots2 = 25;
+	float dotVelocity = 0.1;
+	float dotScale = 2;
+	DotGenerator *dotGenerator1 = new DotGenerator(utility, numberOfDots2, dotScale, dotVelocity, Time("00:14:690").ms, Time("01:38:846").ms);
+	DotGenerator *dotGenerator2 = new DotGenerator(utility, numberOfDots2, dotScale, dotVelocity, Time("02:44:300").ms, Time("03:06:118").ms);
 
 
 	//std::string filePath(R"(C:\Users\Royce\Documents\Tegami\Tegami\Tegami\StrokeAnimation\tegami.sa)");
