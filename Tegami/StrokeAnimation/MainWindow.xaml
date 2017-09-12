@@ -21,7 +21,7 @@
         <CommandBinding Command="{x:Static local:Commands.Delete}" Executed="DeleteFrame"/>
     </Window.CommandBindings>
 
-    <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Width="1600" Height="886" OpacityMask="Black">
+    <Canvas x:Name="Workspace" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1600" Height="886" OpacityMask="Black" Focusable="True">
         <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="76" Canvas.Left="61" ScrubbingEnabled="True" OpacityMask="Black"/>
 
         <Canvas x:Name="PreviousPanel" Height="820" Canvas.Top="26" Width="1380" Background="Transparent" Canvas.Left="11">
@@ -34,8 +34,7 @@
         <Canvas x:Name="Panel" Height="820" Canvas.Top="26" Width="1380" Loaded="Panel_Loaded" Background="Transparent" MouseWheel="Panel_MouseWheel" Canvas.Left="11">
             <Canvas x:Name="Colors" Height="820" Width="1380" Background="Transparent">
             </Canvas>
-            <Canvas x:Name="Lines" Height="820" Width="1380" Background="Transparent">
-            </Canvas>
+            <Canvas x:Name="Lines" Height="820" Width="1380" Background="Transparent"/>
         </Canvas>
 
         <ProgressBar x:Name="Progress" Height="26" Canvas.Left="10" Canvas.Top="850" Width="1381" Maximum="1" Loaded="Progress_Loaded"/>
@@ -43,7 +42,7 @@
         <Label Content="/" Canvas.Left="1486" Canvas.Top="845" FontSize="18"/>
         <Label x:Name="TotalTime" Content="00:00:000" Canvas.Left="1504" Canvas.Top="845" FontSize="18"/>
 
-        <ListBox x:Name="FramesView" Height="651" Canvas.Left="1399" Canvas.Top="189" Width="195" Focusable="False" PreviewMouseDown="FramesView_PreviewMouseDown">
+        <ListBox x:Name="FramesView" Height="632" Canvas.Left="1399" Canvas.Top="208" Width="195" Focusable="False" PreviewMouseDown="FramesView_PreviewMouseDown">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Focusable" Value="False"/>
@@ -99,6 +98,7 @@
                 <MenuItem x:Name="Save" Header="Save" Command="{x:Static local:Commands.Save}" Focusable="False" />
             </MenuItem>
         </Menu>
-
+        <TextBlock Canvas.Left="1419" TextWrapping="Wrap" Text="Move" Canvas.Top="185"/>
+        <TextBox x:Name="MoveAmount" Height="18" Canvas.Left="1474" TextWrapping="Wrap" Text="5" Canvas.Top="185" Width="120" VerticalContentAlignment="Center" KeyDown="MoveAmount_KeyDown"/>
     </Canvas>
 </Window>

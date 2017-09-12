@@ -595,4 +595,9 @@ Class MainWindow
     End Sub
 #End Region
 
+    Private Sub MoveAmount_KeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Enter Then
+            Workspace.Focus()
+        End If
+    End Sub
 End Class
