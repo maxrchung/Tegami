@@ -62,7 +62,7 @@ DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, flo
 				dot->MoveY(initialTime, finalTime, initialPosition, finalPosition, Easing::SineInOut);
 				a++;
 			} //end of while loop1
-			if (i == 0) {
+			if (!i) {
 				waveCheck.push_back(a);
 			}
 		} //end of j loop
