@@ -1,5 +1,4 @@
-// ConsoleApplication1.cpp : Defines the entry point for the console application.
-//
+// sbc.cpp : Defines the entry point for the console application.
 
 #include "stdafx.h"
 #include <stdio.h>
@@ -7,7 +6,7 @@
 
 //#define _CRT_SECURE_NO_WARNINGS
 
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
 
 	//argv[0] = storyboardCombine                                                                                        
 	//argv[1] = target combined file                                                                                     
