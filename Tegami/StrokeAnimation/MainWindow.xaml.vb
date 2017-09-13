@@ -595,9 +595,46 @@ Class MainWindow
     End Sub
 #End Region
 
+#Region "Move"
     Private Sub MoveAmount_KeyDown(sender As Object, e As KeyEventArgs)
         If e.Key = Key.Enter Then
             Workspace.Focus()
         End If
     End Sub
+
+    Private Sub MoveLeft(sender As Object, e As RoutedEventArgs)
+        MoveFrame(-MoveAmount.Text, 0)
+    End Sub
+
+    Private Sub MoveUp(sender As Object, e As RoutedEventArgs)
+        MoveFrame(0, -MoveAmount.Text)
+    End Sub
+
+    Private Sub MoveRight(sender As Object, e As RoutedEventArgs)
+        MoveFrame(MoveAmount.Text, 0)
+    End Sub
+
+    Private Sub MoveDown(sender As Object, e As RoutedEventArgs)
+        MoveFrame(0, MoveAmount.Text)
+    End Sub
+
+    Private Sub MoveFrame(x As Integer, y As Integer)
+        For Each line In currentFrame.strokes
+            line.first.X += x
+            line.first.Y += y
+
+            line.second.X += x
+            line.second.Y += y
+        Next
+
+        For Each rect In currentFrame.colorRectangles
+            rect.simpleRect.position.X += x
+            rect.simpleRect.position.Y += y
+        Next
+
+        Dim tempFrame = currentFrame
+        currentFrame = Nothing
+        LoadFrame(tempFrame)
+    End Sub
+#End Region
 End Class

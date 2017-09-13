@@ -14,17 +14,22 @@
         <CommandBinding Command="{x:Static local:Commands.Save}" Executed="Save_Click"/>
         <CommandBinding Command="{x:Static local:Commands.PlayPause}" Executed="Player_PlayPause"/>
         <CommandBinding Command="{x:Static local:Commands.Draw}" Executed="Draw_Click"/>
+        <CommandBinding Command="{x:Static local:Commands.ColorWhite}" Executed="ColorWhite_Click"/>
         <CommandBinding Command="{x:Static local:Commands.Left}" Executed="PreviousFrame"/>
         <CommandBinding Command="{x:Static local:Commands.Right}" Executed="NextFrame"/>
         <CommandBinding Command="{x:Static local:Commands.Up}" Executed="PreviousFrame"/>
         <CommandBinding Command="{x:Static local:Commands.Down}" Executed="NextFrame"/>
         <CommandBinding Command="{x:Static local:Commands.Delete}" Executed="DeleteFrame"/>
+        <CommandBinding Command="{x:Static local:Commands.MoveLeft}" Executed="MoveLeft"/>
+        <CommandBinding Command="{x:Static local:Commands.MoveUp}" Executed="MoveUp"/>
+        <CommandBinding Command="{x:Static local:Commands.MoveRight}" Executed="MoveRight"/>
+        <CommandBinding Command="{x:Static local:Commands.MoveDown}" Executed="MoveDown"/>
     </Window.CommandBindings>
 
     <Canvas x:Name="Workspace" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1600" Height="886" OpacityMask="Black" Focusable="True">
         <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="76" Canvas.Left="61" ScrubbingEnabled="True" OpacityMask="Black"/>
 
-        <Canvas x:Name="PreviousPanel" Height="820" Canvas.Top="26" Width="1380" Background="Transparent" Canvas.Left="11">
+        <Canvas x:Name="PreviousPanel" Height="820" Canvas.Top="26" Width="1380" Background="Transparent" Canvas.Left="11" Visibility="Hidden" IsEnabled="False">
             <Canvas x:Name="PreviousColors" Height="820" Width="1380" Background="Transparent">
             </Canvas>
             <Canvas x:Name="PreviousLines" Height="820" Width="1380" Background="Transparent">
@@ -63,17 +68,17 @@
         <Slider x:Name="WhiteOpacity" Canvas.Left="1469" Canvas.Top="166" Width="125" Maximum="1" ValueChanged="ColorsOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
         <CheckBox x:Name="WhiteDisplay" Content="Colors" Canvas.Left="1399" Canvas.Top="166" Unchecked="ColorsDisplay_Unchecked" Checked="ColorsDisplay_Checked" Focusable="False" IsChecked="True"/>
 
-        <Slider x:Name="VideoOpacity" Canvas.Left="1469" Canvas.Top="86" Width="125" Maximum="1" ValueChanged="VideoOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
+        <Slider x:Name="VideoOpacity" Canvas.Left="1469" Canvas.Top="86" Width="125" Maximum="1" ValueChanged="VideoOpacity_ValueChanged" Value="0.5" SmallChange="0" LargeChange="0" Focusable="False"/>
         <CheckBox x:Name="VideoDisplay" Content="Video" Canvas.Left="1399" Canvas.Top="86" Unchecked="VideoDisplay_Unchecked" Checked="VideoDisplay_Checked" IsChecked="True" Focusable="False"/>
 
         <Slider x:Name="LinesOpacity" Canvas.Left="1469" Canvas.Top="126" Width="125" Maximum="1" ValueChanged="LinesOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
         <CheckBox x:Name="LinesDisplay" Content="Lines" Canvas.Left="1399" Canvas.Top="126" Unchecked="LinesDisplay_Unchecked" Checked="LinesDisplay_Checked" Focusable="False" IsChecked="True"/>
 
-        <Slider x:Name="PreviousOpacity" Canvas.Left="1469" Canvas.Top="146" Width="125" Maximum="1" ValueChanged="PreviousOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
-        <CheckBox x:Name="PreviousDisplay" Content="Previous" Canvas.Left="1399" Canvas.Top="146" Unchecked="PreviousDisplay_Unchecked" Checked="PreviousDisplay_Checked" Focusable="False" IsChecked="True"/>
+        <Slider x:Name="PreviousOpacity" Canvas.Left="1469" Canvas.Top="146" Width="125" Maximum="1" ValueChanged="PreviousOpacity_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False" IsEnabled="False"/>
+        <CheckBox x:Name="PreviousDisplay" Content="Previous" Canvas.Left="1399" Canvas.Top="146" Unchecked="PreviousDisplay_Unchecked" Checked="PreviousDisplay_Checked" Focusable="False"/>
 
-        <Slider x:Name="VolumeLevel" Canvas.Left="1469" Canvas.Top="106" Width="125" Maximum="1" ValueChanged="VolumeLevel_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False"/>
-        <CheckBox x:Name="Volume" Content="Volume" Canvas.Left="1399" Canvas.Top="106" Unchecked="Volume_Unchecked" Checked="Volume_Checked" Focusable="False" IsChecked="True"/>
+        <Slider x:Name="VolumeLevel" Canvas.Left="1469" Canvas.Top="106" Width="125" Maximum="1" ValueChanged="VolumeLevel_ValueChanged" Value="1" SmallChange="0" LargeChange="0" Focusable="False" IsEnabled="False"/>
+        <CheckBox x:Name="Volume" Content="Volume" Canvas.Left="1399" Canvas.Top="106" Unchecked="Volume_Unchecked" Checked="Volume_Checked" Focusable="False"/>
 
         <GroupBox Header="Tools" Height="55" Canvas.Left="1399" Canvas.Top="25" Width="195" BorderThickness="1">
             <Canvas>
