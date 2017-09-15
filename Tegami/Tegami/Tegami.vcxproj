@@ -166,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="DotWave.hpp" />
+    <ClInclude Include="Effects.hpp" />
     <ClInclude Include="Frame.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="DotGenerator.hpp" />

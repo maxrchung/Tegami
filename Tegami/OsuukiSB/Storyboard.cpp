@@ -15,8 +15,14 @@ Storyboard* Storyboard::Instance() {
 	return instance;
 }
 
+void Storyboard::Clear() {
+	for (int i = 0; i < Layer::LayerCount; ++i) {
+		instance->sprites.push_back(std::vector<Sprite*>());
+	}
+}
+
 void Storyboard::Write(const std::string& destinationPath) {
-	std::cout << destinationPath << std::endl;
+	std::cout << "Writing to: " << destinationPath << std::endl;
 	std::ofstream outputFile;
 	outputFile.open(destinationPath);
 

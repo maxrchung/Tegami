@@ -8,6 +8,7 @@
 class Storyboard {
 public:
 	static Storyboard* Instance();
+	void Clear();
 	void Write(const std::string& destinationPath = "");
 	// Represents each layer of sprites
 	std::vector<std::vector<Sprite*>> sprites;
