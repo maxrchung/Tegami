@@ -15,7 +15,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background | Effects::BackgroundDots | Effects::ForegroundDots;
+int effects = Effects::Background;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -114,6 +114,7 @@ void main() {
 		}
 		partFile.close();
 	}
-	mainFile << std::endl;
+	std::cout << "Files combined to" << sbPath << std::endl;
+	mainFile << std::endl; 
 	mainFile.close();
 }
