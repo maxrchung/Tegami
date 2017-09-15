@@ -27,7 +27,7 @@
     </Window.CommandBindings>
 
     <Canvas x:Name="Workspace" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1600" Height="886" OpacityMask="Black" Focusable="True">
-        <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="76" Canvas.Left="61" ScrubbingEnabled="True" OpacityMask="Black"/>
+        <MediaElement x:Name="Player" Height="720" VerticalAlignment="Top" Width="1280" MediaOpened="Player_MediaOpened" LoadedBehavior="Manual" UnloadedBehavior="Manual" Canvas.Top="76" Canvas.Left="61" ScrubbingEnabled="True" OpacityMask="Black" IsMuted="True"/>
 
         <Canvas x:Name="PreviousPanel" Height="820" Canvas.Top="26" Width="1380" Background="Transparent" Canvas.Left="11" Visibility="Hidden" IsEnabled="False">
             <Canvas x:Name="PreviousColors" Height="820" Width="1380" Background="Transparent">
