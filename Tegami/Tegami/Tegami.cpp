@@ -15,6 +15,8 @@
 #include <vector>
 #include <random>
 
+int effects = Effects::Background | Effects::BackgroundDots | Effects::ForegroundDots;
+
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
 		case Effects::Background: {
@@ -80,9 +82,7 @@ void main() {
 	srand(time(NULL));
 	Utility *utility = new Utility();
 
-	int effects = Effects::Background;
-
-	for (int bit = 1; bit < Effects::Count; bit *= 2) {
+	for (int bit = 1; bit < Effects::bIgBoy; bit *= 2) {
 		if (effects & bit) {
 			processEffect(utility, bit);
 		}
@@ -100,9 +100,9 @@ void main() {
 	mainFile.open(sbPath);
 	mainFile << "[Events]" << std::endl;
 
-	for (int bit = 1; bit < Effects::Count; bit *= 2) {
+	for (int bit = 1; bit < Effects::bIgBoy; bit *= 2) {
 		std::ifstream partFile;
-		std::string fileName(bit + ".osb");
+		std::string fileName(std::to_string(bit) + ".osb");
 		partFile.open(fileName);
 
 		std::string line;
@@ -114,5 +114,6 @@ void main() {
 		}
 		partFile.close();
 	}
+	mainFile << std::endl;
 	mainFile.close();
 }

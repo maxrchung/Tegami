@@ -7,6 +7,6 @@ namespace Effects {
 		Animation = 4,
 		ForegroundDots = 8,
 		Foreground = 16,
-		Count
+		bIgBoy
 	};
 }
