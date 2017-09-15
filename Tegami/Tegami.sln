@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tegami", "Tegami\Tegami.vcxproj", "{336A2653-5060-4F12-9E7A-8234307A8345}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -238,5 +238,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {538D9C00-83E0-40BD-8005-7BDE6DBE71F1}
 	EndGlobalSection
 EndGlobal
