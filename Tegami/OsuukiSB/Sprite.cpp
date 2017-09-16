@@ -1,5 +1,6 @@
 #include "Sprite.hpp"
 #include "Storyboard.hpp"
+#include <iomanip>
 #include <sstream>
 
 Sprite::Sprite(const std::string& filePath, Vector2 position, Layer layer, Origin origin)
@@ -72,14 +73,14 @@ void Sprite::Fade(int startTime, int endTime, float startOpacity, float endOpaci
 }
 
 // _R,<easing>,<starttime>,<endtime>,<start_rotate>,<end_rotate>
-void Sprite::Rotate(int startTime, int endTime, float startRotate, float endRotate, Easing easing) {
+void Sprite::Rotate(int startTime, int endTime, float startRotate, float endRotate, Easing easing, int precision) {
 	if (endTime > this->endTime) {
 		this->endTime = endTime;
 	}
 
 	rotation = endRotate;
 	std::ostringstream command;
-	command << "_R," << easing << "," << startTime << "," << endTime << "," << startRotate << "," << endRotate;
+	command << std::setprecision(precision) << std::fixed << "_R," << easing << "," << startTime << "," << endTime << "," << startRotate << "," << endRotate;
 	commands.push_back(command.str());
 }
 
@@ -96,20 +97,21 @@ void Sprite::Scale(int startTime, int endTime, float startScale, float endScale,
 }
 
 // _V,<easing>,<starttime>,<endtime>,<start_scale_x>,<start_scale_y>,<end_scale_x>,<end_scale_y>
-void Sprite::ScaleVector(int startTime, int endTime, float startX, float startY, float endX, float endY, Easing easing) {
+void Sprite::ScaleVector(int startTime, int endTime, float startX, float startY, float endX, float endY, Easing easing, int precision) {
 	if (endTime > this->endTime) {
 		this->endTime = endTime;
 	}
 
 	scaleVector.x = endX;
 	scaleVector.y = endY;
+
 	std::ostringstream command;
-	command << "_V," << easing << "," << startTime << "," << endTime << "," << startX << "," << startY << "," << endX << "," << endY;
+	command << std::setprecision(precision) << std::fixed << "_V," << easing << "," << startTime << "," << endTime << "," << startX << "," << startY << "," << endX << "," << endY;
 	commands.push_back(command.str());
 }
 
-void Sprite::ScaleVector(int startTime, int endTime, Vector2 startScale, Vector2 endScale, Easing easing) {
-	Sprite::ScaleVector(startTime, endTime, startScale.x, startScale.y, endScale.x, endScale.y, easing);
+void Sprite::ScaleVector(int startTime, int endTime, Vector2 startScale, Vector2 endScale, Easing easing, int precision) {
+	Sprite::ScaleVector(startTime, endTime, startScale.x, startScale.y, endScale.x, endScale.y, easing, precision);
 }
 
 // _C,<easing>,<starttime>,<endtime>,<start_r>,<start_g>,<start_b>,<end_r>,<end_g>,<end_b>

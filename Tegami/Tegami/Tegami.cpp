@@ -15,7 +15,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background;
+int effects = Effects::Background | Effects::Animation;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -105,6 +105,8 @@ void main() {
 		std::string fileName(std::to_string(bit) + ".osb");
 		partFile.open(fileName);
 
+		std::cout << "Copying: " << fileName << std::endl;
+
 		std::string line;
 		while (std::getline(partFile, line)) {
 			if ((line[0] == '/' && line[1] == '/') || line == "[Events]") {
@@ -114,7 +116,9 @@ void main() {
 		}
 		partFile.close();
 	}
-	std::cout << "Files combined to" << sbPath << std::endl;
+	std::cout << "Files combined to: " << sbPath << std::endl;
 	mainFile << std::endl; 
 	mainFile.close();
+
+	std::cin.get();
 }

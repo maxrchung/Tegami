@@ -34,8 +34,8 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 			float radians = utility->DToR(rotation);
 
 			sprite->Move(startTime, endTime, pos, pos);
-			sprite->ScaleVector(startTime, endTime, size, size);
-			sprite->Rotate(startTime, endTime, radians, radians);
+			sprite->ScaleVector(startTime, endTime, size, size, Easing::Linear, 0);
+			sprite->Rotate(startTime, endTime, radians, radians, Easing::Linear, 1);
 		}
 	}
 }
@@ -55,10 +55,10 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 
 			Vector2 diff = endPos - startPos;
 			float rotation = Vector2(1, 0).AngleBetween(diff);
-			sprite->Rotate(startTime, endTime, rotation, rotation);
+			sprite->Rotate(startTime, endTime, rotation, rotation, Easing::Linear, 1);
 
 			float dist = diff.Magnitude();
-			sprite->ScaleVector(startTime, endTime, dist, 1, dist, 1);
+			sprite->ScaleVector(startTime, endTime, dist, 1, dist, 1, Easing::Linear, 0);
 
 			if (sprite->fade == 0) {
 				sprite->Fade(startTime, endTime, 1, 1);
