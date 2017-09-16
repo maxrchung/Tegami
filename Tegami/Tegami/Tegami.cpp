@@ -15,7 +15,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background | Effects::Animation;
+int effects = Effects::Background | Effects::BackgroundDots;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -52,7 +52,7 @@ void processEffect(Utility* utility, int bit) {
 			};
 			DotWave *waves4 = new DotWave(utility, wave4, 20, -50, 300, 0);
 
-			Tree *tree = new Tree(utility, Vector2::Vector2(0, -100), 0, PI / 5, 0, Time("01:00:000").ms, 0.2, 0.8, 8, Color::Color(255, 255, 255), Color::Color(255, 170, 180));
+			Tree *tree = new Tree(utility, Vector2(0, -100), 0, PI / 5, 0, Time("01:00:000").ms, 0.2, 0.8, 8, Color(255, 255, 255), Color(255, 170, 180));
 			break;
 		}
 		case Effects::Animation: {

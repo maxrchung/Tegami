@@ -16,6 +16,7 @@ Storyboard* Storyboard::Instance() {
 }
 
 void Storyboard::Clear() {
+	instance->sprites.clear();
 	for (int i = 0; i < Layer::LayerCount; ++i) {
 		instance->sprites.push_back(std::vector<Sprite*>());
 	}

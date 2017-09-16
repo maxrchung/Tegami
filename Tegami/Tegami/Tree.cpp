@@ -12,8 +12,9 @@ Tree::Tree(Utility *utility, Vector2 startingPoint, float angle, float deltaAngl
 {
 	returnStruct endStruct = Tree::generateBranch(utility, startingPoint, startTime, endTime, scale, numberOfIter/(endTime - startTime), angle, startColor, endColor);
 	if ((numberOfIter - 1) > 0) {
-		Tree::Tree(utility, endStruct.point, angle + deltaAngle, deltaAngle, endStruct.endTime, endTime, scale*branchScale, branchScale, numberOfIter - 1, endColor, endColor);
-		Tree::Tree(utility, endStruct.point, angle - deltaAngle, deltaAngle, endStruct.endTime, endTime, scale*branchScale, branchScale, numberOfIter - 1, endColor, endColor);
+		// Not really a "Tree", make function for this
+		Tree(utility, endStruct.point, angle + deltaAngle, deltaAngle, endStruct.endTime, endTime, scale*branchScale, branchScale, numberOfIter - 1, endColor, endColor);
+		Tree(utility, endStruct.point, angle - deltaAngle, deltaAngle, endStruct.endTime, endTime, scale*branchScale, branchScale, numberOfIter - 1, endColor, endColor);
 	}
 }
 
@@ -23,10 +24,14 @@ Tree::returnStruct Tree::generateBranch(Utility *utility, Vector2 startingPoint,
 
 	returnStruct out;
 
-	speed *= 10000000;
+	speed *= 17000000;
 
 	std::vector<Vector2> branchPoints = { startingPoint };
+
+	// Move this out since it's hardcoded
+	// Apply scale here for local copy
 	std::vector<Vector2> dotOffsets = {Vector2::Vector2(scale * 31,scale * 28),
+
 		Vector2::Vector2(scale * 24,scale * 36),
 		Vector2::Vector2(scale * 15,scale * 39),
 		Vector2::Vector2(scale * 5,scale * 42),
@@ -47,8 +52,8 @@ Tree::returnStruct Tree::generateBranch(Utility *utility, Vector2 startingPoint,
 
 	std::vector<Color> colorVector{ startColor };
 
+	// Combine this code
 	Color colorDifference = startColor - endColor;
-
 	colorDifference = colorDifference / (numberOfDots - 1);
 
 	float currTime = startTime;
@@ -57,9 +62,11 @@ Tree::returnStruct Tree::generateBranch(Utility *utility, Vector2 startingPoint,
 		colorVector.push_back(startColor + colorDifference*i);
 		branchPoints.push_back(branchPoints[i] + dotOffsets[i]);
 		branchPoints[i] = branchPoints[i].RotateAround(startingPoint, angle);
-
+		
+		// Use sprite pool
 		Sprite *branch = new Sprite("sprite/lildot.png",branchPoints[i], Layer::Foreground);
 		branch->Scale(currTime, endTime, scale/5, scale/5);
+		// Need to fix this? [1]?
 		branch->Color(currTime, endTime, colorVector[i], colorVector[1]);
 		branch->Fade(currTime, currTime+(speed/numberOfDots), 0, 1);
 
