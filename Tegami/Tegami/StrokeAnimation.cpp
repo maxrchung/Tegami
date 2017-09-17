@@ -34,8 +34,12 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 			float radians = utility->DToR(rotation);
 
 			sprite->Move(startTime, endTime, pos, pos);
-			sprite->ScaleVector(startTime, endTime, size, size, Easing::Linear, 0);
 			sprite->Rotate(startTime, endTime, radians, radians, Easing::Linear, 1);
+			sprite->ScaleVector(startTime, endTime, size, size, Easing::Linear, 0);
+
+			if (sprite->fade == 0) {
+				sprite->Fade(startTime, endTime, 1, 1);
+			}
 		}
 	}
 }
