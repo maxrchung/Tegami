@@ -287,6 +287,16 @@ Class MainWindow
 #End Region
 
 #Region "Display"
+    Private Sub VideoDisplay_Toggle(sender As Object, e As EventArgs)
+        If VideoDisplay.IsChecked Then
+            VideoDisplay_Unchecked(sender, e)
+        Else
+            VideoDisplay_Checked(sender, e)
+        End If
+
+        VideoDisplay.IsChecked = Not VideoDisplay.IsChecked
+    End Sub
+
     Private Sub VideoDisplay_Checked(sender As Object, e As EventArgs)
         Player.Visibility = Visibility.Visible
         VideoOpacity.IsEnabled = True
@@ -301,6 +311,16 @@ Class MainWindow
         Player.Opacity = VideoOpacity.Value
     End Sub
 
+    Private Sub PreviousDisplay_Toggle(sender As Object, e As EventArgs)
+        If PreviousDisplay.IsChecked Then
+            PreviousDisplay_Unchecked(sender, e)
+        Else
+            PreviousDisplay_Checked(sender, e)
+        End If
+
+        PreviousDisplay.IsChecked = Not PreviousDisplay.IsChecked
+    End Sub
+
     Private Sub PreviousDisplay_Checked(sender As Object, e As EventArgs)
         PreviousPanel.Visibility = Visibility.Visible
         PreviousOpacity.IsEnabled = True
@@ -313,6 +333,16 @@ Class MainWindow
 
     Private Sub PreviousOpacity_ValueChanged(sender As Object, e As EventArgs)
         PreviousPanel.Opacity = PreviousOpacity.Value
+    End Sub
+
+    Private Sub LinesDisplay_Toggle(sender As Object, e As EventArgs)
+        If LinesDisplay.IsChecked Then
+            LinesDisplay_Unchecked(sender, e)
+        Else
+            LinesDisplay_Checked(sender, e)
+        End If
+
+        LinesDisplay.IsChecked = Not LinesDisplay.IsChecked
     End Sub
 
     Private Sub LinesDisplay_Checked(sender As Object, e As EventArgs)
@@ -333,6 +363,16 @@ Class MainWindow
         Colors.Opacity = WhiteOpacity.Value
     End Sub
 
+    Private Sub ColorsDisplay_Toggle(sender As Object, e As EventArgs)
+        If WhiteDisplay.IsChecked Then
+            ColorsDisplay_Unchecked(sender, e)
+        Else
+            ColorsDisplay_Checked(sender, e)
+        End If
+
+        WhiteDisplay.IsChecked = Not WhiteDisplay.IsChecked
+    End Sub
+
     Private Sub ColorsDisplay_Checked(sender As Object, e As EventArgs)
         Colors.Visibility = Visibility.Visible
         Colors.IsEnabled = True
@@ -341,6 +381,16 @@ Class MainWindow
     Private Sub ColorsDisplay_Unchecked(sender As Object, e As EventArgs)
         Colors.Visibility = Visibility.Hidden
         Colors.IsEnabled = False
+    End Sub
+
+    Private Sub Volume_Toggle(sender As Object, e As EventArgs)
+        If Volume.IsChecked Then
+            Volume_Unchecked(sender, e)
+        Else
+            Volume_Checked(sender, e)
+        End If
+
+        Volume.IsChecked = Not Volume.IsChecked
     End Sub
 
     Private Sub Volume_Checked(sender As Object, e As EventArgs)

@@ -24,6 +24,11 @@
         <CommandBinding Command="{x:Static local:Commands.MoveUp}" Executed="MoveUp"/>
         <CommandBinding Command="{x:Static local:Commands.MoveRight}" Executed="MoveRight"/>
         <CommandBinding Command="{x:Static local:Commands.MoveDown}" Executed="MoveDown"/>
+        <CommandBinding Command="{x:Static local:Commands.ToggleVideo}" Executed="VideoDisplay_Toggle"/>
+        <CommandBinding Command="{x:Static local:Commands.ToggleVolume}" Executed="Volume_Toggle"/>
+        <CommandBinding Command="{x:Static local:Commands.ToggleLines}" Executed="LinesDisplay_Toggle"/>
+        <CommandBinding Command="{x:Static local:Commands.TogglePrevious}" Executed="PreviousDisplay_Toggle"/>
+        <CommandBinding Command="{x:Static local:Commands.ToggleColor}" Executed="ColorsDisplay_Toggle"/>
     </Window.CommandBindings>
 
     <Canvas x:Name="Workspace" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1600" Height="886" OpacityMask="Black" Focusable="True">

@@ -20,4 +20,10 @@ Public Module Commands
     Public ReadOnly MoveUp As New RoutedUICommand("MoveUp", "MoveUp", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Up, ModifierKeys.Control)}))
     Public ReadOnly MoveRight As New RoutedUICommand("MoveRight", "MoveRight", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Right, ModifierKeys.Control)}))
     Public ReadOnly MoveDown As New RoutedUICommand("MoveDown", "MoveDown", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Down, ModifierKeys.Control)}))
+
+    Public ReadOnly ToggleVideo As New RoutedUICommand("ToggleVideo", "ToggleVideo", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.Z, ModifierKeys.Control)}))
+    Public ReadOnly ToggleVolume As New RoutedUICommand("ToggleVolume", "ToggleVolume", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.X, ModifierKeys.Control)}))
+    Public ReadOnly ToggleLines As New RoutedUICommand("ToggleLines", "ToggleLines", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.C, ModifierKeys.Control)}))
+    Public ReadOnly TogglePrevious As New RoutedUICommand("TogglePrevious", "TogglePrevious", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.V, ModifierKeys.Control)}))
+    Public ReadOnly ToggleColor As New RoutedUICommand("ToggleColor", "ToggleColor", GetType(Commands), New InputGestureCollection({New KeyGesture(Key.B, ModifierKeys.Control)}))
 End Module
