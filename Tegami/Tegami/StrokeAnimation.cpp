@@ -13,7 +13,7 @@ StrokeAnimation::StrokeAnimation(Utility* utility, std::string path)
 	SpritePool* rectanglePool = new SpritePool(utility->blockPath, Origin::Centre);
 	drawRectangles(rectanglePool, frames);
 
-	SpritePool* linePool = new SpritePool(utility->blockPath, Origin::CentreLeft);
+	SpritePool* linePool = new SpritePool(utility->blockPath, Origin::Centre);
 	drawLines(linePool, frames);
 }
 
@@ -55,13 +55,14 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 			Sprite* sprite = linePool->Get(i);
 			Vector2 startPos = frame.lines[i].start;
 			Vector2 endPos = frame.lines[i].end;
-			sprite->Move(startTime, endTime, startPos, startPos);
+			Vector2 midPos = (startPos + endPos) / 2;
+			sprite->Move(startTime, endTime, midPos, midPos);
 
 			Vector2 diff = endPos - startPos;
 			float rotation = Vector2(1, 0).AngleBetween(diff);
 			sprite->Rotate(startTime, endTime, rotation, rotation, Easing::Linear, 1);
 
-			float dist = diff.Magnitude();
+			float dist = diff.Magnitude() * lineEdgeScale;
 			sprite->ScaleVector(startTime, endTime, dist, 1, dist, 1, Easing::Linear, 0);
 
 			if (sprite->fade == 0) {
