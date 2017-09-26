@@ -218,6 +218,30 @@ Class MainWindow
         Dim dialog As New SaveFileDialog
         dialog.Filter = "StrokeAnimation files (*.sa)|*.sa"
         If dialog.ShowDialog() = True Then
+
+            'For i = 791 To 801
+            '    Dim move = (i - 790) * 25
+            '    For Each line In frames(i).strokes
+            '        line.first.X += move
+            '        line.second.X += move
+            '    Next
+            'Next
+
+            'For i = 802 To 960
+            '    For Each line In frames(i).strokes
+            '        line.first.X += 275
+            '        line.second.X += 275
+            '    Next
+            'Next
+
+            'For i = 961 To 972
+            '    Dim move = 275 - (i - 960) * 25
+            '    For Each line In frames(i).strokes
+            '        line.first.X += move
+            '        line.second.X += move
+            '    Next
+            'Next
+
             Using writer As StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(dialog.FileName, False)
                 Dim serializer As New XmlSerializer(GetType(List(Of Frame)))
                 serializer.Serialize(writer, frames)
