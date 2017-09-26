@@ -40,6 +40,7 @@ private:
 	Vector2 panelToOsuPoint(Vector2 panelCoordinates);
 	Vector2 panelToOsuSize(Vector2 panelSize);
 	float lineEdgeScale = 0.67f;
+	float rectEdgeScale = 0.67f;
 
 	Utility* utility;
 };

@@ -29,7 +29,7 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 			Sprite* sprite = rectanglePool->Get(i);
 
 			Vector2 pos = frame.rectangles[i].center;
-			Vector2 size = frame.rectangles[i].size;
+			Vector2 size = frame.rectangles[i].size * rectEdgeScale;
 			float rotation = frame.rectangles[i].rotation;
 			float radians = utility->DToR(rotation);
 

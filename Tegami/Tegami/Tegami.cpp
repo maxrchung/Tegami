@@ -20,7 +20,7 @@ int effects = Effects::Background | Effects::Animation;
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
 		case Effects::Background: {
-			Sprite* bg = new Sprite("sprite/whiteblock.png", Vector2::Zero, Layer::Background);
+			Sprite* bg = new Sprite("sprite/solidblock.png", Vector2::Zero, Layer::Background);
 			bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(255, 209, 220), Color(255, 209, 220));
 			bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
 			break;

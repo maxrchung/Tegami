@@ -8,7 +8,7 @@
 class Utility
 {
 public:
-	Utility();
+	Utility() {};
 	float barTimeStep = 3117;
 	float quarterTimeStep = barTimeStep / 4; //milliseconds
 	float eigthTimeStep = quarterTimeStep / 2;
