@@ -20,6 +20,9 @@ StrokeAnimation::StrokeAnimation(Utility* utility, std::string path)
 void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Frame> frames) {
 	std::cout << "Processing rectangles..." << std::endl;
 
+	//SpritePool* backing = new SpritePool(utility->blockPath, Origin::Centre);
+
+
 	for (auto& frame : frames) {
 		float startTime = frame.time.ms;
 		float endTime = startTime + utility->mspf;
@@ -27,6 +30,7 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 
 		for (int i = 0; i < frame.rectangles.size(); i++) {
 			Sprite* sprite = rectanglePool->Get(i);
+			//Sprite* back = backing->Get(i);
 
 			Vector2 pos = frame.rectangles[i].center;
 			Vector2 size = frame.rectangles[i].size * rectEdgeScale;
@@ -40,6 +44,24 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 			if (sprite->fade == 0) {
 				sprite->Fade(startTime, endTime, 1, 1);
 			}
+
+			//back->Move(startTime, endTime, pos, pos);
+			//back->Rotate(startTime, endTime, radians, radians, Easing::Linear, 1);
+			//back->ScaleVector(startTime, endTime, size, size, Easing::Linear, 0);
+
+			//if (back->fade == 0) {
+			//	back->Fade(startTime, endTime, 1, 1);
+			//}
+		}
+
+		for (int i = frame.rectangles.size(); i < rectanglePool->sprites.size(); i++) {
+			if (rectanglePool->sprites[i]->fade != 0) {
+				rectanglePool->sprites[i]->Fade(startTime, startTime, 0, 0);
+			}
+
+			//if (backing->sprites[i]->fade != 0) {
+			//	backing->sprites[i]->Fade(startTime, startTime, 0, 0);
+			//}
 		}
 	}
 }

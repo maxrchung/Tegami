@@ -26,7 +26,7 @@ Class MainWindow
     Dim drawThreshold As Integer = 4
     Dim rectTimer As New DispatcherTimer
     Dim currentRect As New Rectangle
-    Dim rotationAngle As Integer = 4
+    Dim rotationAngle As Integer = 2
 
     Dim currentTool As Tool = Tool.Draw
 
