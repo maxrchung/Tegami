@@ -144,17 +144,17 @@ Partial Class Form1
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(518, 37)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(64, 13)
+        Me.Label1.Size = New System.Drawing.Size(81, 13)
         Me.Label1.TabIndex = 4
-        Me.Label1.Text = "Bezier Delta"
+        Me.Label1.Text = "Bezier Distance"
         '
         'TrackBar1
         '
-        Me.TrackBar1.Location = New System.Drawing.Point(588, 37)
+        Me.TrackBar1.Location = New System.Drawing.Point(605, 37)
         Me.TrackBar1.Maximum = 30
         Me.TrackBar1.Minimum = 1
         Me.TrackBar1.Name = "TrackBar1"
-        Me.TrackBar1.Size = New System.Drawing.Size(147, 45)
+        Me.TrackBar1.Size = New System.Drawing.Size(130, 45)
         Me.TrackBar1.TabIndex = 5
         Me.TrackBar1.Value = 20
         '
@@ -193,10 +193,10 @@ Partial Class Form1
         '
         'TrackBar2
         '
-        Me.TrackBar2.Location = New System.Drawing.Point(588, 68)
+        Me.TrackBar2.Location = New System.Drawing.Point(605, 68)
         Me.TrackBar2.Maximum = 30
         Me.TrackBar2.Name = "TrackBar2"
-        Me.TrackBar2.Size = New System.Drawing.Size(135, 45)
+        Me.TrackBar2.Size = New System.Drawing.Size(130, 45)
         Me.TrackBar2.TabIndex = 7
         Me.TrackBar2.Value = 10
         '
