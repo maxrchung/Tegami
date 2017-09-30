@@ -9,6 +9,7 @@ Public Class Form1
     Dim penBlack As Pen = New Pen(Color.Black, penWidth)
     Dim penRed As Pen = New Pen(Color.Red, penWidth)
     Dim penGrid As Pen = New Pen(Color.LightGray, 1)
+    Dim penWhite As Pen = New Pen(Color.Gainsboro, 1)
     Dim brushBlack As SolidBrush = New SolidBrush(Color.Black)
     Dim brushRed As SolidBrush = New SolidBrush(Color.Red)
     Dim bezierBrush As SolidBrush = New SolidBrush(Color.DimGray)
@@ -347,6 +348,14 @@ Public Class Form1
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         Panel1.Invalidate()
+    End Sub
+#End Region
+
+#Region "Yolo"
+    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
+        e.Graphics.DrawLine(penWhite, 0, 0, 0, 5)
+        e.Graphics.DrawLine(penWhite, 0, 5, 254, 5)
+        e.Graphics.DrawLine(penWhite, 253, 0, 253, 5)
     End Sub
 #End Region
 End Class

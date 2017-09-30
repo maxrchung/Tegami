@@ -35,17 +35,26 @@ Partial Class Form1
         Me.ControlsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
-        Me.TrackBar2 = New System.Windows.Forms.TrackBar()
+        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.TrackBar2 = New System.Windows.Forms.TrackBar()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.Panel2 = New System.Windows.Forms.Panel()
         Me.MenuStrip1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TrackBar2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -59,9 +68,9 @@ Partial Class Form1
         'TreeView1
         '
         Me.TreeView1.AllowDrop = True
-        Me.TreeView1.Location = New System.Drawing.Point(518, 119)
+        Me.TreeView1.Location = New System.Drawing.Point(518, 229)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(254, 418)
+        Me.TreeView1.Size = New System.Drawing.Size(254, 308)
         Me.TreeView1.TabIndex = 3
         '
         'FileToolStripMenuItem3
@@ -139,40 +148,12 @@ Partial Class Form1
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "StrokeImage Files|*.si|All Files|*.*"
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(518, 37)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(81, 13)
-        Me.Label1.TabIndex = 4
-        Me.Label1.Text = "Bezier Distance"
-        '
-        'TrackBar1
-        '
-        Me.TrackBar1.Location = New System.Drawing.Point(605, 37)
-        Me.TrackBar1.Maximum = 30
-        Me.TrackBar1.Minimum = 1
-        Me.TrackBar1.Name = "TrackBar1"
-        Me.TrackBar1.Size = New System.Drawing.Size(130, 45)
-        Me.TrackBar1.TabIndex = 5
-        Me.TrackBar1.Value = 20
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(518, 68)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(59, 13)
-        Me.Label2.TabIndex = 6
-        Me.Label2.Text = "Bezier Size"
-        '
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.Checked = True
         Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(518, 96)
+        Me.CheckBox1.Location = New System.Drawing.Point(3, 19)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(92, 17)
         Me.CheckBox1.TabIndex = 8
@@ -184,26 +165,72 @@ Partial Class Form1
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.Checked = True
         Me.CheckBox2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox2.Location = New System.Drawing.Point(658, 96)
+        Me.CheckBox2.Location = New System.Drawing.Point(101, 19)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(102, 17)
         Me.CheckBox2.TabIndex = 9
         Me.CheckBox2.Text = "Display Anchors"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
-        'TrackBar2
+        'RadioButton1
         '
-        Me.TrackBar2.Location = New System.Drawing.Point(605, 68)
-        Me.TrackBar2.Maximum = 30
-        Me.TrackBar2.Name = "TrackBar2"
-        Me.TrackBar2.Size = New System.Drawing.Size(130, 45)
-        Me.TrackBar2.TabIndex = 7
-        Me.TrackBar2.Value = 10
+        Me.RadioButton1.AutoSize = True
+        Me.RadioButton1.Checked = True
+        Me.RadioButton1.Location = New System.Drawing.Point(6, 19)
+        Me.RadioButton1.Name = "RadioButton1"
+        Me.RadioButton1.Size = New System.Drawing.Size(56, 17)
+        Me.RadioButton1.TabIndex = 12
+        Me.RadioButton1.TabStop = True
+        Me.RadioButton1.Text = "Stroke"
+        Me.RadioButton1.UseVisualStyleBackColor = True
+        '
+        'RadioButton2
+        '
+        Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.Location = New System.Drawing.Point(101, 19)
+        Me.RadioButton2.Name = "RadioButton2"
+        Me.RadioButton2.Size = New System.Drawing.Size(55, 17)
+        Me.RadioButton2.TabIndex = 13
+        Me.RadioButton2.TabStop = True
+        Me.RadioButton2.Text = "Select"
+        Me.RadioButton2.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.RadioButton1)
+        Me.GroupBox1.Controls.Add(Me.RadioButton2)
+        Me.GroupBox1.Location = New System.Drawing.Point(518, 37)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(254, 48)
+        Me.GroupBox1.TabIndex = 14
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Tools"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.CheckBox1)
+        Me.GroupBox2.Controls.Add(Me.CheckBox2)
+        Me.GroupBox2.Location = New System.Drawing.Point(518, 92)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(254, 45)
+        Me.GroupBox2.TabIndex = 15
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Display"
+        '
+        'TrackBar1
+        '
+        Me.TrackBar1.Location = New System.Drawing.Point(93, 16)
+        Me.TrackBar1.Maximum = 30
+        Me.TrackBar1.Minimum = 1
+        Me.TrackBar1.Name = "TrackBar1"
+        Me.TrackBar1.Size = New System.Drawing.Size(118, 45)
+        Me.TrackBar1.TabIndex = 5
+        Me.TrackBar1.Value = 20
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(741, 37)
+        Me.Label3.Location = New System.Drawing.Point(217, 16)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(31, 13)
         Me.Label3.TabIndex = 10
@@ -213,12 +240,63 @@ Partial Class Form1
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(741, 69)
+        Me.Label4.Location = New System.Drawing.Point(217, 48)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(31, 13)
         Me.Label4.TabIndex = 11
         Me.Label4.Text = "1000"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(6, 48)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(59, 13)
+        Me.Label2.TabIndex = 6
+        Me.Label2.Text = "Bezier Size"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 16)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(81, 13)
+        Me.Label1.TabIndex = 4
+        Me.Label1.Text = "Bezier Distance"
+        '
+        'TrackBar2
+        '
+        Me.TrackBar2.Location = New System.Drawing.Point(93, 48)
+        Me.TrackBar2.Maximum = 30
+        Me.TrackBar2.Minimum = 1
+        Me.TrackBar2.Name = "TrackBar2"
+        Me.TrackBar2.Size = New System.Drawing.Size(118, 45)
+        Me.TrackBar2.TabIndex = 7
+        Me.TrackBar2.Value = 10
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.Panel2)
+        Me.GroupBox3.Controls.Add(Me.Label2)
+        Me.GroupBox3.Controls.Add(Me.Label1)
+        Me.GroupBox3.Controls.Add(Me.TrackBar2)
+        Me.GroupBox3.Controls.Add(Me.TrackBar1)
+        Me.GroupBox3.Controls.Add(Me.Label4)
+        Me.GroupBox3.Controls.Add(Me.Label3)
+        Me.GroupBox3.Location = New System.Drawing.Point(518, 143)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(254, 80)
+        Me.GroupBox3.TabIndex = 16
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Bezier"
+        '
+        'Panel2
+        '
+        Me.Panel2.Location = New System.Drawing.Point(0, 70)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(254, 10)
+        Me.Panel2.TabIndex = 17
         '
         'Form1
         '
@@ -226,15 +304,10 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Silver
         Me.ClientSize = New System.Drawing.Size(784, 549)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.CheckBox2)
-        Me.Controls.Add(Me.CheckBox1)
-        Me.Controls.Add(Me.TrackBar2)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.TrackBar1)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.TreeView1)
+        Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.DoubleBuffered = True
@@ -246,8 +319,14 @@ Partial Class Form1
         Me.Text = "StrokeImage"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TrackBar2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -271,7 +350,13 @@ Partial Class Form1
     Friend WithEvents Label2 As Label
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents CheckBox2 As CheckBox
-    Friend WithEvents TrackBar2 As TrackBar
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
+    Friend WithEvents RadioButton1 As RadioButton
+    Friend WithEvents RadioButton2 As RadioButton
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents TrackBar2 As TrackBar
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents Panel2 As Panel
 End Class
