@@ -20,13 +20,15 @@ StrokeAnimation::StrokeAnimation(Utility* utility, std::string path)
 void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Frame> frames) {
 	std::cout << "Processing rectangles..." << std::endl;
 
-	//SpritePool* backing = new SpritePool(utility->blockPath, Origin::Centre);
+	SpritePool* backing = new SpritePool(utility->blockPath, Origin::Centre);
+	int fadeStart = 51;
+	int fadeMid = 75;
+	int fadeEnd = 139;
 
-
-	for (auto& frame : frames) {
+	for (auto f = 0; f < frames.size(); ++f) {
+		auto& frame = frames[f];
 		float startTime = frame.time.ms;
 		float endTime = startTime + utility->mspf;
-
 
 		for (int i = 0; i < frame.rectangles.size(); i++) {
 			Sprite* sprite = rectanglePool->Get(i);
@@ -41,7 +43,19 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 			sprite->Rotate(startTime, endTime, radians, radians, Easing::Linear, 1);
 			sprite->ScaleVector(startTime, endTime, size, size, Easing::Linear, 0);
 
-			if (sprite->fade == 0) {
+			if (f >= fadeStart && f <= fadeMid) {
+				int start = f - fadeStart;
+				int total = fadeMid - fadeStart;
+				float fadeAmount = 1 - (float)start / total;
+				sprite->Fade(startTime, endTime, fadeAmount, fadeAmount);
+			}
+			else if (f > fadeMid && f <= fadeEnd) {
+				int start = f - fadeMid;
+				int total = fadeEnd - fadeStart;
+				float fadeAmount = (float)start / total;
+				sprite->Fade(startTime, endTime, fadeAmount, fadeAmount);
+			}
+			else if (sprite->fade == 0) {
 				sprite->Fade(startTime, endTime, 1, 1);
 			}
 

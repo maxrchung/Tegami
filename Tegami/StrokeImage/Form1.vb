@@ -1,5 +1,6 @@
 ﻿Imports System.Reflection
 Imports System.Text
+Imports System.Windows
 
 Public Class Form1
     Dim strokes As List(Of Stroke)
@@ -7,8 +8,10 @@ Public Class Form1
     Dim penWidth As Integer = 2
     Dim penBlack As Pen = New Pen(Color.Black, penWidth)
     Dim penRed As Pen = New Pen(Color.Red, penWidth)
+    Dim penGrid As Pen = New Pen(Color.LightGray, 1)
     Dim brushBlack As SolidBrush = New SolidBrush(Color.Black)
     Dim brushRed As SolidBrush = New SolidBrush(Color.Red)
+    Dim bezierBrush As SolidBrush = New SolidBrush(Color.DimGray)
     Dim brushRadius As Integer = 4
     Dim openedFile As String = ""
 
@@ -70,9 +73,10 @@ Public Class Form1
     Private Sub UpdateTreeView()
         TreeView1.BeginUpdate()
         TreeView1.Nodes.Clear()
+
         For index As Integer = 0 To strokes.Count - 1
             TreeView1.Nodes.Add("Stroke " & strokes(index).id)
-            For Each point In strokes(index).points
+            For Each point In strokes(index).bezier.points
                 TreeView1.Nodes(index).Nodes.Add("(" & point.X & "," & point.Y & ")")
             Next
         Next
@@ -97,6 +101,9 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ResetValues()
 
+        Label3.Text = TrackBar1.Value
+        Label4.Text = TrackBar2.Value
+
         ' Uses Reflection to set Panel1 to DoubleBuffered
         ' See https://stackoverflow.com/questions/8046560/how-to-stop-flickering-c-sharp-winforms
         Panel1.GetType().InvokeMember("DoubleBuffered", BindingFlags.SetProperty Or BindingFlags.Instance Or BindingFlags.NonPublic, Nothing, Panel1, New Object() {True})
@@ -105,16 +112,19 @@ Public Class Form1
 
 #Region "Panel"
     Private Sub Panel1_Click(sender As Object, e As MouseEventArgs) Handles Panel1.MouseClick
-        If currentStroke.points.Count < 2 Then
-            currentStroke.points.Add(e.Location)
-        Else
-            If ModifierKeys.HasFlag(Keys.Control) Then
-                currentStroke.points.Add(e.Location)
+        Dim points = currentStroke.bezier.points
+        If CheckBox2.Checked Then
+            If points.Count < 2 Then
+                points.Add(e.Location)
             Else
-                Dim targetIndex As Integer = FindCurrentStrokeIndex()
-                currentStroke = New Stroke()
-                currentStroke.points.Add(e.Location)
-                strokes.Insert(targetIndex + 1, currentStroke)
+                If ModifierKeys.HasFlag(Keys.Control) Then
+                    points.Add(e.Location)
+                Else
+                    Dim targetIndex As Integer = FindCurrentStrokeIndex()
+                    currentStroke = New Stroke()
+                    currentStroke.bezier.points.Add(e.Location)
+                    strokes.Insert(targetIndex + 1, currentStroke)
+                End If
             End If
         End If
 
@@ -124,6 +134,11 @@ Public Class Form1
     End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+        For i = 50 To 450 Step 50
+            e.Graphics.DrawLine(penGrid, New Point(0, i), New Point(500, i))
+            e.Graphics.DrawLine(penGrid, New Point(i, 0), New Point(i, 500))
+        Next
+
         Dim paintPen As Pen
         Dim paintBrush As SolidBrush
 
@@ -136,18 +151,48 @@ Public Class Form1
                 paintBrush = brushBlack
             End If
 
-            Dim startPoint As New Point
-            For Each point In stroke.points
-                Dim rect As New Rectangle(point.X - brushRadius, point.Y - brushRadius, brushRadius * 2, brushRadius * 2)
-                e.Graphics.FillEllipse(paintBrush, rect)
+            ' Draw Bezier
+            If CheckBox1.Checked Then
+                If stroke.bezier.points.Count > 1 Then
+                    Dim size = TrackBar2.Value
 
-                If startPoint = Nothing Then
-                    startPoint = point
-                Else
-                    e.Graphics.DrawLine(paintPen, startPoint, point)
-                    startPoint = point
+                    ' Calculates delta based off of first 0.1 point
+                    ' I played around with 
+                    Dim measureDelta = 0.1
+                    Dim measure = stroke.bezier.FindPosition(measureDelta)
+                    Dim distance = measure - stroke.bezier.points(0)
+                    Dim lengthSquared = distance.X * distance.X + distance.Y * distance.Y
+                    Dim length = Math.Sqrt(lengthSquared)
+                    Dim target = TrackBar1.Value
+                    Dim delta = target / length * measureDelta
+
+                    For i = 0 To 1 Step delta
+                        Dim position = stroke.bezier.FindPosition(i)
+                        Dim rect As New Rectangle(position.X - size / 2, position.Y - size / 2, size, size)
+                        e.Graphics.FillEllipse(bezierBrush, rect)
+                    Next
+
+                    Dim finalPos = stroke.bezier.FindPosition(1)
+                    Dim finalRect As New Rectangle(finalPos.X - size / 2, finalPos.Y - size / 2, size, size)
+                    e.Graphics.FillEllipse(bezierBrush, finalRect)
                 End If
-            Next
+            End If
+
+            ' Draw anchor and lines
+            If CheckBox2.Checked Then
+                Dim startPoint As New Point
+                For Each point In stroke.bezier.points
+                    Dim rect As New Rectangle(point.X - brushRadius, point.Y - brushRadius, brushRadius * 2, brushRadius * 2)
+                    e.Graphics.FillRectangle(paintBrush, rect)
+
+                    If startPoint = Nothing Then
+                        startPoint = point
+                    Else
+                        e.Graphics.DrawLine(paintPen, startPoint, point)
+                        startPoint = point
+                    End If
+                Next
+            End If
         Next
     End Sub
 #End Region
@@ -212,7 +257,7 @@ Public Class Form1
 
 #Region "Dialogs"
     Private Sub NewToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem3.Click
-        If strokes(0).points.Count > 0 Then
+        If strokes(0).bezier.points.Count > 0 Then
             Dim result As DialogResult = MessageBox.Show("Clear all strokes?", "StrokeImage - New", MessageBoxButtons.OKCancel)
             If result = DialogResult.OK Then
                 ResetValues()
@@ -243,7 +288,7 @@ Public Class Form1
                     For pindex As Integer = 0 To pointCount - 1
                         numbers = ParseNumbers(sr.ReadLine())
                         If numbers IsNot Nothing Then
-                            strokes.Last().points.Add(New Point(numbers(0), numbers(1)))
+                            strokes.Last().bezier.points.Add(New Point(numbers(0), numbers(1)))
                         End If
                     Next
                 Next
@@ -263,8 +308,8 @@ Public Class Form1
             Using sw As System.IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(SaveFileDialog1.FileName, False)
                 sw.WriteLine("Strokes: " & strokes.Count)
                 For Each stroke In strokes
-                    sw.WriteLine("Stroke " & stroke.id & ": " & stroke.points.Count)
-                    For Each point In stroke.points
+                    sw.WriteLine("Stroke " & stroke.id & ": " & stroke.bezier.points.Count)
+                    For Each point In stroke.bezier.points
                         sw.WriteLine(point.X & " " & point.Y)
                     Next
                 Next
@@ -284,6 +329,24 @@ Public Class Form1
         builder.AppendLine("Use the arrow keys to navigate between strokes.")
 
         MessageBox.Show(builder.ToString, "StrokeImage")
+    End Sub
+
+    Private Sub TrackBar1_Scroll(sender As Object, e As EventArgs) Handles TrackBar1.Scroll
+        Label3.Text = TrackBar1.Value
+        Panel1.Invalidate()
+    End Sub
+
+    Private Sub TrackBar2_Scroll(sender As Object, e As EventArgs) Handles TrackBar2.Scroll
+        Label4.Text = TrackBar2.Value
+        Panel1.Invalidate()
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        Panel1.Invalidate()
+    End Sub
+
+    Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
+        Panel1.Invalidate()
     End Sub
 #End Region
 End Class
