@@ -28,11 +28,7 @@ Partial Class Form1
         Me.NewToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StrokeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
-        Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ControlsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
@@ -68,6 +64,7 @@ Partial Class Form1
         'TreeView1
         '
         Me.TreeView1.AllowDrop = True
+        Me.TreeView1.HideSelection = False
         Me.TreeView1.Location = New System.Drawing.Point(518, 229)
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.Size = New System.Drawing.Size(254, 308)
@@ -101,42 +98,14 @@ Partial Class Form1
         Me.SaveAsToolStripMenuItem3.Size = New System.Drawing.Size(163, 22)
         Me.SaveAsToolStripMenuItem3.Text = "Save As..."
         '
-        'StrokeToolStripMenuItem
-        '
-        Me.StrokeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeleteToolStripMenuItem})
-        Me.StrokeToolStripMenuItem.Name = "StrokeToolStripMenuItem"
-        Me.StrokeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.StrokeToolStripMenuItem.Size = New System.Drawing.Size(52, 20)
-        Me.StrokeToolStripMenuItem.Text = "Stroke"
-        '
-        'DeleteToolStripMenuItem
-        '
-        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(131, 22)
-        Me.DeleteToolStripMenuItem.Text = "Delete"
-        '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem3, Me.StrokeToolStripMenuItem, Me.HelpToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem3})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(784, 24)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
-        '
-        'HelpToolStripMenuItem
-        '
-        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ControlsToolStripMenuItem})
-        Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
-        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
-        Me.HelpToolStripMenuItem.Text = "Help"
-        '
-        'ControlsToolStripMenuItem
-        '
-        Me.ControlsToolStripMenuItem.Name = "ControlsToolStripMenuItem"
-        Me.ControlsToolStripMenuItem.Size = New System.Drawing.Size(119, 22)
-        Me.ControlsToolStripMenuItem.Text = "Controls"
         '
         'SaveFileDialog1
         '
@@ -155,9 +124,9 @@ Partial Class Form1
         Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox1.Location = New System.Drawing.Point(3, 19)
         Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(92, 17)
+        Me.CheckBox1.Size = New System.Drawing.Size(109, 17)
         Me.CheckBox1.TabIndex = 8
-        Me.CheckBox1.Text = "Display Bezier"
+        Me.CheckBox1.Text = "Display Bezier (D)"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'CheckBox2
@@ -165,11 +134,11 @@ Partial Class Form1
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.Checked = True
         Me.CheckBox2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox2.Location = New System.Drawing.Point(101, 19)
+        Me.CheckBox2.Location = New System.Drawing.Point(118, 19)
         Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(102, 17)
+        Me.CheckBox2.Size = New System.Drawing.Size(117, 17)
         Me.CheckBox2.TabIndex = 9
-        Me.CheckBox2.Text = "Display Anchors"
+        Me.CheckBox2.Text = "Display Anchors (F)"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
         'RadioButton1
@@ -178,21 +147,21 @@ Partial Class Form1
         Me.RadioButton1.Checked = True
         Me.RadioButton1.Location = New System.Drawing.Point(6, 19)
         Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(56, 17)
+        Me.RadioButton1.Size = New System.Drawing.Size(72, 17)
         Me.RadioButton1.TabIndex = 12
         Me.RadioButton1.TabStop = True
-        Me.RadioButton1.Text = "Stroke"
+        Me.RadioButton1.Text = "Stroke (A)"
         Me.RadioButton1.UseVisualStyleBackColor = True
         '
         'RadioButton2
         '
         Me.RadioButton2.AutoSize = True
-        Me.RadioButton2.Location = New System.Drawing.Point(101, 19)
+        Me.RadioButton2.Location = New System.Drawing.Point(118, 19)
         Me.RadioButton2.Name = "RadioButton2"
-        Me.RadioButton2.Size = New System.Drawing.Size(55, 17)
+        Me.RadioButton2.Size = New System.Drawing.Size(71, 17)
         Me.RadioButton2.TabIndex = 13
         Me.RadioButton2.TabStop = True
-        Me.RadioButton2.Text = "Select"
+        Me.RadioButton2.Text = "Select (S)"
         Me.RadioButton2.UseVisualStyleBackColor = True
         '
         'GroupBox1
@@ -340,11 +309,7 @@ Partial Class Form1
     Friend WithEvents NewToolStripMenuItem3 As ToolStripMenuItem
     Friend WithEvents OpenToolStripMenuItem2 As ToolStripMenuItem
     Friend WithEvents SaveAsToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents StrokeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DeleteToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MenuStrip1 As MenuStrip
-    Friend WithEvents HelpToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ControlsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Label1 As Label
     Friend WithEvents TrackBar1 As TrackBar
     Friend WithEvents Label2 As Label

@@ -3,18 +3,28 @@ Imports System.Text
 Imports System.Windows
 
 Public Class Form1
-    Dim strokes As List(Of Stroke)
-    Dim currentStroke As Stroke
+    Dim openedFile As String = ""
+
+    Dim strokes As List(Of Stroke) = New List(Of Stroke) From {New Stroke()}
+
+    Dim currentStroke As Stroke = Nothing
+    ' Allows nullable Point
+    Dim currentPoint As Point? = Nothing
+    Dim currentTool = Tool.Stroke
+
     Dim penWidth As Integer = 2
     Dim penBlack As Pen = New Pen(Color.Black, penWidth)
     Dim penRed As Pen = New Pen(Color.Red, penWidth)
     Dim penGrid As Pen = New Pen(Color.LightGray, 1)
     Dim penWhite As Pen = New Pen(Color.Gainsboro, 1)
+
     Dim brushBlack As SolidBrush = New SolidBrush(Color.Black)
     Dim brushRed As SolidBrush = New SolidBrush(Color.Red)
     Dim bezierBrush As SolidBrush = New SolidBrush(Color.DimGray)
     Dim brushRadius As Integer = 4
-    Dim openedFile As String = ""
+
+    Dim pointCollision = 8.0
+    Dim lineCollision = 8.0
 
 #Region "Helper Functions"
     Private Sub DeleteCurrentStroke()
@@ -30,15 +40,31 @@ Public Class Form1
         End If
 
         currentStroke = strokes(targetIndex)
+    End Sub
 
-        UpdateTreeView()
-        Panel1.Invalidate()
-        TreeView1.SelectedNode = TreeView1.Nodes(targetIndex)
+    Private Sub DeleteCurrentPoint()
+        Dim pointIndex As Integer = FindCurrentPointIndex() - 1
+
+        Dim points = currentStroke.bezier.points
+        points.Remove(currentPoint)
+        If points.Count = 0 Then
+            DeleteCurrentStroke()
+        End If
+
+        currentPoint = Nothing
     End Sub
 
     Private Function FindCurrentStrokeIndex() As Integer
         For index As Integer = 0 To strokes.Count - 1
             If currentStroke Is strokes(index) Then
+                Return index
+            End If
+        Next
+    End Function
+
+    Private Function FindCurrentPointIndex() As Integer
+        For index As Integer = 0 To currentStroke.bezier.points.Count - 1
+            If currentPoint = currentStroke.bezier.points(index) Then
                 Return index
             End If
         Next
@@ -82,15 +108,167 @@ Public Class Form1
             Next
         Next
 
+        TreeView1.ExpandAll()
+        TreeView1.Focus()
+
         TreeView1.EndUpdate()
+    End Sub
+
+    Private Sub UpdateAll()
+        UpdateTreeView()
+        Panel1.Invalidate()
+        If Not currentPoint Is Nothing Then
+            TreeView1.SelectedNode = TreeView1.Nodes(FindCurrentStrokeIndex()).Nodes(FindCurrentPointIndex)
+        ElseIf Not currentStroke Is Nothing Then
+            TreeView1.SelectedNode = TreeView1.Nodes(FindCurrentStrokeIndex())
+        End If
+    End Sub
+
+    Private Function FindDistance(p1 As Point, p2 As Point) As Double
+        Dim distance = p2 - p1
+        Dim lengthSquared = distance.X * distance.X + distance.Y * distance.Y
+        Dim length = Math.Sqrt(lengthSquared)
+        Return length
+    End Function
+
+    ' http//www.vcskicks.com/code-snippet/point-projection.php
+    Private Function Project(lineStart As Point, lineEnd As Point, toProject As Point) As Point
+        Dim m As Double = (lineEnd.Y - lineStart.Y) / (lineEnd.X - lineStart.X)
+        Dim b As Double = lineStart.Y - (m * lineStart.X)
+
+        Dim x As Double = (m * toProject.Y + toProject.X - m * b) / (m * m + 1)
+        Dim y As Double = (m * m * toProject.Y + m * toProject.X + b) / (m * m + 1)
+
+        Return New Point(x, y)
+    End Function
+
+    Private Function WithinBounds(mouse As Point, p1 As Point, p2 As Point)
+        Dim left = 0.0
+        Dim right = 0.0
+        Dim top = 0.0
+        Dim bot = 0.0
+
+        If p1.X < p2.X Then
+            left = p1.X
+            right = p2.X
+        Else
+            left = p2.X
+            right = p1.X
+        End If
+
+        If p1.Y < p2.Y Then
+            top = p1.Y
+            bot = p2.Y
+        Else
+            top = p2.Y
+            bot = p1.Y
+        End If
+
+        If mouse.X < left Or mouse.X > right Or mouse.Y < top Or mouse.Y > bot Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+
+    Private Sub MakeSelection(mouse As Point)
+        ' Checks for point collision
+        For i = strokes.Count - 1 To 0 Step -1
+            Dim points = strokes(i).bezier.points
+            For j = points.Count - 1 To 0 Step -1
+                Dim point = points(j)
+                Dim length = FindDistance(mouse, point)
+                If length < pointCollision Then
+                    currentStroke = strokes(i)
+                    currentPoint = point
+                    Return
+                End If
+            Next
+        Next
+
+        ' Checks for line collision
+        For i = strokes.Count - 1 To 0 Step -1
+            Dim points = strokes(i).bezier.points
+            If points.Count > 1 Then
+                For j = 1 To points.Count - 1
+                    Dim prev = points(j - 1)
+                    Dim curr = points(j)
+
+                    If prev.X = curr.X Then
+                        If mouse.Y > Math.Min(prev.Y, curr.Y) And mouse.Y < Math.Max(prev.Y, curr.Y) Then
+                            currentStroke = strokes(i)
+                            currentPoint = Nothing
+                            Return
+                        End If
+                    End If
+
+                    If prev.Y = curr.Y Then
+                        If mouse.X > Math.Min(prev.X, curr.X) And mouse.X < Math.Max(prev.X, curr.X) Then
+                            currentStroke = strokes(i)
+                            currentPoint = Nothing
+                            Return
+                        End If
+                    End If
+
+                    If Not WithinBounds(mouse, prev, curr) Then
+                        Continue For
+                    End If
+
+                    Dim projection = Project(prev, curr, mouse)
+                    Dim length = FindDistance(mouse, projection)
+                    If length < lineCollision Then
+                        currentStroke = strokes(i)
+                        currentPoint = Nothing
+                        Return
+                    End If
+                Next
+            End If
+        Next
+
+        ' Else deselect
+        Deselect()
+    End Sub
+
+    Private Sub Deselect()
+        currentStroke = Nothing
+        currentPoint = Nothing
     End Sub
 #End Region
 
 #Region "Additional Hotkeys"
     Protected Overrides Function ProcessCmdKey(ByRef message As Message, keys As Keys) As Boolean
         Select Case keys
-            Case Keys.Back
-                DeleteCurrentStroke()
+            Case Keys.Back, Keys.Delete
+                If CheckBox2.Checked Then
+                    If currentPoint Is Nothing Then
+                        DeleteCurrentStroke()
+                    Else
+                        DeleteCurrentPoint()
+                    End If
+
+                    UpdateAll()
+                    Return True
+                End If
+
+            Case Keys.Escape
+                Deselect()
+                UpdateAll()
+                Return True
+
+            Case Keys.A
+                RadioButton1.Checked = True
+                Return True
+
+            Case Keys.S
+                RadioButton2.Checked = True
+                Return True
+
+            Case Keys.D
+                CheckBox1.Checked = Not CheckBox1.Checked
+                Return True
+
+            Case Keys.F
+                CheckBox2.Checked = Not CheckBox2.Checked
                 Return True
         End Select
 
@@ -113,25 +291,36 @@ Public Class Form1
 
 #Region "Panel"
     Private Sub Panel1_Click(sender As Object, e As MouseEventArgs) Handles Panel1.MouseClick
-        Dim points = currentStroke.bezier.points
-        If CheckBox2.Checked Then
-            If points.Count < 2 Then
-                points.Add(e.Location)
-            Else
-                If ModifierKeys.HasFlag(Keys.Control) Then
-                    points.Add(e.Location)
-                Else
-                    Dim targetIndex As Integer = FindCurrentStrokeIndex()
-                    currentStroke = New Stroke()
-                    currentStroke.bezier.points.Add(e.Location)
-                    strokes.Insert(targetIndex + 1, currentStroke)
-                End If
-            End If
+        If Not CheckBox2.Checked Then
+            Return
         End If
 
-        UpdateTreeView()
-        Panel1.Invalidate()
-        TreeView1.SelectedNode = TreeView1.Nodes(FindCurrentStrokeIndex())
+        If CheckBox2.Checked Then
+            If currentTool = Tool.Stroke Then
+                If currentStroke Is Nothing Then
+                    currentStroke = strokes.Last()
+                End If
+
+                Dim points = currentStroke.bezier.points
+                If points.Count < 1 Then
+                    points.Add(e.Location)
+                Else
+
+                    If ModifierKeys.HasFlag(Keys.Control) Then
+                        points.Add(e.Location)
+                    Else
+                        Dim targetIndex As Integer = FindCurrentStrokeIndex()
+                        currentStroke = New Stroke()
+                        currentStroke.bezier.points.Add(e.Location)
+                        strokes.Insert(targetIndex + 1, currentStroke)
+                    End If
+                End If
+            ElseIf currentTool = Tool.Selection Then
+                MakeSelection(e.Location)
+            End If
+
+            UpdateAll()
+        End If
     End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
@@ -144,7 +333,10 @@ Public Class Form1
         Dim paintBrush As SolidBrush
 
         For Each stroke In strokes
-            If currentStroke Is stroke Then
+            If Not currentPoint Is Nothing Then
+                paintPen = penBlack
+                paintBrush = brushBlack
+            ElseIf currentStroke Is stroke Then
                 paintPen = penRed
                 paintBrush = brushRed
             Else
@@ -161,9 +353,7 @@ Public Class Form1
                     ' I played around with 
                     Dim measureDelta = 0.1
                     Dim measure = stroke.bezier.FindPosition(measureDelta)
-                    Dim distance = measure - stroke.bezier.points(0)
-                    Dim lengthSquared = distance.X * distance.X + distance.Y * distance.Y
-                    Dim length = Math.Sqrt(lengthSquared)
+                    Dim length = FindDistance(stroke.bezier.points(0), measure)
                     Dim target = TrackBar1.Value
                     Dim delta = target / length * measureDelta
 
@@ -183,14 +373,20 @@ Public Class Form1
             If CheckBox2.Checked Then
                 Dim startPoint As New Point
                 For Each point In stroke.bezier.points
-                    Dim rect As New Rectangle(point.X - brushRadius, point.Y - brushRadius, brushRadius * 2, brushRadius * 2)
-                    e.Graphics.FillRectangle(paintBrush, rect)
-
                     If startPoint = Nothing Then
                         startPoint = point
                     Else
                         e.Graphics.DrawLine(paintPen, startPoint, point)
                         startPoint = point
+                    End If
+                Next
+
+                For Each point In stroke.bezier.points
+                    Dim rect As New Rectangle(point.X - brushRadius, point.Y - brushRadius, brushRadius * 2, brushRadius * 2)
+                    If currentPoint = point Then
+                        e.Graphics.FillRectangle(brushRed, rect)
+                    Else
+                        e.Graphics.FillRectangle(paintBrush, rect)
                     End If
                 Next
             End If
@@ -318,20 +514,20 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
+    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs)
         DeleteCurrentStroke()
     End Sub
+#End Region
 
-    Private Sub ControlsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ControlsToolStripMenuItem.Click
-        Dim builder As New StringBuilder
-        builder.AppendLine("Click the left panel to create points.")
-        builder.AppendLine("Hold down Control to create multi-point strokes.")
-        builder.AppendLine("Drag strokes in the right view to change order.")
-        builder.AppendLine("Use the arrow keys to navigate between strokes.")
-
-        MessageBox.Show(builder.ToString, "StrokeImage")
+#Region "Yolo"
+    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
+        e.Graphics.DrawLine(penWhite, 0, 0, 0, 5)
+        e.Graphics.DrawLine(penWhite, 0, 5, 254, 5)
+        e.Graphics.DrawLine(penWhite, 253, 0, 253, 5)
     End Sub
+#End Region
 
+#Region "Configuration"
     Private Sub TrackBar1_Scroll(sender As Object, e As EventArgs) Handles TrackBar1.Scroll
         Label3.Text = TrackBar1.Value
         Panel1.Invalidate()
@@ -349,13 +545,15 @@ Public Class Form1
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         Panel1.Invalidate()
     End Sub
-#End Region
 
-#Region "Yolo"
-    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
-        e.Graphics.DrawLine(penWhite, 0, 0, 0, 5)
-        e.Graphics.DrawLine(penWhite, 0, 5, 254, 5)
-        e.Graphics.DrawLine(penWhite, 253, 0, 253, 5)
+    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
+        currentTool = Tool.Stroke
+        UpdateAll()
+    End Sub
+
+    Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton2.CheckedChanged
+        currentTool = Tool.Selection
+        UpdateAll()
     End Sub
 #End Region
 End Class

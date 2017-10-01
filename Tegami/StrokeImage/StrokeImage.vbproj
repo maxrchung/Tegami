@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bezier.vb" />
+    <Compile Include="Tool.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
