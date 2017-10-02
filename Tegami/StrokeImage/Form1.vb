@@ -43,7 +43,7 @@ Public Class Form1
             targetIndex = 0
         End If
 
-        currentStroke = strokes(targetIndex)
+        currentStroke = Nothing
     End Sub
 
     Private Sub DeleteCurrentPoint()
@@ -320,6 +320,7 @@ Public Class Form1
             Else
                 If ModifierKeys.HasFlag(Keys.Control) And Not deselected Then
                     points.Add(e.Location)
+                    currentPoint = Nothing
                 Else
                     Dim targetIndex As Integer = FindCurrentStrokeIndex()
                     currentStroke = New Stroke()
@@ -382,6 +383,7 @@ Public Class Form1
 
             ' Draw Bezier
             If CheckBox1.Checked Then
+                Dim bezierCount = 0
                 If stroke.bezier.points.Count > 1 Then
                     Dim size = TrackBar2.Value
 
@@ -397,11 +399,14 @@ Public Class Form1
                         Dim position = stroke.bezier.FindPosition(i)
                         Dim rect As New Rectangle(position.X - size / 2, position.Y - size / 2, size, size)
                         e.Graphics.FillEllipse(bezierBrush, rect)
+                        bezierCount += 1
                     Next
 
                     Dim finalPos = stroke.bezier.FindPosition(1)
                     Dim finalRect As New Rectangle(finalPos.X - size / 2, finalPos.Y - size / 2, size, size)
                     e.Graphics.FillEllipse(bezierBrush, finalRect)
+                    bezierCount += 1
+                    Label6.Text = bezierCount
                 End If
             End If
 
