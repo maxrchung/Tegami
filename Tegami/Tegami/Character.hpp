@@ -8,5 +8,9 @@ public:
 	Character() {};
 	Character(std::vector<Stroke> strokes);
 	std::vector<Stroke> strokes;
+
+	void scale(float scale);
+
+	//Character Character::operator*(float a);
 };
 

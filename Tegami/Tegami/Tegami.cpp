@@ -1,5 +1,6 @@
 #include "DotGenerator.hpp"
 #include "Effects.hpp"
+#include "Lyrics.hpp"
 #include "Sprite.hpp"
 #include "Storyboard.hpp"
 #include "StrokeAnimation.hpp"
@@ -15,13 +16,13 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background | Effects::Animation;
+int effects = Effects::Background | Effects::Foreground;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
 		case Effects::Background: {
 			Sprite* bg = new Sprite("sprite/whiteblock.png", Vector2::Zero, Layer::Background);
-			bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(255, 209, 220), Color(255, 209, 220));
+			bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(0, 0, 0), Color(0, 0, 0));
 			bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
 			break;
 		}
@@ -52,7 +53,7 @@ void processEffect(Utility* utility, int bit) {
 			};
 			DotWave *waves4 = new DotWave(utility, wave4, 20, -50, 300, 0);
 
-			Tree *tree = new Tree(utility, Vector2(0, -100), 0, PI / 5, 0, Time("01:00:000").ms, 0.2, 0.8, 8, Color(255, 255, 255), Color(255, 170, 180));
+			Tree *tree = new Tree(utility, Vector2(0, -100), 0, PI / 5, Time("00:00:000").ms, Time("01:00:000").ms, Time("01:30:000").ms, 10, 0.2, 0.8, 8, Color(255, 255, 255), Color(255, 170, 180));
 			break;
 		}
 		case Effects::Animation: {
@@ -70,6 +71,16 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::Foreground: {
+			//Tree::Tree(utility, Vector2(0, 0), 0,      PI / 4, Time("00:00:000").ms, Time("00:30:000").ms, Time("01:00:000").ms, 8, 0.05, 1.5, 5, Color(255, 255, 255), Color(255, 209, 220));
+			//Tree::Tree(utility, Vector2(0, 0), PI,     PI / 4, Time("00:00:000").ms, Time("00:30:000").ms, Time("01:00:000").ms, 8, 0.05, 1.5, 5, Color(255, 255, 255), Color(255, 209, 220));
+			//Tree::Tree(utility, Vector2(0, 0), PI/2,   PI / 4, Time("00:00:000").ms, Time("00:30:000").ms, Time("01:00:000").ms, 8, 0.05, 1.5, 5, Color(255, 255, 255), Color(255, 209, 220));
+			//Tree::Tree(utility, Vector2(0, 0), 3*PI/2, PI / 4, Time("00:00:000").ms, Time("00:30:000").ms, Time("01:00:000").ms, 8, 0.05, 1.5, 5, Color(255, 255, 255), Color(255, 209, 220));
+
+			//Tree::Tree(utility, Vector2(0, 0), PI /3,    PI / 3, Time("01:30:000").ms, Time("02:00:000").ms, Time("02:30:000").ms, 6, 0.1, 1, 6, Color(255, 255, 255), Color(255, 209, 220));
+			//Tree::Tree(utility, Vector2(0, 0), PI,       PI / 3, Time("01:30:000").ms, Time("02:00:000").ms, Time("02:30:000").ms, 6, 0.1, 1, 6, Color(255, 255, 255), Color(255, 209, 220));
+			//Tree::Tree(utility, Vector2(0, 0), 5* PI /3, PI / 3, Time("01:30:000").ms, Time("02:00:000").ms, Time("02:30:000").ms, 6, 0.1, 1, 6, Color(255, 255, 255), Color(255, 209, 220));
+			
+			Lyrics::Lyrics(Time("00:00:000").ms, Time("01:00:000").ms, 10);
 			break;
 		}
 	}
@@ -81,6 +92,10 @@ void processEffect(Utility* utility, int bit) {
 void main() {
 	srand(time(NULL));
 	Utility *utility = new Utility();
+
+	Sprite *background = new Sprite("tegami.png", Vector2::Zero, Layer::Background);
+	background->Fade(Time("00:00:000").ms, Time("00:00:000").ms, 0.0f, 0.0f);
+	
 
 	for (int bit = 1; bit < Effects::bIgBoy; bit *= 2) {
 		if (effects & bit) {

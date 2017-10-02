@@ -7,6 +7,14 @@
 namespace fs = std::experimental::filesystem;
 
 StrokeManager::StrokeManager(std::string directory) {
+	
+
+	//this is for wide strings, i don't think it'll actually work, but i have to check it later
+	std::wifstream file("lyrics.txt");
+	file.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+	std::wcout.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t>));
+	std::wstring line;
+
 	for (auto& dirEntry : fs::recursive_directory_iterator(directory)) {
 		std::stringstream ss;
 		ss << dirEntry;

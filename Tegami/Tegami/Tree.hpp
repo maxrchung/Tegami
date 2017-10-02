@@ -3,7 +3,9 @@ class Tree
 {
 public:
 
-	Tree(Utility *utility, Vector2 startingPoint, float angle, float deltaAngle, float startTime, float endTime, float scale, float branchScale, int numberOfIter, Color startColor, Color endColor);
+	Tree(Utility *utility, Vector2 startingPoint, float angle, float deltaAngle, float startTime, float endTime, float fadeTime, float speed, float scale, float branchScale, int numberOfIter, Color startColor, Color endColor);
+	void Tree::CreateTree(Utility *utility, Vector2 startingPoint, float angle, float startTime, float endTime, float fadeTime, float scale, int numberOfIter, Color startColor, Color endColor);
+
 private:
 
 	// Move this into its own class, probalby be more descriptive too
@@ -14,5 +16,32 @@ private:
 		float endTime;
 	} returnStruct;
 
-	returnStruct generateBranch(Utility *utility, Vector2 startingPoint, float startTime, float endTime, float scale, float speed, float angle, Color startColor, Color endColor);
+	float timePerBranch;
+	float speed;
+	float branchScale;
+	float deltaAngle;
+
+	std::vector<Vector2> dotOffsets = { 
+		Vector2::Vector2(31,28),
+		Vector2::Vector2(24,36),
+		Vector2::Vector2(15,39),
+		Vector2::Vector2(5,42),
+		
+		Vector2::Vector2(-5,42),
+		Vector2::Vector2(-15,39),
+		Vector2::Vector2(-24,36),
+		Vector2::Vector2(-31,28),
+
+		Vector2::Vector2(-31,28), //halfway
+		Vector2::Vector2(-24,36),
+		Vector2::Vector2(-15,39),
+		Vector2::Vector2(-5,42),
+		
+		Vector2::Vector2(5,42),
+		Vector2::Vector2(15,39),
+		Vector2::Vector2(24,36),
+		Vector2::Vector2(31,28)
+	};
+
+	returnStruct generateBranch(Utility *utility, Vector2 startingPoint, float angle, float startTime, float endTime, float fadeTime, float scale, int numberOfIter, Color startColor, Color endColor);
 };
