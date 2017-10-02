@@ -45,6 +45,8 @@ Partial Class Form1
         Me.TrackBar2 = New System.Windows.Forms.TrackBar()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -65,9 +67,9 @@ Partial Class Form1
         '
         Me.TreeView1.AllowDrop = True
         Me.TreeView1.HideSelection = False
-        Me.TreeView1.Location = New System.Drawing.Point(518, 229)
+        Me.TreeView1.Location = New System.Drawing.Point(518, 253)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(254, 308)
+        Me.TreeView1.Size = New System.Drawing.Size(254, 284)
         Me.TreeView1.TabIndex = 3
         '
         'FileToolStripMenuItem3
@@ -247,25 +249,45 @@ Partial Class Form1
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.Panel2)
+        Me.GroupBox3.Controls.Add(Me.Label6)
+        Me.GroupBox3.Controls.Add(Me.Label5)
         Me.GroupBox3.Controls.Add(Me.Label2)
         Me.GroupBox3.Controls.Add(Me.Label1)
         Me.GroupBox3.Controls.Add(Me.TrackBar2)
         Me.GroupBox3.Controls.Add(Me.TrackBar1)
         Me.GroupBox3.Controls.Add(Me.Label4)
         Me.GroupBox3.Controls.Add(Me.Label3)
-        Me.GroupBox3.Location = New System.Drawing.Point(518, 143)
+        Me.GroupBox3.Location = New System.Drawing.Point(518, 142)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(254, 80)
+        Me.GroupBox3.Size = New System.Drawing.Size(254, 105)
         Me.GroupBox3.TabIndex = 16
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Bezier"
         '
         'Panel2
         '
-        Me.Panel2.Location = New System.Drawing.Point(0, 70)
+        Me.Panel2.Location = New System.Drawing.Point(0, 95)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(254, 10)
         Me.Panel2.TabIndex = 17
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(6, 80)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(67, 13)
+        Me.Label5.TabIndex = 18
+        Me.Label5.Text = "Bezier Count"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(217, 80)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(31, 13)
+        Me.Label6.TabIndex = 19
+        Me.Label6.Text = "1000"
         '
         'Form1
         '
@@ -324,4 +346,6 @@ Partial Class Form1
     Friend WithEvents TrackBar2 As TrackBar
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents Panel2 As Panel
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label5 As Label
 End Class
