@@ -499,6 +499,7 @@ Public Class Form1
             Dim result As DialogResult = MessageBox.Show("Clear all strokes?", "StrokeImage - New", MessageBoxButtons.OKCancel)
             If result = DialogResult.OK Then
                 ResetValues()
+                UpdateAll()
             End If
         End If
     End Sub
