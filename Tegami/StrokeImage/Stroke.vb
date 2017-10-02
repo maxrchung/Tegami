@@ -1,5 +1,5 @@
 ﻿Public Class Stroke
-    Public points As New List(Of Point)
+    Public bezier As New Bezier(New List(Of Point))
     Public Shared idCounter As Integer = 0
     Public id As Integer
 

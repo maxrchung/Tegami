@@ -2,6 +2,11 @@
 /Tegami/Tegami/StrokeAnimationInputPath.txt
 /Tegami/Tegami/StoryboardInputPath.txt
 
+# tinyxml
+*.exp
+*.idb
+*.tlog
+
 # Compiled Object files
 *.slo
 *.lo

@@ -13,23 +13,29 @@ StrokeAnimation::StrokeAnimation(Utility* utility, std::string path)
 	SpritePool* rectanglePool = new SpritePool(utility->blockPath, Origin::Centre);
 	drawRectangles(rectanglePool, frames);
 
-	SpritePool* linePool = new SpritePool(utility->blockPath, Origin::CentreLeft);
+	SpritePool* linePool = new SpritePool(utility->blockPath, Origin::Centre);
 	drawLines(linePool, frames);
 }
 
 void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Frame> frames) {
 	std::cout << "Processing rectangles..." << std::endl;
 
-	for (auto& frame : frames) {
+	SpritePool* backing = new SpritePool(utility->blockPath, Origin::Centre);
+	int fadeStart = 51;
+	int fadeMid = 75;
+	int fadeEnd = 139;
+
+	for (auto f = 0; f < frames.size(); ++f) {
+		auto& frame = frames[f];
 		float startTime = frame.time.ms;
 		float endTime = startTime + utility->mspf;
 
-
 		for (int i = 0; i < frame.rectangles.size(); i++) {
 			Sprite* sprite = rectanglePool->Get(i);
+			//Sprite* back = backing->Get(i);
 
 			Vector2 pos = frame.rectangles[i].center;
-			Vector2 size = frame.rectangles[i].size;
+			Vector2 size = frame.rectangles[i].size * rectEdgeScale;
 			float rotation = frame.rectangles[i].rotation;
 			float radians = utility->DToR(rotation);
 
@@ -37,9 +43,39 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 			sprite->Rotate(startTime, endTime, radians, radians, Easing::Linear, 1);
 			sprite->ScaleVector(startTime, endTime, size, size, Easing::Linear, 0);
 
-			if (sprite->fade == 0) {
+			if (f >= fadeStart && f <= fadeMid) {
+				int start = f - fadeStart;
+				int total = fadeMid - fadeStart;
+				float fadeAmount = 1 - (float)start / total;
+				sprite->Fade(startTime, endTime, fadeAmount, fadeAmount);
+			}
+			else if (f > fadeMid && f <= fadeEnd) {
+				int start = f - fadeMid;
+				int total = fadeEnd - fadeStart;
+				float fadeAmount = (float)start / total;
+				sprite->Fade(startTime, endTime, fadeAmount, fadeAmount);
+			}
+			else if (sprite->fade == 0) {
 				sprite->Fade(startTime, endTime, 1, 1);
 			}
+
+			//back->Move(startTime, endTime, pos, pos);
+			//back->Rotate(startTime, endTime, radians, radians, Easing::Linear, 1);
+			//back->ScaleVector(startTime, endTime, size, size, Easing::Linear, 0);
+
+			//if (back->fade == 0) {
+			//	back->Fade(startTime, endTime, 1, 1);
+			//}
+		}
+
+		for (int i = frame.rectangles.size(); i < rectanglePool->sprites.size(); i++) {
+			if (rectanglePool->sprites[i]->fade != 0) {
+				rectanglePool->sprites[i]->Fade(startTime, startTime, 0, 0);
+			}
+
+			//if (backing->sprites[i]->fade != 0) {
+			//	backing->sprites[i]->Fade(startTime, startTime, 0, 0);
+			//}
 		}
 	}
 }
@@ -55,13 +91,14 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 			Sprite* sprite = linePool->Get(i);
 			Vector2 startPos = frame.lines[i].start;
 			Vector2 endPos = frame.lines[i].end;
-			sprite->Move(startTime, endTime, startPos, startPos);
+			Vector2 midPos = (startPos + endPos) / 2;
+			sprite->Move(startTime, endTime, midPos, midPos);
 
 			Vector2 diff = endPos - startPos;
 			float rotation = Vector2(1, 0).AngleBetween(diff);
 			sprite->Rotate(startTime, endTime, rotation, rotation, Easing::Linear, 1);
 
-			float dist = diff.Magnitude();
+			float dist = diff.Magnitude() * lineEdgeScale;
 			sprite->ScaleVector(startTime, endTime, dist, 1, dist, 1, Easing::Linear, 0);
 
 			if (sprite->fade == 0) {

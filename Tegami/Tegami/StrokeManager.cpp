@@ -41,8 +41,8 @@ StrokeManager::StrokeManager(std::string directory) {
 				int yPoint;
 
 				file >> xPoint >> yPoint;
-				xPoint -= 256;
-				yPoint = 256- yPoint;
+				xPoint -= 250;
+				yPoint = 250 - yPoint;
 
 				Vector2 point(xPoint, yPoint);
 				points.push_back(point);
