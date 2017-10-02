@@ -10,7 +10,11 @@ Public Class Form1
     Dim currentStroke As Stroke = Nothing
     ' Allows nullable Point
     Dim currentPoint As Point? = Nothing
-    Dim currentTool = Tool.Stroke
+
+    Dim movePoints = False
+    Dim prevMousePos = New Point()
+    Dim prevMoveAmount = New Point()
+    Dim currentPointIndex = 0
 
     Dim penWidth As Integer = 2
     Dim penBlack As Pen = New Pen(Color.Black, penWidth)
@@ -51,7 +55,7 @@ Public Class Form1
             DeleteCurrentStroke()
         End If
 
-        currentPoint = Nothing
+        Deselect()
     End Sub
 
     Private Function FindCurrentStrokeIndex() As Integer
@@ -93,8 +97,8 @@ Public Class Form1
         Stroke.idCounter = 0
         strokes = New List(Of Stroke) From {New Stroke()}
         currentStroke = strokes(0)
-        UpdateTreeView()
-        Panel1.Invalidate()
+        currentPoint = Nothing
+        RadioButton1.Checked = True
     End Sub
 
     Private Sub UpdateTreeView()
@@ -108,7 +112,6 @@ Public Class Form1
             Next
         Next
 
-        TreeView1.ExpandAll()
         TreeView1.Focus()
 
         TreeView1.EndUpdate()
@@ -172,6 +175,10 @@ Public Class Form1
     End Function
 
     Private Sub MakeSelection(mouse As Point)
+        movePoints = True
+        prevMousePos = mouse
+        prevMoveAmount = New Point()
+
         ' Checks for point collision
         For i = strokes.Count - 1 To 0 Step -1
             Dim points = strokes(i).bezier.points
@@ -181,6 +188,7 @@ Public Class Form1
                 If length < pointCollision Then
                     currentStroke = strokes(i)
                     currentPoint = point
+                    currentPointIndex = j
                     Return
                 End If
             Next
@@ -227,6 +235,8 @@ Public Class Form1
 
         ' Else deselect
         Deselect()
+
+        movePoints = False
     End Sub
 
     Private Sub Deselect()
@@ -242,7 +252,7 @@ Public Class Form1
                 If CheckBox2.Checked Then
                     If currentPoint Is Nothing Then
                         DeleteCurrentStroke()
-                    Else
+                    ElseIf Not currentStroke Is Nothing Then
                         DeleteCurrentPoint()
                     End If
 
@@ -286,41 +296,67 @@ Public Class Form1
         ' Uses Reflection to set Panel1 to DoubleBuffered
         ' See https://stackoverflow.com/questions/8046560/how-to-stop-flickering-c-sharp-winforms
         Panel1.GetType().InvokeMember("DoubleBuffered", BindingFlags.SetProperty Or BindingFlags.Instance Or BindingFlags.NonPublic, Nothing, Panel1, New Object() {True})
+
+        UpdateAll()
     End Sub
 #End Region
 
 #Region "Panel"
-    Private Sub Panel1_Click(sender As Object, e As MouseEventArgs) Handles Panel1.MouseClick
+    Private Sub Panel1_MouseDown(sender As Object, e As MouseEventArgs) Handles Panel1.MouseDown
         If Not CheckBox2.Checked Then
             Return
         End If
 
-        If CheckBox2.Checked Then
-            If currentTool = Tool.Stroke Then
-                If currentStroke Is Nothing Then
-                    currentStroke = strokes.Last()
-                End If
-
-                Dim points = currentStroke.bezier.points
-                If points.Count < 1 Then
-                    points.Add(e.Location)
-                Else
-
-                    If ModifierKeys.HasFlag(Keys.Control) Then
-                        points.Add(e.Location)
-                    Else
-                        Dim targetIndex As Integer = FindCurrentStrokeIndex()
-                        currentStroke = New Stroke()
-                        currentStroke.bezier.points.Add(e.Location)
-                        strokes.Insert(targetIndex + 1, currentStroke)
-                    End If
-                End If
-            ElseIf currentTool = Tool.Selection Then
-                MakeSelection(e.Location)
+        If RadioButton1.Checked Then
+            Dim deselected = False
+            If currentStroke Is Nothing Then
+                deselected = True
+                currentStroke = strokes.Last()
             End If
 
-            UpdateAll()
+            Dim points = currentStroke.bezier.points
+            If points.Count < 1 Then
+                points.Add(e.Location)
+            Else
+                If ModifierKeys.HasFlag(Keys.Control) And Not deselected Then
+                    points.Add(e.Location)
+                Else
+                    Dim targetIndex As Integer = FindCurrentStrokeIndex()
+                    currentStroke = New Stroke()
+                    currentStroke.bezier.points.Add(e.Location)
+                    strokes.Insert(targetIndex + 1, currentStroke)
+                End If
+            End If
+        ElseIf RadioButton2.Checked Then
+            MakeSelection(e.Location)
         End If
+
+        UpdateAll()
+    End Sub
+
+    Private Sub Panel1_MouseMove(sender As Object, e As MouseEventArgs) Handles Panel1.MouseMove
+        If movePoints Then
+            If currentPoint Is Nothing Then
+                Dim move = New Point(e.Location.X - prevMousePos.X, e.Location.Y - prevMousePos.Y)
+                For i = 0 To currentStroke.bezier.points.Count - 1
+                    Dim moved = New Point(currentStroke.bezier.points(i).X + move.X - prevMoveAmount.X,
+                                          currentStroke.bezier.points(i).Y + move.Y - prevMoveAmount.Y)
+                    currentStroke.bezier.points(i) = moved
+                Next
+                prevMoveAmount = move
+                Panel1.Invalidate()
+            Else
+                currentStroke.bezier.points(currentPointIndex) = e.Location
+                currentPoint = currentStroke.bezier.points(currentPointIndex)
+                ' Only invalidate instead of UpdateAll() for speed
+                'UpdateAll()
+                Panel1.Invalidate()
+            End If
+        End If
+    End Sub
+
+    Private Sub Panel1_MouseUp(sender As Object, e As MouseEventArgs) Handles Panel1.MouseUp
+        movePoints = False
     End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
@@ -400,6 +436,7 @@ Public Class Form1
             currentStroke = strokes(e.Node.Index)
         ElseIf e.Node.Level = 1 Then
             currentStroke = strokes(e.Node.Parent.Index)
+            currentPoint = currentStroke.bezier.points(e.Node.Index)
         End If
 
         Panel1.Invalidate()
@@ -446,8 +483,7 @@ Public Class Form1
             strokes.Remove(currentStroke)
             currentStroke = copy
 
-            UpdateTreeView()
-            TreeView1.SelectedNode = TreeView1.Nodes(targetNode.Index)
+            UpdateAll()
         End If
     End Sub
 #End Region
@@ -493,9 +529,7 @@ Public Class Form1
 
             Stroke.idCounter = strokeIDMax + 1
             currentStroke = strokes.Last
-            UpdateTreeView()
-            Panel1.Invalidate()
-            TreeView1.SelectedNode = TreeView1.Nodes(TreeView1.Nodes.Count - 1)
+            UpdateAll()
         End If
     End Sub
 
@@ -547,12 +581,10 @@ Public Class Form1
     End Sub
 
     Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
-        currentTool = Tool.Stroke
         UpdateAll()
     End Sub
 
     Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton2.CheckedChanged
-        currentTool = Tool.Selection
         UpdateAll()
     End Sub
 #End Region
