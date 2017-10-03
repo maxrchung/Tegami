@@ -45,8 +45,8 @@ Partial Class Form1
         Me.TrackBar2 = New System.Windows.Forms.TrackBar()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -203,9 +203,9 @@ Partial Class Form1
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(217, 16)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(31, 13)
+        Me.Label3.Size = New System.Drawing.Size(13, 13)
         Me.Label3.TabIndex = 10
-        Me.Label3.Text = "1000"
+        Me.Label3.Text = "0"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label4
@@ -213,9 +213,9 @@ Partial Class Form1
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(217, 48)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(31, 13)
+        Me.Label4.Size = New System.Drawing.Size(13, 13)
         Me.Label4.TabIndex = 11
-        Me.Label4.Text = "1000"
+        Me.Label4.Text = "0"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label2
@@ -271,6 +271,15 @@ Partial Class Form1
         Me.Panel2.Size = New System.Drawing.Size(254, 10)
         Me.Panel2.TabIndex = 17
         '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(217, 80)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(13, 13)
+        Me.Label6.TabIndex = 19
+        Me.Label6.Text = "0"
+        '
         'Label5
         '
         Me.Label5.AutoSize = True
@@ -279,15 +288,6 @@ Partial Class Form1
         Me.Label5.Size = New System.Drawing.Size(67, 13)
         Me.Label5.TabIndex = 18
         Me.Label5.Text = "Bezier Count"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(217, 80)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(31, 13)
-        Me.Label6.TabIndex = 19
-        Me.Label6.Text = "1000"
         '
         'Form1
         '
