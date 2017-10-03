@@ -24,6 +24,7 @@ void processEffect(Utility* utility, int bit) {
 			//bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(255, 209, 220), Color(255, 209, 220));
 			bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(255, 180, 198), Color(250, 180, 198));
 			bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
+
 			break;
 		}
 		case Effects::BackgroundDots: {
@@ -57,14 +58,7 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::Animation: {
-			// Create a file StrokeAnimationInputPath.txt in Tegami\Tegami\Tegami
-			// Make sure the text file is placed on the same level as this Tegami.cpp file
-			// In the first line of the file, put the target SA file path, e.g. C:\Users\Wax Chug da Gwad\Desktop\Tegami\Tegami\Tegami\StrokeAnimation\tegami.sa
-			// Make sure it's the absolute path and don't worry about escape characters
-			std::ifstream saFile("StrokeAnimationInputPath.txt");
-			std::string saPath;
-			std::getline(saFile, saPath);
-			StrokeAnimation strokeAnimation(utility, saPath);
+			StrokeAnimation strokeAnimation(utility, "StrokeAnimation/tegami.sa", Time("03:50:00"));
 			break;
 		}
 		case Effects::ForegroundDots: {

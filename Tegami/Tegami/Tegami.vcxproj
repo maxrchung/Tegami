@@ -148,7 +148,9 @@
     <ClCompile Include="DotWave.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Line.cpp" />
+    <ClCompile Include="Okaerinasai.cpp" />
     <ClCompile Include="PartGen.cpp" />
+    <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SpritePool.cpp" />
@@ -168,6 +170,8 @@
     <ClInclude Include="DotWave.hpp" />
     <ClInclude Include="Effects.hpp" />
     <ClInclude Include="Frame.hpp" />
+    <ClInclude Include="Okaerinasai.hpp" />
+    <ClInclude Include="Polygon.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="DotGenerator.hpp" />
     <ClInclude Include="DotTrajectory.hpp" />

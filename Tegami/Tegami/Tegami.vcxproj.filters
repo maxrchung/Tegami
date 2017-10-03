@@ -63,6 +63,12 @@
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Okaerinasai.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Polygon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="StoryboardInputPath.txt">
@@ -120,6 +126,12 @@
     </ClInclude>
     <ClInclude Include="Effects.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Okaerinasai.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Polygon.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

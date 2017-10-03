@@ -5,8 +5,7 @@
 
 #define PI 3.14159265358979
 
-class Utility
-{
+class Utility {
 public:
 	Utility() {};
 	float barTimeStep = 3117;
