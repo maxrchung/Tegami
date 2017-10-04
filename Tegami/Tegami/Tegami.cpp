@@ -6,6 +6,7 @@
 #include "Time.hpp"
 #include "Tree.hpp"
 #include "DotWave.hpp"
+#include "Okaerinasai.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -15,7 +16,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background | Effects::Animation;
+int effects = Effects::Background;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -25,6 +26,7 @@ void processEffect(Utility* utility, int bit) {
 			bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(255, 180, 198), Color(250, 180, 198));
 			bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
 
+			Okaerinasai ok(utility);
 			break;
 		}
 		case Effects::BackgroundDots: {
