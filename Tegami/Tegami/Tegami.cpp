@@ -82,7 +82,7 @@ void processEffect(Utility* utility, int bit) {
 			//Tree::Tree(utility, Vector2(0, 0), PI,       PI / 3, Time("01:30:000").ms, Time("02:00:000").ms, Time("02:30:000").ms, 6, 0.1, 1, 6, Color(255, 255, 255), Color(255, 209, 220));
 			//Tree::Tree(utility, Vector2(0, 0), 5* PI /3, PI / 3, Time("01:30:000").ms, Time("02:00:000").ms, Time("02:30:000").ms, 6, 0.1, 1, 6, Color(255, 255, 255), Color(255, 209, 220));
 			
-			Lyrics::Lyrics(Time("00:00:000").ms, Time("01:00:000").ms, 10);
+			Lyrics::Lyrics("C:\\Users\\Royce\\Documents\\Tegami\\Tegami\\Tegami\\Characters\\lyrics.ly");
 			break;
 		}
 	}
