@@ -4,8 +4,8 @@
 
 #include <vector>
 
-StrokeAnimation::StrokeAnimation(Utility* utility, std::string path) 
-	: utility(utility) {
+StrokeAnimation::StrokeAnimation(Utility* utility, std::string path, Time start, Time end) 
+	: utility(utility), start(start), end(end) {
 
 	std::cout << "Parsing frames..." << std::endl;
 
@@ -20,20 +20,22 @@ StrokeAnimation::StrokeAnimation(Utility* utility, std::string path)
 void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Frame> frames) {
 	std::cout << "Processing rectangles..." << std::endl;
 
-	SpritePool* backing = new SpritePool(utility->blockPath, Origin::Centre);
 	int fadeStart = 51;
 	int fadeMid = 75;
 	int fadeEnd = 139;
 
 	for (auto f = 0; f < frames.size(); ++f) {
 		auto& frame = frames[f];
+
+		if (frame.time.ms < start.ms || frame.time.ms > end.ms) {
+			continue;
+		}
+
 		float startTime = frame.time.ms;
 		float endTime = startTime + utility->mspf;
 
 		for (int i = 0; i < frame.rectangles.size(); i++) {
 			Sprite* sprite = rectanglePool->Get(i);
-			//Sprite* back = backing->Get(i);
-
 			Vector2 pos = frame.rectangles[i].center;
 			Vector2 size = frame.rectangles[i].size * rectEdgeScale;
 			float rotation = frame.rectangles[i].rotation;
@@ -58,24 +60,12 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 			else if (sprite->fade == 0) {
 				sprite->Fade(startTime, endTime, 1, 1);
 			}
-
-			//back->Move(startTime, endTime, pos, pos);
-			//back->Rotate(startTime, endTime, radians, radians, Easing::Linear, 1);
-			//back->ScaleVector(startTime, endTime, size, size, Easing::Linear, 0);
-
-			//if (back->fade == 0) {
-			//	back->Fade(startTime, endTime, 1, 1);
-			//}
 		}
 
 		for (int i = frame.rectangles.size(); i < rectanglePool->sprites.size(); i++) {
 			if (rectanglePool->sprites[i]->fade != 0) {
 				rectanglePool->sprites[i]->Fade(startTime, startTime, 0, 0);
 			}
-
-			//if (backing->sprites[i]->fade != 0) {
-			//	backing->sprites[i]->Fade(startTime, startTime, 0, 0);
-			//}
 		}
 	}
 }
@@ -84,10 +74,15 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 	std::cout << "Processing lines..." << std::endl;
 
 	for (auto& frame : frames) {
+		if (frame.time.ms < start.ms || frame.time.ms > end.ms) {
+			continue;
+		}
+
 		float startTime = frame.time.ms;
 		float endTime = startTime + utility->mspf;
 
 		for (int i = 0; i < frame.lines.size(); i++) {
+
 			Sprite* sprite = linePool->Get(i);
 			Vector2 startPos = frame.lines[i].start;
 			Vector2 endPos = frame.lines[i].end;
@@ -122,10 +117,18 @@ std::vector<Frame> StrokeAnimation::parseFrames(std::string path) {
 	XMLDocument doc;
 	doc.LoadFile(path.c_str());
 
+	Time time(-utility->mspf);
+
 	XMLElement* root = doc.RootElement();
 	XMLElement* frame = root->FirstChildElement();
 	std::vector<Frame> frames;
 	while (frame != NULL) {
+		time = Time(time.ms + utility->mspf);
+		if (time.ms < start.ms || time.ms > end.ms) {
+			frame = frame->NextSiblingElement();
+			continue;
+		}
+
 		XMLElement* strokes = frame->FirstChildElement();
 		XMLElement* stroke = strokes->FirstChildElement();
 		std::vector<Line> lines;

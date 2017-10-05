@@ -203,7 +203,7 @@ Public Class Form1
                     Dim curr = points(j)
 
                     If prev.X = curr.X Then
-                        If mouse.Y > Math.Min(prev.Y, curr.Y) And mouse.Y < Math.Max(prev.Y, curr.Y) Then
+                        If mouse.Y > Math.Min(prev.Y, curr.Y) AndAlso mouse.Y < Math.Max(prev.Y, curr.Y) AndAlso Math.Abs(mouse.X - curr.X) < lineCollision Then
                             currentStroke = strokes(i)
                             currentPoint = Nothing
                             Return
@@ -211,7 +211,7 @@ Public Class Form1
                     End If
 
                     If prev.Y = curr.Y Then
-                        If mouse.X > Math.Min(prev.X, curr.X) And mouse.X < Math.Max(prev.X, curr.X) Then
+                        If mouse.X > Math.Min(prev.X, curr.X) AndAlso mouse.X < Math.Max(prev.X, curr.X) AndAlso Math.Abs(mouse.Y - curr.Y) < lineCollision Then
                             currentStroke = strokes(i)
                             currentPoint = Nothing
                             Return
@@ -369,6 +369,7 @@ Public Class Form1
         Dim paintPen As Pen
         Dim paintBrush As SolidBrush
 
+        Dim bezierCount = 0
         For Each stroke In strokes
             If Not currentPoint Is Nothing Then
                 paintPen = penBlack
@@ -383,7 +384,6 @@ Public Class Form1
 
             ' Draw Bezier
             If CheckBox1.Checked Then
-                Dim bezierCount = 0
                 If stroke.bezier.points.Count > 1 Then
                     Dim size = TrackBar2.Value
 
@@ -439,6 +439,7 @@ Public Class Form1
     Private Sub TreeView1_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView1.AfterSelect
         If e.Node.Level = 0 Then
             currentStroke = strokes(e.Node.Index)
+            currentPoint = Nothing
         ElseIf e.Node.Level = 1 Then
             currentStroke = strokes(e.Node.Parent.Index)
             currentPoint = currentStroke.bezier.points(e.Node.Index)
@@ -499,6 +500,7 @@ Public Class Form1
             Dim result As DialogResult = MessageBox.Show("Clear all strokes?", "StrokeImage - New", MessageBoxButtons.OKCancel)
             If result = DialogResult.OK Then
                 ResetValues()
+                UpdateAll()
             End If
         End If
     End Sub

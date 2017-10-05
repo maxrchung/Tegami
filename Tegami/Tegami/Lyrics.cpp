@@ -4,6 +4,7 @@
 #include "Sprite.hpp"
 #include "Stroke.hpp"
 #include "StrokeManager.hpp"
+#include "Time.hpp"
 
 Lyrics::Lyrics(std::string fileName){
 	StrokeManager strokeManager = StrokeManager("C:\\Users\\Royce\\Documents\\Tegami\\Tegami\\Tegami\\Characters");
@@ -16,6 +17,10 @@ Lyrics::Lyrics(std::string fileName){
 	int Tdiff;
 
 	while (file >> siFile >> startT >> endT >> Tdiff) {
+		startTime = Time(startT).ms;
+		endTime = Time(endT).ms;
+		timeDifference = Tdiff;
+
 		Character singleChar = strokeManager.Get(siFile);
 		drawCharacter(singleChar);
 	}

@@ -15,8 +15,11 @@ using namespace tinyxml2;
 
 class StrokeAnimation {
 public:
-	StrokeAnimation(Utility* utility, std::string path);
+	StrokeAnimation(Utility* utility, std::string path, Time start = Time(0), Time end = Time("04:30:00"));
 private:
+	Time start;
+	Time end;
+
 	void drawLines(SpritePool* lines, std::vector<Frame> frames);
 	void drawRectangles(SpritePool* rectangles, std::vector<Frame> frames);
 
