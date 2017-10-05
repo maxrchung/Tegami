@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tegami", "Tegami\Tegami.vcxproj", "{336A2653-5060-4F12-9E7A-8234307A8345}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -16,6 +16,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "StrokeAnimation", "StrokeAnimation\StrokeAnimation.vbproj", "{3D84CE03-5613-45B1-81A1-76F538BA2572}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml2", "tinyxml2-master\tinyxml2\tinyxml2.vcxproj", "{D1C528B6-AA02-4D29-9D61-DC08E317A70D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{A908F410-B357-4EB9-90D0-9F5433FC05C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -235,6 +237,41 @@ Global
 		{D1C528B6-AA02-4D29-9D61-DC08E317A70D}.Release-Lib|x64.Build.0 = Release-Lib|x64
 		{D1C528B6-AA02-4D29-9D61-DC08E317A70D}.Release-Lib|x86.ActiveCfg = Release-Lib|Win32
 		{D1C528B6-AA02-4D29-9D61-DC08E317A70D}.Release-Lib|x86.Build.0 = Release-Lib|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug|Any CPU.Build.0 = Debug|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug|x64.ActiveCfg = Debug|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug|x64.Build.0 = Debug|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug|x86.ActiveCfg = Debug|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug|x86.Build.0 = Debug|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Dll|Any CPU.ActiveCfg = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Dll|Any CPU.Build.0 = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Dll|x64.ActiveCfg = Debug|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Dll|x64.Build.0 = Debug|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Dll|x86.ActiveCfg = Debug|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Dll|x86.Build.0 = Debug|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Lib|Any CPU.ActiveCfg = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Lib|Any CPU.Build.0 = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Lib|x64.ActiveCfg = Debug|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Lib|x64.Build.0 = Debug|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Lib|x86.ActiveCfg = Debug|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Debug-Lib|x86.Build.0 = Debug|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release|x64.ActiveCfg = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release|x64.Build.0 = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release|x86.ActiveCfg = Release|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release|x86.Build.0 = Release|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Dll|Any CPU.ActiveCfg = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Dll|Any CPU.Build.0 = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Dll|x64.ActiveCfg = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Dll|x64.Build.0 = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Dll|x86.ActiveCfg = Release|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Dll|x86.Build.0 = Release|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Lib|Any CPU.ActiveCfg = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Lib|Any CPU.Build.0 = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Lib|x64.ActiveCfg = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Lib|x64.Build.0 = Release|x64
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Lib|x86.ActiveCfg = Release|Win32
+		{A908F410-B357-4EB9-90D0-9F5433FC05C3}.Release-Lib|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -66,9 +66,6 @@
     <ClCompile Include="Okaerinasai.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Polygon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BoundingRectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -131,9 +128,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Okaerinasai.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Polygon.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="BoundingRectangle.hpp">
