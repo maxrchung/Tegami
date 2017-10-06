@@ -144,13 +144,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bezier.cpp" />
+    <ClCompile Include="BoundingRectangle.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DotGenerator.cpp" />
     <ClCompile Include="DotWave.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Lyrics.cpp" />
+    <ClCompile Include="Okaerinasai.cpp" />
     <ClCompile Include="PartGen.cpp" />
+    <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SpritePool.cpp" />
@@ -167,11 +170,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bezier.hpp" />
+    <ClInclude Include="BoundingRectangle.hpp" />
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="DotWave.hpp" />
     <ClInclude Include="Effects.hpp" />
     <ClInclude Include="Frame.hpp" />
     <ClInclude Include="Lyrics.hpp" />
+    <ClInclude Include="Okaerinasai.hpp" />
+    <ClInclude Include="Polygon.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="DotGenerator.hpp" />
     <ClInclude Include="DotTrajectory.hpp" />

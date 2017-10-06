@@ -20,7 +20,8 @@ Lyrics::Lyrics(std::string fileName){
 		startTime = Time(startT).ms;
 		endTime = Time(endT).ms;
 		timeDifference = Tdiff;
-
+		//std::cout << startTime << endTime << timeDifference << std::endl;
+		std::cout << siFile << std::endl;
 		Character singleChar = strokeManager.Get(siFile);
 		drawCharacter(singleChar);
 	}
