@@ -136,9 +136,6 @@
     <ClInclude Include="Effects.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Okaerinasai.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="BoundingRectangle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -149,6 +146,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Lyrics.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Okaerinasai.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
