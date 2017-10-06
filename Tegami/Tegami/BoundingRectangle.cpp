@@ -1,6 +1,6 @@
 #include "BoundingRectangle.hpp"
 
-BoundingRectangle::BoundingRectangle(std::vector<Vector2> points) {
+BoundingRectangle::BoundingRectangle(const std::vector<Vector2>& points) {
 	for (auto& point : points) {
 		if (point.x < left) {
 			left = point.x;
@@ -21,13 +21,13 @@ BoundingRectangle::BoundingRectangle(std::vector<Vector2> points) {
 	height = top - bot;
 }
 
-Vector2 BoundingRectangle::GeneratePoint() {
+Vector2 BoundingRectangle::GeneratePoint() const {
 	int x = rand() % width + left;
 	int y = rand() % height + bot;
 	return Vector2(x, y);
 }
 
-bool BoundingRectangle::Contains(Vector2 point) {
+bool BoundingRectangle::Contains(Vector2 point) const {
 	if (point.x < left || point.x > right || point.y < bot || point.y > top) {
 		return false;
 	}

@@ -16,17 +16,19 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background;
+int effects = Effects::Background | Effects::Animation;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
 		case Effects::Background: {
-			Sprite* bg = new Sprite("sprite/solidblock.png", Vector2::Zero, Layer::Background);
-			bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
+			Sprite* bg = new Sprite("t.png", Vector2::Zero, Layer::Background);
 
-			//bg->Color(Time("00:00:000").ms, Time("10:00:000").ms, Color(255, 209, 220), Color(255, 209, 220));
-			bg->Color(Time("00:00:000").ms, Time("04:24:041").ms, Color(255, 180, 198), Color(250, 180, 198));
-			bg->Color(Time("04:24:041").ms, Time("04:29:885").ms, bg->color, Color(255));
+			Sprite* back = new Sprite("f.png", Vector2::Zero, Layer::Background);
+			auto scale = 480 / 1080.0f;
+			back->Scale(Time("00:00:000").ms, Time("10:00:000").ms, scale, scale, Easing::Linear);
+			back->Color(Time("00:00:000").ms, Time("00:14:690").ms, Color(), Color(250, 180, 198));
+			back->Color(Time("02:19:365").ms, Time("02:44:300").ms, back->color, Color(183,251,255));
+			back->Color(Time("04:24:041").ms, Time("04:29:885").ms, back->color, Color(255));
 
 			Okaerinasai ok(utility);
 			break;
@@ -51,7 +53,7 @@ void processEffect(Utility* utility, int bit) {
 			};
 			DotWave *waves3 = new DotWave(utility, wave3, 20, -50, 300, 0);
 
-			std::vector<Wave> wave4{
+			std::vector<Wave> wave4{	
 				Wave(100, 200, 20, Time("03:09:235").ms, Time("03:43:521").ms, Color(0, 0, 255), 0.5),
 				Wave(100, 200, 20, Time("03:43:521").ms, Time("03:46:648").ms, Color(0, 0, 255), 0.5),
 				Wave(100, 200, 20, Time("03:46:648").ms, Time("03:55:989").ms, Color(0, 0, 255), 0.5)
@@ -62,7 +64,7 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::Animation: {
-			StrokeAnimation strokeAnimation(utility, "StrokeAnimation/tegami.sa", Time("03:50:00"));
+			StrokeAnimation strokeAnimation(utility, "StrokeAnimation/tegami.sa");
 			break;
 		}
 		case Effects::ForegroundDots: {
@@ -119,5 +121,5 @@ void main() {
 	mainFile << std::endl; 
 	mainFile.close();
 
-	std::cin.get();
+	//std::cin.get();
 }

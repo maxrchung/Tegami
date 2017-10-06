@@ -5,10 +5,10 @@
 
 class BoundingRectangle {
 public:
-	BoundingRectangle(std::vector<Vector2> points);
+	BoundingRectangle(const std::vector<Vector2>& points);
 	// Generate a point from within this bounding rect
-	Vector2 GeneratePoint();
-	bool Contains(Vector2 point);
+	Vector2 GeneratePoint() const;
+	bool Contains(Vector2 point) const;
 
 	float top = -1000;
 	float bot = 1000;
