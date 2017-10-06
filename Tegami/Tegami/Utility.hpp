@@ -20,7 +20,5 @@ public:
 
 	// Convert degrees to radians
 	float DToR(float degrees);
-
-	std::string blockPath = std::string("sprite/whiteblock.png");
 };
 

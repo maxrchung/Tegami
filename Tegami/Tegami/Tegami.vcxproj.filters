@@ -63,19 +63,19 @@
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lyrics.cpp">
+    <ClCompile Include="Okaerinasai.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingRectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PNGWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bezier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Okaerinasai.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Polygon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BoundingRectangle.cpp">
+    <ClCompile Include="Lyrics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -136,19 +136,19 @@
     <ClInclude Include="Effects.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Lyrics.hpp">
+    <ClInclude Include="Okaerinasai.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingRectangle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PNGWrapper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bezier.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Okaerinasai.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Polygon.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BoundingRectangle.hpp">
+    <ClInclude Include="Lyrics.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -17,18 +17,19 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background | Effects::Foreground;
+int effects = Effects::Background | Effects::Animation;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
 		case Effects::Background: {
-			Sprite* bg = new Sprite("sprite/whiteblock.png", Vector2::Zero, Layer::Background);
-			Sprite* bg = new Sprite("sprite/solidblock.png", Vector2::Zero, Layer::Background);
+			Sprite* bg = new Sprite("t.png", Vector2::Zero, Layer::Background);
 
-			bg->ScaleVector(Time("00:00:000").ms, Time("10:00:000").ms, Vector2::ScreenSize, Vector2::ScreenSize);
-
-			bg->Color(Time("00:00:000").ms, Time("04:24:041").ms, Color(255, 180, 198), Color(250, 180, 198));
-			bg->Color(Time("04:24:041").ms, Time("04:29:885").ms, bg->color, Color(255));
+			Sprite* back = new Sprite("f.png", Vector2::Zero, Layer::Background);
+			auto scale = 480 / 1080.0f;
+			back->Scale(Time("00:00:000").ms, Time("10:00:000").ms, scale, scale, Easing::Linear);
+			back->Color(Time("00:00:000").ms, Time("00:14:690").ms, Color(), Color(250, 180, 198));
+			back->Color(Time("02:19:365").ms, Time("02:44:300").ms, back->color, Color(183,251,255));
+			back->Color(Time("04:24:041").ms, Time("04:29:885").ms, back->color, Color(255));
 
 			Okaerinasai ok(utility);
 			break;
@@ -53,24 +54,13 @@ void processEffect(Utility* utility, int bit) {
 			};
 			DotWave *waves3 = new DotWave(utility, wave3, 20, -50, 300, 0);
 
-			std::vector<Wave> wave4{
+			std::vector<Wave> wave4{	
 				Wave(100, 200, 20, Time("03:09:235").ms, Time("03:43:521").ms, Color(0, 0, 255), 0.5),
 				Wave(100, 200, 20, Time("03:43:521").ms, Time("03:46:648").ms, Color(0, 0, 255), 0.5),
 				Wave(100, 200, 20, Time("03:46:648").ms, Time("03:55:989").ms, Color(0, 0, 255), 0.5)
 			};
 			DotWave *waves4 = new DotWave(utility, wave4, 20, -50, 300, 0);
 
-			Tree *tree = new Tree(utility, Vector2(0, -100), 0, PI / 5, Time("00:00:000").ms, Time("01:00:000").ms, Time("01:30:000").ms, 10, 0.2, 0.8, 8, Color(255, 255, 255), Color(255, 170, 180));
-			break;
-		}
-		case Effects::Animation: {
-			StrokeAnimation strokeAnimation(utility, "StrokeAnimation/tegami.sa", Time("03:50:00"));
-			break;
-		}
-		case Effects::ForegroundDots: {
-			break;
-		}
-		case Effects::Foreground: {
 			//Tree::Tree(utility, Vector2(0, 0), 0,      PI / 4, Time("00:00:000").ms, Time("00:30:000").ms, Time("01:00:000").ms, 8, 0.05, 1.5, 5, Color(255, 255, 255), Color(255, 209, 220));
 			//Tree::Tree(utility, Vector2(0, 0), PI,     PI / 4, Time("00:00:000").ms, Time("00:30:000").ms, Time("01:00:000").ms, 8, 0.05, 1.5, 5, Color(255, 255, 255), Color(255, 209, 220));
 			//Tree::Tree(utility, Vector2(0, 0), PI/2,   PI / 4, Time("00:00:000").ms, Time("00:30:000").ms, Time("01:00:000").ms, 8, 0.05, 1.5, 5, Color(255, 255, 255), Color(255, 209, 220));
@@ -79,8 +69,18 @@ void processEffect(Utility* utility, int bit) {
 			//Tree::Tree(utility, Vector2(0, 0), PI /3,    PI / 3, Time("01:30:000").ms, Time("02:00:000").ms, Time("02:30:000").ms, 6, 0.1, 1, 6, Color(255, 255, 255), Color(255, 209, 220));
 			//Tree::Tree(utility, Vector2(0, 0), PI,       PI / 3, Time("01:30:000").ms, Time("02:00:000").ms, Time("02:30:000").ms, 6, 0.1, 1, 6, Color(255, 255, 255), Color(255, 209, 220));
 			//Tree::Tree(utility, Vector2(0, 0), 5* PI /3, PI / 3, Time("01:30:000").ms, Time("02:00:000").ms, Time("02:30:000").ms, 6, 0.1, 1, 6, Color(255, 255, 255), Color(255, 209, 220));
-			
-			Lyrics::Lyrics("C:\\Users\\Royce\\Documents\\Tegami\\Tegami\\Tegami\\Characters\\lyrics.ly");
+
+			break;
+		}
+		case Effects::Animation: {
+			StrokeAnimation strokeAnimation(utility, "StrokeAnimation/tegami.sa");
+			break;
+		}
+		case Effects::ForegroundDots: {
+			break;
+		}
+		case Effects::Foreground: {
+			Lyrics::Lyrics("lyrics.ly");
 			break;
 		}
 	}
@@ -92,10 +92,6 @@ void processEffect(Utility* utility, int bit) {
 void main() {
 	srand(time(NULL));
 	Utility *utility = new Utility();
-
-	Sprite *background = new Sprite("tegami.png", Vector2::Zero, Layer::Background);
-	background->Fade(Time("00:00:000").ms, Time("00:00:000").ms, 0.0f, 0.0f);
-	
 
 	for (int bit = 1; bit < Effects::bIgBoy; bit *= 2) {
 		if (effects & bit) {
@@ -135,5 +131,5 @@ void main() {
 	mainFile << std::endl; 
 	mainFile.close();
 
-	std::cin.get();
+	//std::cin.get();
 }

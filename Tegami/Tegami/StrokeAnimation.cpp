@@ -10,10 +10,10 @@ StrokeAnimation::StrokeAnimation(Utility* utility, std::string path, Time start,
 	std::cout << "Parsing frames..." << std::endl;
 
 	std::vector<Frame> frames = parseFrames(path);
-	SpritePool* rectanglePool = new SpritePool(utility->blockPath, Origin::Centre);
+	SpritePool* rectanglePool = new SpritePool("w.png", Origin::Centre);
 	drawRectangles(rectanglePool, frames);
 
-	SpritePool* linePool = new SpritePool(utility->blockPath, Origin::Centre);
+	SpritePool* linePool = new SpritePool("w.png", Origin::Centre);
 	drawLines(linePool, frames);
 }
 

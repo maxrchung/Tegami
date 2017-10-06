@@ -90,12 +90,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)OsuukiSB;$(SolutionDir)tinyxml2-master</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OsuukiSB;$(SolutionDir)tinyxml2-master;$(SolutionDir)\..\lpng1625</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)Debug\;$(SolutionDir)Debug-Dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OsuukiSB.lib;tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OsuukiSB.lib;tinyxml2.lib;zlib.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -153,9 +153,9 @@
     <ClCompile Include="Lyrics.cpp" />
     <ClCompile Include="Okaerinasai.cpp" />
     <ClCompile Include="PartGen.cpp" />
-    <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="PNGWrapper.cpp" />
     <ClCompile Include="SpritePool.cpp" />
     <ClCompile Include="Stroke.cpp" />
     <ClCompile Include="StrokeAnimation.cpp" />
@@ -177,7 +177,7 @@
     <ClInclude Include="Frame.hpp" />
     <ClInclude Include="Lyrics.hpp" />
     <ClInclude Include="Okaerinasai.hpp" />
-    <ClInclude Include="Polygon.hpp" />
+    <ClInclude Include="PNGWrapper.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="DotGenerator.hpp" />
     <ClInclude Include="DotTrajectory.hpp" />
