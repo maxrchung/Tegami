@@ -111,7 +111,7 @@ DotTrajectory  DotGenerator::box_collision(float x, float y, float angle) {
 		if (((topY - y) / (rightX - x)) <= tanInput) {
 			out.x = x + (topY - y) / tanInput;
 			out.y = topY;
-			out.angle = angle + PI / 2;
+			out.angle = -angle;
 		}
 		else {
 			out.x = rightX;
