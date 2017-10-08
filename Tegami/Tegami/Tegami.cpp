@@ -40,8 +40,8 @@ void processEffect(Utility* utility, int bit) {
 			// small fast
 			// opacity
 
-			DotGenerator* soft =	new DotGenerator(utility, 10,	3,		0,		0.01,	0,		utility->pinkBg,	35, 0.5,	0,		Time("00:14:690").ms, Time("01:38:846").ms, "l.png",  false);
-			DotGenerator* medium =	new DotGenerator(utility, 20,	0.8,	0.7,	0.005,	0.004,	utility->pinkBg,	25, 0.5,	0.25,	Time("00:27:157").ms, Time("01:38:846").ms, "m.png",  false);
+			DotGenerator* soft =	new DotGenerator(utility, 8,	3,		0,		0.01,	0,		utility->pinkBg,	35, 0.5,	0,		Time("00:14:690").ms, Time("01:17:028").ms, "l.png",  false);
+			DotGenerator* medium =	new DotGenerator(utility, 30,	0.8,	0.7,	0.005,	0.004,	utility->pinkBg,	25, 0.5,	0.25,	Time("00:27:157").ms, Time("01:29:495").ms, "m.png",  false);
 			DotGenerator* fast =	new DotGenerator(utility, 100,	0.05,	0.04,	0.015,	0.01,	Color(255),			20, 0.5,	0.4,	Time("00:39:625").ms, Time("01:38:846").ms, "m.png",  false);	
 
 			//DotGenerator* hard = new DotGenerator(utility, 25, 1, 0.005, Time("00:14:690").ms, Time("01:38:846").ms, "h.png");
