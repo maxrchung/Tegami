@@ -63,7 +63,6 @@ DotGenerator::DotGenerator(Utility *utility, int numberOfDots, float dotScale, f
 			time = timeNext;
 
 			coord = box_collision(coord.x, coord.y, coord.angle);
-			speed = generateRandom(dotVelocity, speedOffset);
 			timeNext = time + coord.distance / speed;
 			dot->Move(time, timeNext, startX, startY, coord.x, coord.y, Easing::Linear);
 		}
