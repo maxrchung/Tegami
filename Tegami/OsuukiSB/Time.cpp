@@ -12,6 +12,10 @@ Time::Time(int ms) {
 	this->format = buffer;
 }
 
+Time::Time() {
+	*this = Time(0);
+}
+
 Time::Time(std::string format) {
 	this->format = format;
 	std::smatch smatch;
