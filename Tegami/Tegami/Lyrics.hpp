@@ -7,9 +7,12 @@ class Lyrics
 public:
 	Lyrics(std::string fileName);
 
-	float startTime;
-	float endTime;
+	int startTime;
+	int endTime;
+	int fadeTime;
 	float timeDifference;
+	int x;
+	int y;
 
 	void drawCharacter(Character input);
 private:

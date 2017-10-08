@@ -8,22 +8,28 @@
 
 Lyrics::Lyrics(std::string fileName){
 	StrokeManager strokeManager = StrokeManager("C:\\Users\\Royce\\Documents\\Tegami\\Tegami\\Tegami\\Characters");
-
+	
 	std::ifstream file(fileName);
-	std::string shit;
+	std::string line;
 	std::string siFile;
 	std::string startT;
 	std::string endT;
-	int Tdiff;
+	std::string fadeT;
+	float xPoint;
+	float yPoint;
 
-	while (file >> siFile >> startT >> endT >> Tdiff) {
+	for (int i = 0; i < 4; i++) {
+		std::string siName(100, 0);
+		file >> siFile >> startT >> endT >> fadeT >> timeDifference >> x >> y;
+		std::cout << siFile << std::endl;
+
 		startTime = Time(startT).ms;
 		endTime = Time(endT).ms;
-		timeDifference = Tdiff;
-		//std::cout << startTime << endTime << timeDifference << std::endl;
-		std::cout << siFile << std::endl;
+		fadeTime = Time(fadeT).ms;
+
 		Character singleChar = strokeManager.Get(siFile);
 		drawCharacter(singleChar);
+		siName.clear();
 	}
 }
 
@@ -47,14 +53,14 @@ float Lyrics::drawStroke(Stroke input, float fadeIn) {
 
 	for (int i = 0; i < dotbIgBoy; i++) {
 
-		Vector2 pos = stroke.findPosition(currTime);
+		Vector2 pos = stroke.findPosition(currTime) + Vector2(x,y);
 		Sprite *dot = new Sprite("sprite/lildot.png", pos, Layer::Background, Centre);
 
 		float dotScale = 0.05;
 		dot->Scale(fadeIn + timeDifference, fadeIn + 2 * timeDifference, dotScale, dotScale);
 		dot->Color(fadeIn + timeDifference, fadeIn + 2 * timeDifference, Color(255, 255, 255), Color(255, 255, 255));
 		dot->Fade(fadeIn + timeDifference, fadeIn + 2 * timeDifference, 0, 1);
-		dot->Fade(endTime, endTime + timeDifference, 1, 0);
+		dot->Fade(fadeTime, fadeTime + timeDifference, 1, 0);
 		
 		fadeIn += timeDifference;
 		currTime += timeStep;

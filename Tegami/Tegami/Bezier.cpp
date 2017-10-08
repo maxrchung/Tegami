@@ -56,7 +56,7 @@ Vector2 Bezier::reduceCurve(std::vector<Vector2> points, float time) {
 
 std::vector<float> Bezier::getBinomial(int count) {
 	// Add to the table if we have not calculated the row yet
-	if (binomial.size() < count) {
+	if (binomial.size() <= count) {
 		for (int i = binomial.size(); i <= count; i++) {
 			std::vector<float> row = { 1 };
 			for (int j = 1; j < i - 1; j++) {
