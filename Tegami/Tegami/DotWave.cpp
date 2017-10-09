@@ -16,7 +16,8 @@ DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, flo
 	float startTime = wave[0].timeStart;
 
 	for (int i = 0; i < numberOfDots; i++) {
-		Sprite *dot = new Sprite("sprite/wavedot.png", Vector2(startX + (i*(abs(endX - startX) / numberOfDots)), lineY), Layer::Foreground, Origin::Centre);
+		// numberOfDots - 1 to account for a dot at endX
+		Sprite *dot = new Sprite("m.png", Vector2(startX + (i*(abs(endX - startX) / (numberOfDots - 1))), lineY), Layer::Foreground, Origin::Centre);
 		dot->Fade(startTime, startTime + utility->quarterTimeStep, 0, 1);
 
 		bool directionFlag = 1;

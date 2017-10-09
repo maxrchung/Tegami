@@ -39,7 +39,7 @@ Okaerinasai::Okaerinasai(Utility* utility)
 
 Color Okaerinasai::GetFromPNG(const PNGWrapper& bg, Vector2 point) const {
 	auto x = point.x + 854 / 2;
-	// Flip to account for PNG reading from top to down
+	// Flip to account for PNG coordinates
 	auto y = -point.y + 239;
 	auto color = bg.Get(x, y);
 	return color;

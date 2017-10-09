@@ -7,19 +7,19 @@
 #include "Tree.hpp"
 
 
-Tree::Tree(Utility *utility, Vector2 startingPoint, float angle, float deltaAngle, float startTime, float endTime, float fadeTime, float speed, float scale, float branchScale, int numberOfIter, Color startColor, Color endColor)
-:speed(speed), deltaAngle(deltaAngle), branchScale(branchScale){
-	Tree::timePerBranch = (endTime - startTime) / numberOfIter;
+Tree::Tree(Utility *utility, Vector2 startingPoint, float angle, float deltaAngle, float startTime, float endTime, float fadeTime, float speed, float scale, float branchScale, float imageScale, int numberOfIter, Color startColor, Color endColor)
+	: speed(speed), deltaAngle(deltaAngle), branchScale(branchScale), imageScale(imageScale) {
+	timePerBranch = (endTime - startTime) / numberOfIter;
 	CreateTree(utility, startingPoint, angle, startTime, endTime, fadeTime, scale, numberOfIter, startColor, endColor);
 }
 
 void Tree::CreateTree(Utility *utility, Vector2 startingPoint, float angle, float startTime, float endTime, float fadeTime, float scale, int numberOfIter, Color startColor, Color endColor) {
 	
-	returnStruct endStruct = Tree::generateBranch(utility, startingPoint, angle, startTime, endTime, fadeTime, scale, numberOfIter, startColor, endColor);
+	returnStruct endStruct = generateBranch(utility, startingPoint, angle, startTime, endTime, fadeTime, scale, numberOfIter, startColor, endColor);
 	
 	if ((numberOfIter - 1) > 0) {
-		CreateTree(utility, endStruct.point, angle + Tree::deltaAngle, endStruct.endTime, endTime, fadeTime, scale*Tree::branchScale, numberOfIter - 1, endColor, endColor);
-		CreateTree(utility, endStruct.point, angle - Tree::deltaAngle, endStruct.endTime, endTime, fadeTime, scale*Tree::branchScale, numberOfIter - 1, endColor, endColor);
+		CreateTree(utility, endStruct.point, angle + Tree::deltaAngle, endStruct.endTime, endTime, fadeTime, scale*branchScale, numberOfIter - 1, endColor, endColor);
+		CreateTree(utility, endStruct.point, angle - Tree::deltaAngle, endStruct.endTime, endTime, fadeTime, scale*branchScale, numberOfIter - 1, endColor, endColor);
 	}
 }
 
@@ -54,8 +54,8 @@ Tree::returnStruct Tree::generateBranch(Utility *utility, Vector2 startingPoint,
 		}
 		else {
 			// Use sprite pool
-			Sprite *branch = new Sprite("sprite/lildot.png", branchPoints[i]);
-			branch->Scale(currTime, fadeTime, scale / 5, scale / 5);
+			Sprite *branch = new Sprite("m.png", branchPoints[i]);
+			branch->Scale(currTime, fadeTime, scale / 5 * imageScale, scale / 5 * imageScale);
 
 			// Need to fix this? [1]?
 			branch->Color(currTime, fadeTime, colorVector[i], colorVector[i]);
