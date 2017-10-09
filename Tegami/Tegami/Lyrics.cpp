@@ -18,7 +18,7 @@ Lyrics::Lyrics(std::string fileName){
 	float xPoint;
 	float yPoint;
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 		std::string siName(100, 0);
 		file >> siFile >> startT >> endT >> fadeT >> timeDifference >> x >> y;
 		std::cout << siFile << std::endl;
@@ -54,7 +54,7 @@ float Lyrics::drawStroke(Stroke input, float fadeIn) {
 	for (int i = 0; i < dotbIgBoy; i++) {
 
 		Vector2 pos = stroke.findPosition(currTime) + Vector2(x,y);
-		Sprite *dot = new Sprite("sprite/lildot.png", pos, Layer::Background, Centre);
+		Sprite *dot = new Sprite("m.png", pos, Layer::Background, Centre);
 
 		float dotScale = 0.05;
 		dot->Scale(fadeIn + timeDifference, fadeIn + 2 * timeDifference, dotScale, dotScale);
