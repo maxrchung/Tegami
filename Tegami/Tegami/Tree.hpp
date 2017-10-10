@@ -19,8 +19,9 @@ private:
 	float timePerBranch;
 	float speed;
 	float branchScale;
-	float deltaAngle;;
+	float deltaAngle;
 	float imageScale;
+	Color colorDifference; //perbranch
 
 	std::vector<Vector2> dotOffsets = { 
 		Vector2::Vector2(31,28),

@@ -17,7 +17,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::ForegroundDots | Effects::Background;
+int effects = Effects::BackgroundDots | Effects::Background;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -43,21 +43,21 @@ void processEffect(Utility* utility, int bit) {
 		case Effects::BackgroundDots: {
 			// Pink sections
 			// A bit more colorful than the blue section below
-			DotGenerator(utility, 8,	2.8,	0,		0.01,	0,		utility->pinkBg,	35, 0.5,	0,		Time("00:14:690").ms, Time("01:17:028").ms, "l.png",  false);
-			DotGenerator(utility, 30,	0.8,	0.7,	0.005,	0.004,	utility->pinkBg,	25, 0.5,	0.25,	Time("00:27:157").ms, Time("01:29:495").ms, "m.png",  false);
-			DotGenerator(utility, 100,	0.05,	0.04,	0.015,	0.01,	Color(255),			20, 0.5,	0.4,	Time("00:39:625").ms, Time("01:40:404").ms, "m.png",  false);
+			//DotGenerator(utility, 8,	2.8,	0,		0.01,	0,		utility->pinkBg,	35, 0.5,	0,		Time("00:14:690").ms, Time("01:17:028").ms, "l.png",  false);
+			//DotGenerator(utility, 30,	0.8,	0.7,	0.005,	0.004,	utility->pinkBg,	25, 0.5,	0.25,	Time("00:27:157").ms, Time("01:29:495").ms, "m.png",  false);
+			//DotGenerator(utility, 100,	0.05,	0.04,	0.015,	0.01,	Color(255),			20, 0.5,	0.4,	Time("00:39:625").ms, Time("01:40:404").ms, "m.png",  false);
 
-			// Blue sections
-			// Blue section is directly copied from above, this has a stronger blue color
-			DotGenerator(utility, 8,	2.8,	0,		0.01,	0,		utility->blueBg,	35, 0.5,	0,		Time("02:19:365").ms, Time("03:06:118").ms, "l.png",  false);
-			DotGenerator(utility, 30,	0.8,	0.7,	0.005,	0.004,	utility->blueBg,	25, 0.5,	0.25,	Time("02:31:054").ms, Time("03:06:898").ms, "m.png",  false);
-			DotGenerator(utility, 100,	0.05,	0.04,	0.015,	0.01,	Color(255),			20, 0.5,	0.4,	Time("02:38:067").ms, Time("03:07:677").ms, "m.png",  false);	
+			//// Blue sections
+			//// Blue section is directly copied from above, this has a stronger blue color
+			//DotGenerator(utility, 8,	2.8,	0,		0.01,	0,		utility->blueBg,	35, 0.5,	0,		Time("02:19:365").ms, Time("03:06:118").ms, "l.png",  false);
+			//DotGenerator(utility, 30,	0.8,	0.7,	0.005,	0.004,	utility->blueBg,	25, 0.5,	0.25,	Time("02:31:054").ms, Time("03:06:898").ms, "m.png",  false);
+			//DotGenerator(utility, 100,	0.05,	0.04,	0.015,	0.01,	Color(255),			20, 0.5,	0.4,	Time("02:38:067").ms, Time("03:07:677").ms, "m.png",  false);	
 
-			std::vector<Wave> waves{
-				Wave(150, (853 - 50)/4, (853-50/4) * 1000 / (utility->quarterTimeStep * 4 * 2) , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
-			};
-			// +25 and -25 are for buffer space
-			DotWave(utility, waves, 20, -853.0f/2 + 25, 852.0f/2 -25, 0);
+			//std::vector<Wave> waves{
+			//	Wave(150, (853 - 50)/4, (853-50/4) * 1000 / (utility->quarterTimeStep * 4 * 2) , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
+			//};
+			//// +25 and -25 are for buffer space
+			//DotWave(utility, waves, 20, -853.0f/2 + 25, 852.0f/2 -25, 0);
 
 			// 4 from center to outwards
 			Tree(utility, Vector2(0, 0),	0,			PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
@@ -78,7 +78,7 @@ void processEffect(Utility* utility, int bit) {
 			Tree(utility, Vector2(853/2, 240),		3 * PI / 2 - rotation,	rotation, Time("03:34:170").ms, Time("03:45:080").ms, Time("03:45:080").ms, 13,	0.15, 0.8, 2.5, 8, Color(0), Color(204));
 
 			// "The Quintessential Tree." (2017)
-			Tree(utility, Vector2(0, -200), 0, PI / 3, Time("03:46:703").ms, Time("03:55:989").ms, Time("03:55:989").ms, 15, 0.33, 0.65, 2, 8, Color(255), Color(255));
+			Tree(utility, Vector2(0, -200), 0, PI / 3, Time("03:46:703").ms, Time("03:55:989").ms, Time("03:55:989").ms, 15, 0.33, 0.65, 2, 8, Color(0), Color(255));
 
 			break;
 		}
@@ -89,7 +89,7 @@ void processEffect(Utility* utility, int bit) {
 		case Effects::ForegroundDots: {
 			std::vector<Wave> waves{
 				//Wave(150, (853 - 50) / 4, (853 - 50 / 4) * 1000 / (utility->quarterTimeStep * 4 * 2) , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
-				Wave(150, 450, 1000 , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
+				Wave(150, 450, 225/utility->quarterTimeStep , Time("01:41:963").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
 			};
 			// +25 and -25 are for buffer space
 			DotWave(utility, waves, 50, -853.0f / 2 + 25, 852.0f / 2 - 25, 0);
