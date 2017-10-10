@@ -17,7 +17,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Foreground | Effects::Background;
+int effects = Effects::ForegroundDots | Effects::Background;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -87,6 +87,12 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::ForegroundDots: {
+			std::vector<Wave> waves{
+				//Wave(150, (853 - 50) / 4, (853 - 50 / 4) * 1000 / (utility->quarterTimeStep * 4 * 2) , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
+				Wave(150, 450, 100 , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
+			};
+			// +25 and -25 are for buffer space
+			DotWave(utility, waves, 50, -853.0f / 2 + 25, 852.0f / 2 - 25, 0);
 			break;
 		}
 		case Effects::Foreground: {
@@ -106,6 +112,7 @@ void main() {
 	for (int bit = 1; bit < Effects::bIgBoy; bit *= 2) {
 		if (effects & bit) {
 			processEffect(utility, bit);
+
 		}
 	}
 

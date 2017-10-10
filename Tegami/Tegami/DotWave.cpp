@@ -46,7 +46,7 @@ DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, flo
 			dot->Color(wave[j].timeStart, wave[j].timeEnd, wave[j].color, wave[j].color);
 			dot->Scale(wave[j].timeStart, wave[j].timeEnd, wave[j].scale, wave[j].scale);
 
-			offsetValue = ((wave[j].wavelength) / wave[j].velocity) / numberOfDots;
+			offsetValue = ((wave[j].wavelength) / wave[j].velocity) * (abs(endX - startX) / wave[j].wavelength) / numberOfDots;
 
 			timeElapse = (wave[j].wavelength / wave[j].velocity) / 4;
 
