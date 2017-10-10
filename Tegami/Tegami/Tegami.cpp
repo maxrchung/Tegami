@@ -17,7 +17,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background | Effects::BackgroundDots | Effects::Animation;
+int effects = Effects::BackgroundDots | Effects::Background | Effects::Animation;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -53,11 +53,11 @@ void processEffect(Utility* utility, int bit) {
 			DotGenerator(utility, 30,	0.8,	0.7,	0.005,	0.004,	utility->blueBg,	25, 0.5,	0.25,	Time("02:31:054").ms, Time("03:06:898").ms, "m.png",  false);
 			DotGenerator(utility, 100,	0.05,	0.04,	0.015,	0.01,	Color(255),			20, 0.5,	0.4,	Time("02:38:067").ms, Time("03:07:677").ms, "m.png",  false);	
 
-			std::vector<Wave> waves{
-				Wave(150, (853 - 50)/4, (853-50/4) * 1000 / (utility->quarterTimeStep * 4 * 2) , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
-			};
-			// +25 and -25 are for buffer space
-			DotWave(utility, waves, 20, -853.0f/2 + 25, 852.0f/2 -25, 0);
+			//std::vector<Wave> waves{
+			//	Wave(150, (853 - 50)/4, (853-50/4) * 1000 / (utility->quarterTimeStep * 4 * 2) , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
+			//};
+			//// +25 and -25 are for buffer space
+			//DotWave(utility, waves, 20, -853.0f/2 + 25, 852.0f/2 -25, 0);
 
 			// 4 from center to outwards
 			Tree(utility, Vector2(0, 0),	0,			PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
@@ -66,9 +66,9 @@ void processEffect(Utility* utility, int bit) {
 			Tree(utility, Vector2(0, 0),	3 * PI / 2,	PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
 
 			// 3 from center to outwards
-			Tree(utility, Vector2(0, 0),	PI,			PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0));
-			Tree(utility, Vector2(0, 0),	5 * PI / 3,	PI / 3,	Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0));
-			Tree(utility, Vector2(0, 0),	PI / 3,		PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0));
+			Tree(utility, Vector2(0, 0),	PI,			PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg * 0.8, Color(0));
+			Tree(utility, Vector2(0, 0),	5 * PI / 3,	PI / 3,	Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg * 0.8, Color(0));
+			Tree(utility, Vector2(0, 0),	PI / 3,		PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg * 0.8, Color(0));
 
 			auto rotation = Vector2(1, 0).AngleBetween(Vector2(853 / 2, -240));
 			// 4 from corners to center
@@ -83,13 +83,13 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::Animation: {
-			StrokeAnimation(utility, "StrokeAnimation/tegami.sa");
+			StrokeAnimation(utility, "StrokeAnimation/tegami.sa", Time("02:30:118"), Time("03:45:339"));
 			break;
 		}
 		case Effects::ForegroundDots: {
 			std::vector<Wave> waves{
 				//Wave(150, (853 - 50) / 4, (853 - 50 / 4) * 1000 / (utility->quarterTimeStep * 4 * 2) , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
-				Wave(150, 450, 1000 , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
+				Wave(150, 450, 225/utility->quarterTimeStep , Time("01:41:963").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
 			};
 			// +25 and -25 are for buffer space
 			DotWave(utility, waves, 50, -853.0f / 2 + 25, 852.0f / 2 - 25, 0);

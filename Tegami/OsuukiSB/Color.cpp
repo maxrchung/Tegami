@@ -1,4 +1,6 @@
+#include <cmath>
 #include "Color.hpp"
+
 
 Color::Color()
 	: r(0), g(0), b(0) {
@@ -30,8 +32,8 @@ Color Color::operator*(float f) {
 }
 
 Color Color::operator+(Color a) {
-	return Color(r - a.r, g - a.g, b - a.b);
+	return Color((r + a.r), (g + a.g), (b + a.b));
 }
 Color Color::operator-(Color a) {
-	return Color(r-a.r, g-a.g, b-a.b);
+	return Color((r - a.r), (g - a.g), (b - a.b));
 }
