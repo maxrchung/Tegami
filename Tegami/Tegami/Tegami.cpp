@@ -89,7 +89,7 @@ void processEffect(Utility* utility, int bit) {
 		case Effects::ForegroundDots: {
 			std::vector<Wave> waves{
 				//Wave(150, (853 - 50) / 4, (853 - 50 / 4) * 1000 / (utility->quarterTimeStep * 4 * 2) , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
-				Wave(150, 450, 100 , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
+				Wave(150, 450, 1000 , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
 			};
 			// +25 and -25 are for buffer space
 			DotWave(utility, waves, 50, -853.0f / 2 + 25, 852.0f / 2 - 25, 0);
