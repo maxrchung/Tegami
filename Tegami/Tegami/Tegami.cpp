@@ -17,7 +17,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::BackgroundDots | Effects::Background | Effects::Animation;
+int effects = Effects::BackgroundDots | Effects::Background;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -66,9 +66,9 @@ void processEffect(Utility* utility, int bit) {
 			Tree(utility, Vector2(0, 0),	3 * PI / 2,	PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
 
 			// 3 from center to outwards
-			Tree(utility, Vector2(0, 0),	PI,			PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg * 0.8, Color(0));
-			Tree(utility, Vector2(0, 0),	5 * PI / 3,	PI / 3,	Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg * 0.8, Color(0));
-			Tree(utility, Vector2(0, 0),	PI / 3,		PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg * 0.8, Color(0));
+			Tree(utility, Vector2(0, 0),	PI,			PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0), true);
+			Tree(utility, Vector2(0, 0),	5 * PI / 3,	PI / 3,	Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0), true);
+			Tree(utility, Vector2(0, 0),	PI / 3,		PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0), true);
 
 			auto rotation = Vector2(1, 0).AngleBetween(Vector2(853 / 2, -240));
 			// 4 from corners to center
