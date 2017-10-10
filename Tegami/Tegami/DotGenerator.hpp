@@ -10,7 +10,7 @@ class DotGenerator
 {
 public:
 	//velocity units: pixels/ms or 1000 pixels/s
-	DotGenerator(Utility *utility, int numberOfDots, float dotScale, float scaleOffset, float dotVelocity, float speedOffset, Color colorBase, int colorOffset, float fadeBase, float fadeOffset, float startTime, float endTime, const std::string& imagePath,  bool expand);
+	DotGenerator(Utility *utility, int numberOfDots, float dotScale, float scaleOffset, float dotVelocity, float speedOffset, Color colorBase, int colorOffset, float fadeBase, float fadeOffset, float startTime, float endTime, const std::string& imagePath, bool expand, float expandAmount = 1.1f);
 
 	// Generates a color from a minimum color and offset amount
 	Color generateColor(Color base, int offset);
@@ -24,4 +24,3 @@ public:
 private:
 	DotTrajectory box_collision(float x, float y, float angle);
 };
-

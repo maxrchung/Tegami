@@ -43,9 +43,9 @@ void processEffect(Utility* utility, int bit) {
 		case Effects::BackgroundDots: {
 			// Pink sections
 			// A bit more colorful than the blue section below
-			DotGenerator(utility, 8,	2.8,	0,		0.01,	0,		utility->pinkBg,	35, 0.5,	0,		Time("00:14:690").ms, Time("01:17:028").ms, "l.png",  false);
+			DotGenerator(utility, 8,	2.8,	0,		0.01,	0,		utility->pinkBg,	35, 0.5,	0,		Time("00:14:690").ms, Time("01:40:404").ms, "l.png",  false);
 			DotGenerator(utility, 30,	0.8,	0.7,	0.005,	0.004,	utility->pinkBg,	25, 0.5,	0.25,	Time("00:27:157").ms, Time("01:29:495").ms, "m.png",  false);
-			DotGenerator(utility, 100,	0.05,	0.04,	0.015,	0.01,	Color(255),			20, 0.5,	0.4,	Time("00:39:625").ms, Time("01:40:404").ms, "m.png",  false);
+			DotGenerator(utility, 100,	0.05,	0.04,	0.015,	0.01,	Color(255),			20, 0.5,	0.4,	Time("00:39:625").ms, Time("01:17:028").ms, "m.png",  false);
 
 			// Blue sections
 			// Blue section is directly copied from above, this has a stronger blue color
@@ -53,37 +53,35 @@ void processEffect(Utility* utility, int bit) {
 			DotGenerator(utility, 30,	0.8,	0.7,	0.005,	0.004,	utility->blueBg,	25, 0.5,	0.25,	Time("02:31:054").ms, Time("03:06:898").ms, "m.png",  false);
 			DotGenerator(utility, 100,	0.05,	0.04,	0.015,	0.01,	Color(255),			20, 0.5,	0.4,	Time("02:38:067").ms, Time("03:07:677").ms, "m.png",  false);	
 
-			//std::vector<Wave> waves{
-			//	Wave(150, (853 - 50)/4, (853-50/4) * 1000 / (utility->quarterTimeStep * 4 * 2) , Time("01:41:625").ms, Time("02:14:690").ms, Color(255,209,220), 0.5)
-			//};
-			//// +25 and -25 are for buffer space
-			//DotWave(utility, waves, 20, -853.0f/2 + 25, 852.0f/2 -25, 0);
-
+			auto ffd1dc = Color(255, 209, 220);
 			auto dist = (853 - 50) / 2.0f;
 			std::vector<Wave> waves{
-				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:41:963").ms, Time("01:43:521").ms, Color(255,209,220), 0.5),
-				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:43:521").ms, Time("01:45:080").ms, Color(255,209,220), 0.5),
-				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:45:080").ms, Time("01:46:638").ms, Color(255,209,220), 0.5),
-				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:46:638").ms, Time("01:48:196").ms, Color(255,209,220), 0.5),
-				Wave(100,	dist, dist / utility->quarterTimeStep , Time("01:48:196").ms, Time("01:49:755").ms, Color(255,209,220), 0.5),
-				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:49:755").ms, Time("01:51:313").ms, Color(255,209,220), 0.5),
-				Wave(200,	dist, dist / utility->quarterTimeStep , Time("01:51:313").ms, Time("01:52:093").ms, Color(255,209,220), 0.5),
-				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:52:093").ms, Time("01:54:430").ms, Color(255,209,220), 0.5),
-				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:54:430").ms, Time("01:55:989").ms, Color(255,209,220), 0.5),
-				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:55:989").ms, Time("01:57:547").ms, Color(255,209,220), 0.5),
-				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:57:547").ms, Time("01:59:105").ms, Color(255,209,220), 0.5),
-				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:59:105").ms, Time("02:00:664").ms, Color(255,209,220), 0.5),
-				Wave(100,	dist, dist / utility->quarterTimeStep , Time("02:00:664").ms, Time("02:02:222").ms, Color(255,209,220), 0.5),
-				Wave(150,	dist, dist / utility->quarterTimeStep , Time("02:02:222").ms, Time("02:03:781").ms, Color(255,209,220), 0.5),
-				Wave(100,	dist, dist / utility->quarterTimeStep , Time("02:03:781").ms, Time("02:05:339").ms, Color(255,209,220), 0.5),
-				Wave(50,	dist, dist / utility->quarterTimeStep , Time("02:05:339").ms, Time("02:06:898").ms, Color(255,209,220), 0.5),
-				Wave(150,	dist, dist / utility->quarterTimeStep , Time("02:06:898").ms, Time("02:08:456").ms, Color(255,209,220), 0.5),
-				Wave(60,	dist, dist / utility->quarterTimeStep , Time("02:08:456").ms, Time("02:10:015").ms, Color(255,209,220), 0.5),
-				Wave(100,	dist, dist / utility->quarterTimeStep , Time("02:10:015").ms, Time("02:11:573").ms, Color(255,209,220), 0.5),
-				Wave(50,	dist, dist / utility->quarterTimeStep , Time("02:11:573").ms, Time("02:13:131").ms, Color(255,209,220), 0.5),
+				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:41:963").ms, Time("01:43:521").ms, ffd1dc, 0.5),
+				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:43:521").ms, Time("01:45:080").ms, ffd1dc, 0.5),
+				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:45:080").ms, Time("01:46:638").ms, ffd1dc, 0.5),
+				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:46:638").ms, Time("01:48:196").ms, ffd1dc, 0.5),
+				Wave(100,	dist, dist / utility->quarterTimeStep , Time("01:48:196").ms, Time("01:49:755").ms, ffd1dc, 0.5),
+				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:49:755").ms, Time("01:51:313").ms, ffd1dc, 0.5),
+				Wave(200,	dist, dist / utility->quarterTimeStep , Time("01:51:313").ms, Time("01:52:093").ms, ffd1dc, 0.5),
+				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:52:093").ms, Time("01:54:430").ms, ffd1dc, 0.5),
+				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:54:430").ms, Time("01:55:989").ms, ffd1dc, 0.5),
+				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:55:989").ms, Time("01:57:547").ms, ffd1dc, 0.5),
+				Wave(150,	dist, dist / utility->quarterTimeStep , Time("01:57:547").ms, Time("01:59:105").ms, ffd1dc, 0.5),
+				Wave(50,	dist, dist / utility->quarterTimeStep , Time("01:59:105").ms, Time("02:00:664").ms, ffd1dc, 0.5),
+				Wave(100,	dist, dist / utility->quarterTimeStep , Time("02:00:664").ms, Time("02:02:222").ms, ffd1dc, 0.5),
+				Wave(150,	dist, dist / utility->quarterTimeStep , Time("02:02:222").ms, Time("02:03:781").ms, ffd1dc, 0.5),
+				Wave(100,	dist, dist / utility->quarterTimeStep , Time("02:03:781").ms, Time("02:05:339").ms, ffd1dc, 0.5),
+				Wave(50,	dist, dist / utility->quarterTimeStep , Time("02:05:339").ms, Time("02:06:898").ms, ffd1dc, 0.5),
+				Wave(150,	dist, dist / utility->quarterTimeStep , Time("02:06:898").ms, Time("02:08:456").ms, ffd1dc, 0.5),
+				Wave(60,	dist, dist / utility->quarterTimeStep , Time("02:08:456").ms, Time("02:10:015").ms, ffd1dc, 0.5),
+				Wave(100,	dist, dist / utility->quarterTimeStep , Time("02:10:015").ms, Time("02:11:573").ms, ffd1dc, 0.5),
+				Wave(150,	dist, dist / utility->quarterTimeStep , Time("02:11:573").ms, Time("02:12:352").ms, ffd1dc, 0.5),
+				Wave(200,	dist, dist / utility->quarterTimeStep , Time("02:12:352").ms, Time("02:13:131").ms, ffd1dc, 0.5),
 			};
 			// +25 and -25 are for buffer space
-			DotWave(utility, waves, 25, -853.0f / 2 + 25, 852.0f / 2 - 25, 0, 0.4);
+			DotWave(utility, waves, 25, -853.0f / 2 + 25, 852.0f / 2 - 25, 0, 0.5);
+
+			DotGenerator(utility, 100, 0.05, 0.04, 0.2, 0.05, ffd1dc, 100, 0.7, 0.2, Time("01:41:963").ms, Time("02:13:131").ms, "m.png", false);
 
 			//// 4 from center to outwards
 			//Tree(utility, Vector2(0, 0),	0,			PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
