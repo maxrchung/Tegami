@@ -17,13 +17,13 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::ForegroundDots | Effects::Background;
+int effects = Effects::Background | Effects::BackgroundDots | Effects::Animation;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
 		case Effects::Background: {
 			// Get rid of SB load
-			Sprite* bg = new Sprite("t.png", Vector2::Zero, Layer::Background);
+			Sprite* bg = new Sprite("t.jpg", Vector2::Zero, Layer::Background);
 
 			// Back is used for the majority of the time, it has a #lofifade around the edges
 			// Towards the finish of song, back fades to end to help fill in Okaerinsai image gaps
@@ -83,7 +83,7 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::Animation: {
-			StrokeAnimation(utility, "StrokeAnimation/tegami.sa", Time("03:06:118"), Time("04:05:339"));
+			StrokeAnimation(utility, "StrokeAnimation/tegami.sa");
 			break;
 		}
 		case Effects::ForegroundDots: {
