@@ -85,14 +85,14 @@ void Sprite::Rotate(int startTime, int endTime, float startRotate, float endRota
 }
 
 // _S,<easing>,<starttime>,<endtime>,<start_scale>,<end_scale>
-void Sprite::Scale(int startTime, int endTime, float startScale, float endScale, Easing easing) {
+void Sprite::Scale(int startTime, int endTime, float startScale, float endScale, Easing easing, int precision) {
 	if (endTime > this->endTime) {
 		this->endTime = endTime;
 	}
 
 	scale = endScale;
 	std::ostringstream command;
-	command << "_S," << easing << "," << startTime << "," << endTime << "," << startScale << "," << endScale;
+	command << std::setprecision(precision) << std::fixed << "_S," << easing << "," << startTime << "," << endTime << "," << startScale << "," << endScale;
 	commands.push_back(command.str());
 }
 
@@ -115,19 +115,19 @@ void Sprite::ScaleVector(int startTime, int endTime, Vector2 startScale, Vector2
 }
 
 // _C,<easing>,<starttime>,<endtime>,<start_r>,<start_g>,<start_b>,<end_r>,<end_g>,<end_b>
-void Sprite::Color(int startTime, int endTime, int startR, int startG, int startB, int endR, int endG, int endB, Easing easing) {
+void Sprite::Color(int startTime, int endTime, int startR, int startG, int startB, int endR, int endG, int endB, Easing easing, int precision) {
 	if (endTime > this->endTime) {
 		this->endTime = endTime;
 	}
 
 	color = Color::Color(endR, endG, endB);
 	std::ostringstream command;
-	command << "_C," << easing << "," << startTime << "," << endTime << "," << startR << "," << startG << "," << startB << "," << endR << "," << endG << "," << endB;
+	command << std::setprecision(precision) << std::fixed << "_C," << easing << "," << startTime << "," << endTime << "," << startR << "," << startG << "," << startB << "," << endR << "," << endG << "," << endB;
 	commands.push_back(command.str());
 }
 
-void Sprite::Color(int startTime, int endTime, ::Color startColor, ::Color endColor, Easing easing) {
-	Sprite::Color(startTime, endTime, startColor.r, startColor.g, startColor.b, endColor.r, endColor.g, endColor.b, easing);
+void Sprite::Color(int startTime, int endTime, ::Color startColor, ::Color endColor, Easing easing, int precision) {
+	Sprite::Color(startTime, endTime, startColor.r, startColor.g, startColor.b, endColor.r, endColor.g, endColor.b, easing, precision);
 }
 
 //_L, <starttime>, <loopcount>

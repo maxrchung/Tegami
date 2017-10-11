@@ -2,6 +2,7 @@
 #include "Effects.hpp"
 #include "Lyrics.hpp"
 #include "Sprite.hpp"
+#include "SpritePool.hpp"
 #include "Storyboard.hpp"
 #include "StrokeAnimation.hpp"
 #include "Time.hpp"
@@ -17,7 +18,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::BackgroundDots | Effects::Background | Effects::ForegroundDots;
+int effects = Effects::Background | Effects::BackgroundDots | Effects::Animation;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -37,10 +38,12 @@ void processEffect(Utility* utility, int bit) {
 			back->Color(Time("02:19:365").ms, Time("02:44:300").ms, back->color, utility->blueBg);
 			back->Fade(Time("03:59:105").ms, Time("04:05:339").ms, 1, 0);
 
-			//Okaerinasai ok(utility);
+			Okaerinasai ok(utility);
 			break;
 		}
 		case Effects::BackgroundDots: {
+			auto mPool = SpritePool("m.png");
+
 			// Pink sections
 			// A bit more colorful than the blue section below
 			DotGenerator(utility, 8,	2.8,	0,		0.01,	0,		utility->pinkBg,	35, 0.5,	0,		Time("00:14:690").ms, Time("01:40:404").ms, "l.png",  false);
@@ -83,31 +86,34 @@ void processEffect(Utility* utility, int bit) {
 
 			DotGenerator(utility, 100, 0.05, 0.04, 0.2, 0.05, ffd1dc, 100, 0.7, 0.2, Time("01:41:963").ms, Time("02:13:131").ms, "m.png", false);
 
-			//// 4 from center to outwards
-			//Tree(utility, Vector2(0, 0),	0,			PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
-			//Tree(utility, Vector2(0, 0),	PI,			PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
-			//Tree(utility, Vector2(0, 0),	PI / 2,		PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
-			//Tree(utility, Vector2(0, 0),	3 * PI / 2,	PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
+			// 4 from center to outwards
+			Tree(utility, mPool, Vector2(0, 0),	0,			PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
+			Tree(utility, mPool, Vector2(0, 0),	PI,			PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
+			Tree(utility, mPool, Vector2(0, 0),	PI / 2,		PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
+			Tree(utility, mPool, Vector2(0, 0),	3 * PI / 2,	PI / 4, Time("03:09:235").ms, Time("03:20:144").ms, Time("03:20:144").ms, 8,	0.2,	0.92,	3, 5, Color(255), utility->blueBg);
+			mPool.ReGet();
 
-			//// 3 from center to outwards
-			//Tree(utility, Vector2(0, 0),	PI,			PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0), true);
-			//Tree(utility, Vector2(0, 0),	5 * PI / 3,	PI / 3,	Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0), true);
-			//Tree(utility, Vector2(0, 0),	PI / 3,		PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0), true);
+			// 3 from center to outwards
+			Tree(utility, mPool, Vector2(0, 0), PI, PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11, 0.3, 0.7, 3, 7, utility->blueBg, Color(0), true);
+			Tree(utility, mPool, Vector2(0, 0), 5 * PI / 3, PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11, 0.3, 0.7, 3, 7, utility->blueBg, Color(0), true);
+			Tree(utility, mPool, Vector2(0, 0),	PI / 3,		PI / 3, Time("03:21:703").ms, Time("03:32:612").ms, Time("03:32:612").ms, 11,	0.3,	0.7,	3, 7, utility->blueBg, Color(0), true);
+			mPool.ReGet();
 
-			//auto rotation = Vector2(1, 0).AngleBetween(Vector2(853 / 2, -240));
-			//// 4 from corners to center
-			//Tree(utility, Vector2(-853/2, -240),	PI / 2 - rotation,		rotation, Time("03:34:170").ms, Time("03:45:080").ms, Time("03:45:080").ms, 13,	0.15, 0.8, 2.5, 8, Color(0), Color(51));
-			//Tree(utility, Vector2(-853/2, 240),		PI / 2 + rotation,		rotation, Time("03:34:170").ms, Time("03:45:080").ms, Time("03:45:080").ms, 13,	0.15, 0.8, 2.5, 8, Color(0), Color(102));
-			//Tree(utility, Vector2(853/2, -240),		3 * PI / 2 + rotation,	rotation, Time("03:34:170").ms, Time("03:45:080").ms, Time("03:45:080").ms, 13,	0.15, 0.8, 2.5, 8, Color(0), Color(153));
-			//Tree(utility, Vector2(853/2, 240),		3 * PI / 2 - rotation,	rotation, Time("03:34:170").ms, Time("03:45:080").ms, Time("03:45:080").ms, 13,	0.15, 0.8, 2.5, 8, Color(0), Color(204));
+			auto rotation = Vector2(1, 0).AngleBetween(Vector2(853 / 2, -240));
+			// 4 from corners to center
+			Tree(utility, mPool, Vector2(-853 / 2, -240), PI / 2 - rotation, rotation, Time("03:34:170").ms, Time("03:45:080").ms, Time("03:45:080").ms, 13, 0.15, 0.8, 2.5, 8, Color(0), Color(51));
+			Tree(utility, mPool, Vector2(-853 / 2, 240), PI / 2 + rotation, rotation, Time("03:34:170").ms, Time("03:45:080").ms, Time("03:45:080").ms, 13, 0.15, 0.8, 2.5, 8, Color(0), Color(102));
+			Tree(utility, mPool, Vector2(853 / 2, -240), 3 * PI / 2 + rotation, rotation, Time("03:34:170").ms, Time("03:45:080").ms, Time("03:45:080").ms, 13, 0.15, 0.8, 2.5, 8, Color(0), Color(153));
+			Tree(utility, mPool, Vector2(853/2, 240),		3 * PI / 2 - rotation,	rotation, Time("03:34:170").ms, Time("03:45:080").ms, Time("03:45:080").ms, 13,	0.15, 0.8, 2.5, 8, Color(0), Color(204));
+			mPool.ReGet();
 
-			//// "The Quintessential Tree." (2017)
-			//Tree(utility, Vector2(0, -200), 0, PI / 3, Time("03:46:703").ms, Time("03:55:989").ms, Time("03:55:989").ms, 15, 0.33, 0.65, 2, 8, Color(255), Color(255));
+			// "The Quintessential Tree." (2017)
+			Tree(utility, mPool, Vector2(0, -200), 0, PI / 3, Time("03:46:703").ms, Time("03:55:989").ms, Time("03:55:989").ms, 15, 0.33, 0.65, 2, 8, Color(255), Color(255));
 
 			break;
 		}
 		case Effects::Animation: {
-			StrokeAnimation(utility, "StrokeAnimation/tegami.sa", Time("01:30:000"), Time("02:30:339"));
+			StrokeAnimation(utility, "StrokeAnimation/tegami.sa");
 			break;
 		}
 		case Effects::ForegroundDots: {

@@ -7,8 +7,8 @@
 #include "Tree.hpp"
 
 
-Tree::Tree(Utility *utility, Vector2 startingPoint, float angle, float deltaAngle, float startTime, float endTime, float fadeTime, float speed, float scale, float branchScale, float imageScale, int numberOfIter, Color startColor, Color endColor, bool applyColorToOneBranch)
-	: speed(speed), deltaAngle(deltaAngle), branchScale(branchScale), imageScale(imageScale), applyColorToOneBranch(applyColorToOneBranch) {
+Tree::Tree(Utility *utility, SpritePool& pool, Vector2 startingPoint, float angle, float deltaAngle, float startTime, float endTime, float fadeTime, float speed, float scale, float branchScale, float imageScale, int numberOfIter, Color startColor, Color endColor, bool applyColorToOneBranch)
+	: speed(speed), deltaAngle(deltaAngle), branchScale(branchScale), imageScale(imageScale), applyColorToOneBranch(applyColorToOneBranch), pool(pool) {
 	timePerBranch = (endTime - startTime) / numberOfIter;
 
 	if (applyColorToOneBranch) {
@@ -69,10 +69,11 @@ Tree::returnStruct Tree::generateBranch(Utility *utility, Vector2 startingPoint,
 		}
 		else {
 			// Use sprite pool
-			Sprite *branch = new Sprite("m.png", branchPoints[i]);
-			branch->Scale(currTime, fadeTime, scale / 5 * imageScale, scale / 5 * imageScale);
+			auto branch = pool.Get();
+			branch->Move(currTime, currTime, branchPoints[i], branchPoints[i]);
+			branch->Scale(currTime, fadeTime, scale / 5 * imageScale, scale / 5 * imageScale, Easing::Linear, 1);
 
-			branch->Color(currTime, fadeTime, colorVector, colorVector);
+			branch->Color(currTime, fadeTime, colorVector, colorVector, Easing::Linear, 1);
 			branch->Fade(currTime, currTime + deltaTime, 0, 1);
 			branch->Fade(fadeTime, fadeTime + utility->quarterTimeStep, 1, 0);
 		}

@@ -41,24 +41,24 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 			float rotation = frame.rectangles[i].rotation;
 			float radians = utility->DToR(rotation);
 
-			sprite->Move(startTime, endTime, pos, pos);
-			sprite->Rotate(startTime, endTime, radians, radians, Easing::Linear, 1);
-			sprite->ScaleVector(startTime, endTime, size, size, Easing::Linear, 0);
+			sprite->Move(startTime, startTime, pos, pos);
+			sprite->Rotate(startTime, startTime, radians, radians, Easing::Linear, 1);
+			sprite->ScaleVector(startTime, startTime, size, size, Easing::Linear, 0);
 
 			if (f >= fadeStart && f <= fadeMid) {
 				int start = f - fadeStart;
 				int total = fadeMid - fadeStart;
 				float fadeAmount = 1 - (float)start / total;
-				sprite->Fade(startTime, endTime, fadeAmount, fadeAmount);
+				sprite->Fade(startTime, startTime, fadeAmount, fadeAmount);
 			}
 			else if (f > fadeMid && f <= fadeEnd) {
 				int start = f - fadeMid;
 				int total = fadeEnd - fadeStart;
 				float fadeAmount = (float)start / total;
-				sprite->Fade(startTime, endTime, fadeAmount, fadeAmount);
+				sprite->Fade(startTime, startTime, fadeAmount, fadeAmount);
 			}
 			else if (sprite->fade == 0) {
-				sprite->Fade(startTime, endTime, 1, 1);
+				sprite->Fade(startTime, startTime, 1, 1);
 			}
 		}
 
@@ -87,17 +87,17 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 			Vector2 startPos = frame.lines[i].start;
 			Vector2 endPos = frame.lines[i].end;
 			Vector2 midPos = (startPos + endPos) / 2;
-			sprite->Move(startTime, endTime, midPos, midPos);
+			sprite->Move(startTime, startTime, midPos, midPos);
 
 			Vector2 diff = endPos - startPos;
 			float rotation = Vector2(1, 0).AngleBetween(diff);
-			sprite->Rotate(startTime, endTime, rotation, rotation, Easing::Linear, 1);
+			sprite->Rotate(startTime, startTime, rotation, rotation, Easing::Linear, 1);
 
 			float dist = diff.Magnitude() * lineEdgeScale;
-			sprite->ScaleVector(startTime, endTime, dist, 1, dist, 1, Easing::Linear, 0);
+			sprite->ScaleVector(startTime, startTime, dist, 1, dist, 1, Easing::Linear, 0);
 
 			if (sprite->fade == 0) {
-				sprite->Fade(startTime, endTime, 1, 1);
+				sprite->Fade(startTime, startTime, 1, 1);
 			}
 
 			if (sprite->color != Color(0)){

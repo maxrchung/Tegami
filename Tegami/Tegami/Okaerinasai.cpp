@@ -12,7 +12,7 @@ Okaerinasai::Okaerinasai(Utility* utility)
 	Time generationEnd("04:20:924");
 	Time fadeEnd("04:24:041");
 
-	auto points = poissonDisk(10);
+	auto points = poissonDisk(9.45);
 	fisherYates(points);
 
 	auto iterations = (generationEnd.ms - start.ms) / utility->mspf + 1;
@@ -30,7 +30,7 @@ Okaerinasai::Okaerinasai(Utility* utility)
 			sprite->Rotate(t, t, rotation, rotation, Easing::Linear, 1);
 
 			Color color = GetFromPNG(bg, point);
-			sprite->Color(t, t, color, color);
+			sprite->Color(t, t, color, color, Easing::Linear, 1);
 
 			points.pop_back();
 		}
