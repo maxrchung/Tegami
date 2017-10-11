@@ -18,7 +18,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::BackgroundDots;
+int effects = Effects::Background;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -29,7 +29,7 @@ void processEffect(Utility* utility, int bit) {
 			// Back is used for the majority of the time, it has a #lofifade around the edges
 			// Towards the finish of song, back fades to end to help fill in Okaerinsai image gaps
 			Sprite* end = new Sprite("s.png", Vector2::Zero, Layer::Background);
-			end->ScaleVector(Time("03:59:105").ms, Time("03:59:105").ms, Vector2::ScreenSize, Vector2::ScreenSize);
+			end->ScaleVector(Time("03:59:105").ms, Time("03:59:105").ms, Vector2(852,478), Vector2(852,478));
 			end->Color(Time("04:24:041").ms, Time("04:32:000").ms, utility->blueBg, Color(255));
 			Sprite* back = new Sprite("f.png", Vector2::Zero, Layer::Background);
 			auto scale = 480 / 1080.0f;
