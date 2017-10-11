@@ -7,7 +7,7 @@
 #include "Tree.hpp"
 
 
-Tree::Tree(Utility *utility, SpritePool& pool, Vector2 startingPoint, float angle, float deltaAngle, float startTime, float endTime, float fadeTime, float speed, float scale, float branchScale, float imageScale, int numberOfIter, Color startColor, Color endColor, bool applyColorToOneBranch)
+Tree::Tree(Utility *utility, SpritePool* pool, Vector2 startingPoint, float angle, float deltaAngle, float startTime, float endTime, float fadeTime, float speed, float scale, float branchScale, float imageScale, int numberOfIter, Color startColor, Color endColor, bool applyColorToOneBranch)
 	: speed(speed), deltaAngle(deltaAngle), branchScale(branchScale), imageScale(imageScale), applyColorToOneBranch(applyColorToOneBranch), pool(pool) {
 	timePerBranch = (endTime - startTime) / numberOfIter;
 
@@ -69,9 +69,9 @@ Tree::returnStruct Tree::generateBranch(Utility *utility, Vector2 startingPoint,
 		}
 		else {
 			// Use sprite pool
-			auto branch = pool.Get();
+			auto branch = pool->Get();
 			branch->Move(currTime, currTime, branchPoints[i], branchPoints[i]);
-			branch->Scale(currTime, fadeTime, scale / 5 * imageScale, scale / 5 * imageScale, Easing::Linear, 1);
+			branch->Scale(currTime, fadeTime, scale / 5 * imageScale, scale / 5 * imageScale, Easing::Linear);
 
 			branch->Color(currTime, fadeTime, colorVector, colorVector, Easing::Linear, 1);
 			branch->Fade(currTime, currTime + deltaTime, 0, 1);

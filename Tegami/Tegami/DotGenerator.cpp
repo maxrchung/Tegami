@@ -10,7 +10,7 @@
 
 #include "PoissonGenerator.h"
 
-DotGenerator::DotGenerator(Utility *utility, int numberOfDots, float dotScale, float scaleOffset, float dotVelocity, float speedOffset, Color colorBase, int colorOffset, float fadeBase, float fadeOffset, float startTime, float endTime, const std::string& imagePath, bool expand, float expandAmount)
+DotGenerator::DotGenerator(Utility *utility, int numberOfDots, float dotScale, float scaleOffset, float dotVelocity, float speedOffset, Color colorBase, int colorOffset, float fadeBase, float fadeOffset, float startTime, float endTime, const std::string& imagePath, float extraStartFade, bool expand, float expandAmount)
 {
 	PoissonGenerator::DefaultPRNG randomPoint;
 	const auto dotCoord = PoissonGenerator::GeneratePoissonPoints(numberOfDots, randomPoint, 30, false);
@@ -68,7 +68,7 @@ DotGenerator::DotGenerator(Utility *utility, int numberOfDots, float dotScale, f
 		}
 
 		float fade = generateRandom(fadeBase, fadeOffset);
-		dot->Fade(startTime - utility->quarterTimeStep, startTime, 0, fade, Easing::CubicIn);
+		dot->Fade(startTime - utility->quarterTimeStep - extraStartFade, startTime, 0, fade, Easing::CubicIn);
 		dot->Fade(endTime, endTime + utility->quarterTimeStep, fade, 0, Easing::SineIn);
 	}
 }

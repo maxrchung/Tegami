@@ -58,7 +58,7 @@ void StrokeAnimation::drawRectangles(SpritePool* rectanglePool, std::vector<Fram
 				sprite->Fade(startTime, startTime, fadeAmount, fadeAmount);
 			}
 			else if (sprite->fade == 0) {
-				sprite->Fade(startTime, startTime, 1, 1);
+				sprite->Fade(startTime, endTime, 1, 1);
 			}
 		}
 
@@ -97,7 +97,7 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 			sprite->ScaleVector(startTime, startTime, dist, 1, dist, 1, Easing::Linear, 0);
 
 			if (sprite->fade == 0) {
-				sprite->Fade(startTime, startTime, 1, 1);
+				sprite->Fade(startTime, endTime, 1, 1);
 			}
 
 			if (sprite->color != Color(0)){
