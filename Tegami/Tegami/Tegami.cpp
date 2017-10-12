@@ -18,7 +18,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background;
+int effects = Effects::Foreground;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -122,7 +122,7 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::Foreground: {
-			Lyrics::Lyrics("Characters\\lyrics.ly");
+			Lyrics::Lyrics("Characters\\lyrics.ly", utility);
 			break;
 		}
 	}
