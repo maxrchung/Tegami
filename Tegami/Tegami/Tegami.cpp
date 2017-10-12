@@ -17,7 +17,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::BackgroundDots | Effects::Background;
+int effects = Effects::Foreground | Effects::Background;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -83,7 +83,7 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::Animation: {
-			StrokeAnimation(utility, "StrokeAnimation/tegami.sa", Time("03:06:118"), Time("04:05:339"));
+			StrokeAnimation(utility, "StrokeAnimation/tegami.sa", Time("00:52:093"), Time("01:47:638"));
 			break;
 		}
 		case Effects::ForegroundDots: {
@@ -96,7 +96,7 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::Foreground: {
-			Lyrics::Lyrics("Characters\\lyrics.ly");
+			Lyrics::Lyrics("Characters\\lyrics.ly", utility);
 			break;
 		}
 	}
