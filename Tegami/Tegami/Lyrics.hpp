@@ -1,11 +1,12 @@
 #pragma once
 #include "Character.hpp"
 #include "Stroke.hpp"
+#include "Utility.hpp"
 
 class Lyrics
 {
 public:
-	Lyrics(std::string fileName);
+	Lyrics(std::string fileName, Utility *utility);
 
 	int startTime;
 	int endTime;
@@ -16,5 +17,6 @@ public:
 
 	void drawCharacter(Character input);
 private:
+	Utility u;
 	float drawStroke(Stroke input, float fadeIn);
 };

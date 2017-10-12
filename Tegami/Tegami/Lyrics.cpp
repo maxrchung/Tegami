@@ -5,8 +5,13 @@
 #include "Stroke.hpp"
 #include "StrokeManager.hpp"
 #include "Time.hpp"
+#include "Utility.hpp"
 
-Lyrics::Lyrics(std::string fileName){
+#include <sstream>
+
+Lyrics::Lyrics(std::string fileName, Utility *utility){
+
+	u = *utility;
 	StrokeManager strokeManager = StrokeManager("C:\\Users\\Royce\\Documents\\Tegami\\Tegami\\Tegami\\Characters");
 	
 	std::ifstream file(fileName);
@@ -18,9 +23,14 @@ Lyrics::Lyrics(std::string fileName){
 	float xPoint;
 	float yPoint;
 
-	for (int i = 0; i < 3; i++) {
-		std::string siName(100, 0);
-		file >> siFile >> startT >> endT >> fadeT >> timeDifference >> x >> y;
+	while (std::getline(file, line)) {
+		std::stringstream streamLine(line);
+		std::cout << line << "\n";
+		if (line.empty()){
+			continue;
+		}
+
+		streamLine >> siFile >> startT >> endT >> fadeT >> timeDifference >> x >> y;
 		std::cout << siFile << std::endl;
 
 		startTime = Time(startT).ms;
@@ -29,7 +39,6 @@ Lyrics::Lyrics(std::string fileName){
 
 		Character singleChar = strokeManager.Get(siFile);
 		drawCharacter(singleChar);
-		siName.clear();
 	}
 }
 
@@ -42,7 +51,7 @@ void Lyrics::drawCharacter(Character input) {
 }
 
 float Lyrics::drawStroke(Stroke input, float fadeIn) {
-	float dotDensity = 1; //unit is dot/pixel
+	float dotDensity = 2; //unit is dot/pixel
 
 	Bezier stroke = Bezier(input.points);
 	
@@ -60,7 +69,7 @@ float Lyrics::drawStroke(Stroke input, float fadeIn) {
 		dot->Scale(fadeIn + timeDifference, fadeIn + 2 * timeDifference, dotScale, dotScale);
 		dot->Color(fadeIn + timeDifference, fadeIn + 2 * timeDifference, Color(255, 255, 255), Color(255, 255, 255));
 		dot->Fade(fadeIn + timeDifference, fadeIn + 2 * timeDifference, 0, 1);
-		dot->Fade(fadeTime, fadeTime + timeDifference, 1, 0);
+		dot->Fade(fadeTime, fadeTime + u.quarterTimeStep, 1, 0);
 		
 		fadeIn += timeDifference;
 		currTime += timeStep;
