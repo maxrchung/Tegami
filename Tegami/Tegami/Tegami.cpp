@@ -18,7 +18,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::BackgroundDots;
+int effects = Effects::Foreground;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -84,7 +84,7 @@ void processEffect(Utility* utility, int bit) {
 			// Blue sections
 			// Blue section is directly copied from above, this has a stronger blue color
 			DotGenerator(utility, 8, 2.8, 0, 0.01, 0, utility->blueBg, 35, 0.5, 0, Time("02:19:365").ms, Time("03:06:118").ms, "l.png");
-			DotGenerator(utility, 30, 0.8, 0.7, 0.005, 0.004, utility->blueBg, 25, 0.5, 0.25, Time("02:31:054").ms, Time("03:06:898").ms, "m.png");
+			DotGenerator(utility, 30, 0.8, 0.7, 0.005, 0.004, utility->blueBg, 25, 0.5, 0.25, Time("02:31:833").ms, Time("03:06:898").ms, "m.png");
 			DotGenerator(utility, 100, 0.05, 0.04, 0.015, 0.01, Color(255), 20, 0.5, 0.4, Time("02:38:067").ms, Time("03:07:677").ms, "m.png");
 
 			auto mPool = new SpritePool("m.png");
@@ -122,7 +122,7 @@ void processEffect(Utility* utility, int bit) {
 			break;
 		}
 		case Effects::Foreground: {
-			Lyrics::Lyrics("Characters\\lyrics.ly");
+			Lyrics("Characters\\lyrics.ly", utility);
 			break;
 		}
 	}

@@ -12,7 +12,7 @@
 Lyrics::Lyrics(std::string fileName, Utility *utility){
 
 	u = *utility;
-	StrokeManager strokeManager = StrokeManager("C:\\Users\\Royce\\Documents\\Tegami\\Tegami\\Tegami\\Characters");
+	StrokeManager strokeManager = StrokeManager("Characters");
 	
 	std::ifstream file(fileName);
 	std::string line;
