@@ -18,7 +18,7 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background;
+int effects = Effects::BackgroundDots;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
@@ -79,7 +79,7 @@ void processEffect(Utility* utility, int bit) {
 			// +25 and -25 are for buffer space
 			DotWave(utility, waves, 25, -853.0f / 2 + 25, 852.0f / 2 - 25, 0, 0.3);
 
-			DotGenerator(utility, 200, 0.03, 0.01, 0.2, 0.05, ffd1dc, 100, 0.8, 0.2, Time("01:41:963").ms, Time("02:13:131").ms, "m.png", utility->quarterTimeStep * 8);
+			DotGenerator(utility, 300, 0.03, 0.01, 0.2, 0.05, ffd1dc, 100, 0.8, 0.2, Time("01:41:963").ms, Time("02:13:131").ms, "m.png", utility->quarterTimeStep * 8);
 
 			// Blue sections
 			// Blue section is directly copied from above, this has a stronger blue color
