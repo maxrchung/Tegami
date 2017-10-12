@@ -1,4 +1,5 @@
 #include "SpritePool.hpp"
+#include <iostream>
 
 SpritePool::SpritePool(std::string imagePath, Origin origin)
 	: imagePath(imagePath), origin(origin) {
@@ -13,4 +14,12 @@ Sprite* SpritePool::Get(int index) {
 	}
 
 	return sprites[index];
+}
+
+void SpritePool::ReGet() {
+	getting = 0;
+}
+
+Sprite* SpritePool::Get() {
+	return Get(getting++);
 }

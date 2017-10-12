@@ -7,7 +7,7 @@
 #include <sstream>
 #include <string>
 
-DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, float startX, float endX, float lineY) {
+DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, float startX, float endX, float lineY, float fade) {
 	std::vector<Sprite*> waves;
 	float endTime = wave.back().timeEnd;
 	float timeElapse;
@@ -18,7 +18,7 @@ DotWave::DotWave(Utility *utility, std::vector<Wave> wave, int numberOfDots, flo
 	for (int i = 0; i < numberOfDots; i++) {
 		// numberOfDots - 1 to account for a dot at endX
 		Sprite *dot = new Sprite("m.png", Vector2(startX + (i*(abs(endX - startX) / (numberOfDots - 1))), lineY), Layer::Foreground, Origin::Centre);
-		dot->Fade(startTime, startTime + utility->quarterTimeStep, 0, 1);
+		dot->Fade(startTime, startTime + utility->quarterTimeStep, 0, fade);
 
 		bool directionFlag = 1;
 		float topPosition = lineY + wave[0].amplitude;
