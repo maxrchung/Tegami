@@ -68,8 +68,10 @@ float Lyrics::drawStroke(Stroke input, float fadeIn) {
 		float dotScale = 0.05;
 		dot->Scale(fadeIn + timeDifference, fadeIn + 2 * timeDifference, dotScale, dotScale);
 		dot->Color(fadeIn + timeDifference, fadeIn + 2 * timeDifference, Color(255, 255, 255), Color(255, 255, 255));
-		dot->Fade(fadeIn + timeDifference, fadeIn + 2 * timeDifference, 0, 1);
-		dot->Fade(fadeTime, fadeTime + u.quarterTimeStep, 1, 0);
+
+		auto fade = 1 - i / (dotbIgBoy);
+		dot->Fade(fadeIn + timeDifference, fadeIn + 2 * timeDifference, 0, fade);
+		dot->Fade(fadeTime, fadeTime + u.quarterTimeStep, fade, 0);
 		
 		fadeIn += timeDifference;
 		currTime += timeStep;
