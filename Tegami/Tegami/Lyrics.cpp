@@ -12,7 +12,7 @@
 Lyrics::Lyrics(std::string fileName, Utility *utility){
 
 	u = *utility;
-	StrokeManager strokeManager = StrokeManager("C:\\Users\\Royce\\Documents\\Tegami\\Tegami\\Tegami\\Characters");
+	StrokeManager strokeManager = StrokeManager("Characters");
 	
 	std::ifstream file(fileName);
 	std::string line;
@@ -68,12 +68,36 @@ float Lyrics::drawStroke(Stroke input, float fadeIn) {
 		float dotScale = 0.05;
 		dot->Scale(fadeIn + timeDifference, fadeIn + 2 * timeDifference, dotScale, dotScale);
 		dot->Color(fadeIn + timeDifference, fadeIn + 2 * timeDifference, Color(255, 255, 255), Color(255, 255, 255));
-		dot->Fade(fadeIn + timeDifference, fadeIn + 2 * timeDifference, 0, 1);
-		dot->Fade(fadeTime, fadeTime + u.quarterTimeStep, 1, 0);
+
+		auto fade = 1 - i / (dotbIgBoy);
+		dot->Fade(fadeIn + timeDifference, fadeIn + 2 * timeDifference, 0, fade);
+		dot->Fade(fadeTime, fadeTime + u.quarterTimeStep, fade, 0);
 		
 		fadeIn += timeDifference;
 		currTime += timeStep;
 	}
 
 	return fadeIn;
+}
+
+float Lyrics::getCharacterPositionInLine(float midLinePos, int characterCount, float characterWidth, float characterSpacing, int characterIndex) const {
+	if (characterIndex < 0 || characterIndex >= characterCount) {
+		throw "Invalid characterIndex";
+	}
+
+	// Calculate total distance of line
+	float totalCharacterWidth = characterCount * characterWidth;
+	float totalCharacterSpacing = (characterCount - 1) * characterSpacing;
+	// Gets half value
+	float halfTotalDistance = (totalCharacterWidth = totalCharacterSpacing) / 2;
+
+	// Calculate indexed position of line
+	float indexedCharacterWidth = (characterIndex + 1) * characterWidth;
+	float indexedCharacterSpacing = characterIndex * characterSpacing;
+	// Account for center position
+	float indexedPosition = indexedCharacterWidth + indexedCharacterSpacing + characterWidth / 2;
+
+	// Subtract the two from above for final position
+	float finalPosition = indexedPosition - halfTotalDistance;
+	return finalPosition;
 }
