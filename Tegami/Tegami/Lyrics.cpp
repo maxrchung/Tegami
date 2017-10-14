@@ -23,9 +23,11 @@ Lyrics::Lyrics(std::string fileName, Utility *utility){
 	float xPoint;
 	float yPoint;
 
+	float temp;
+
 	while (std::getline(file, line)) {
 		std::stringstream streamLine(line);
-		std::cout << line << "\n";
+
 		if (line.empty()){
 			continue;
 		}
@@ -59,15 +61,14 @@ float Lyrics::drawStroke(Stroke input, float fadeIn) {
 	float timeStep = 1 / dotbIgBoy; //unit is t, a parametrized unit
 
 	float currTime = 0;
-
+	float dotScale = 0.05;
 	for (int i = 0; i < dotbIgBoy; i++) {
 
 		Vector2 pos = stroke.findPosition(currTime) + Vector2(x,y);
 		Sprite *dot = new Sprite("m.png", pos, Layer::Background, Centre);
 
-		float dotScale = 0.05;
-		dot->Scale(fadeIn + timeDifference, fadeIn + 2 * timeDifference, dotScale, dotScale);
-		dot->Color(fadeIn + timeDifference, fadeIn + 2 * timeDifference, Color(255, 255, 255), Color(255, 255, 255));
+		dot->Scale(fadeIn + timeDifference, fadeIn + timeDifference, dotScale, dotScale);
+		dot->Color(fadeIn + timeDifference, fadeIn + timeDifference, Color(255, 255, 255), Color(255, 255, 255));
 
 		auto fade = 1 - i / (dotbIgBoy);
 		dot->Fade(fadeIn + timeDifference, fadeIn + 2 * timeDifference, 0, fade);
