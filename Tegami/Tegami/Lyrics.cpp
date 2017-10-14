@@ -79,3 +79,25 @@ float Lyrics::drawStroke(Stroke input, float fadeIn) {
 
 	return fadeIn;
 }
+
+float Lyrics::getCharacterPositionInLine(float midLinePos, int characterCount, float characterWidth, float characterSpacing, int characterIndex) const {
+	if (characterIndex < 0 || characterIndex >= characterCount) {
+		throw "Invalid characterIndex";
+	}
+
+	// Calculate total distance of line
+	float totalCharacterWidth = characterCount * characterWidth;
+	float totalCharacterSpacing = (characterCount - 1) * characterSpacing;
+	// Gets half value
+	float halfTotalDistance = (totalCharacterWidth = totalCharacterSpacing) / 2;
+
+	// Calculate indexed position of line
+	float indexedCharacterWidth = (characterIndex + 1) * characterWidth;
+	float indexedCharacterSpacing = characterIndex * characterSpacing;
+	// Account for center position
+	float indexedPosition = indexedCharacterWidth + indexedCharacterSpacing + characterWidth / 2;
+
+	// Subtract the two from above for final position
+	float finalPosition = indexedPosition - halfTotalDistance;
+	return finalPosition;
+}
