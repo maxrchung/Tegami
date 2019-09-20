@@ -65,7 +65,7 @@ float Lyrics::drawStroke(Stroke input, float fadeIn) {
 	for (int i = 0; i < dotbIgBoy; i++) {
 
 		Vector2 pos = stroke.findPosition(currTime) + Vector2(x,y);
-		Sprite *dot = new Sprite("m.png", pos, Layer::Background, Centre);
+		Sprite *dot = new Sprite("m", pos, Layer::Background, Centre);
 
 		dot->Scale(fadeIn + timeDifference, fadeIn + timeDifference, dotScale, dotScale);
 		dot->Color(fadeIn + timeDifference, fadeIn + timeDifference, Color(255, 255, 255), Color(255, 255, 255));

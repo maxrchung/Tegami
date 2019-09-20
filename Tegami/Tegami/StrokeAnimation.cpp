@@ -10,10 +10,10 @@ StrokeAnimation::StrokeAnimation(Utility* utility, std::string path, Time start,
 	std::cout << "Parsing frames..." << std::endl;
 
 	std::vector<Frame> frames = parseFrames(path);
-	SpritePool* rectanglePool = new SpritePool("w.png", Origin::Centre);
+	SpritePool* rectanglePool = new SpritePool("w", Origin::Centre);
 	drawRectangles(rectanglePool, frames);
 
-	SpritePool* linePool = new SpritePool("w.png", Origin::Centre);
+	SpritePool* linePool = new SpritePool("w", Origin::Centre);
 	drawLines(linePool, frames);
 }
 
@@ -82,7 +82,6 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 		float endTime = startTime + utility->mspf;
 
 		for (int i = 0; i < frame.lines.size(); i++) {
-
 			Sprite* sprite = linePool->Get(i);
 			Vector2 startPos = frame.lines[i].start;
 			Vector2 endPos = frame.lines[i].end;

@@ -21,7 +21,7 @@ Okaerinasai::Okaerinasai(Utility* utility)
 	for (auto t = start.ms; t < generationEnd.ms; t += utility->mspf) {
 		for (auto i = 0; i < numRects; i++) {
 			auto point = points.back();
-			auto sprite = new Sprite("o.png", point);
+			auto sprite = new Sprite("o", point);
 
 			sprite->Fade(t, fadeEnd.ms, 0, 1, Easing::QuadIn);
 			sprite->Fade(fadeEnd.ms, Time("04:29:885").ms, 1, 0, Easing::Linear);
