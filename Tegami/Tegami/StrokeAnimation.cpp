@@ -82,32 +82,19 @@ void StrokeAnimation::drawLines(SpritePool* linePool, std::vector<Frame> frames)
 		float endTime = startTime + utility->mspf;
 
 		for (int i = 0; i < frame.lines.size(); i++) {
-			Sprite* sprite = linePool->Get(i);
 			Vector2 startPos = frame.lines[i].start;
 			Vector2 endPos = frame.lines[i].end;
 			Vector2 midPos = (startPos + endPos) / 2;
-			sprite->Move(startTime, startTime, midPos, midPos);
+			Sprite* sprite = new Sprite("w", midPos, Layer::Foreground, Origin::Centre);
 
 			Vector2 diff = endPos - startPos;
 			float rotation = Vector2(1, 0).AngleBetween(diff);
-			sprite->Rotate(startTime, startTime, rotation, rotation, Easing::Linear, 1);
+			sprite->Rotate(startTime, endTime, rotation, rotation, Easing::Linear, 1);
 
 			float dist = diff.Magnitude() * lineEdgeScale;
-			sprite->ScaleVector(startTime, startTime, dist, 1, dist, 1, Easing::Linear, 0);
+			sprite->ScaleVector(startTime, startTime, dist, lineWidthScale, dist, lineWidthScale, Easing::Linear, 0);
 
-			if (sprite->fade == 0) {
-				sprite->Fade(startTime, endTime, 1, 1);
-			}
-
-			if (sprite->color != Color(0)){
-				sprite->Color(startTime, startTime, Color(0), Color(0));
-			}
-		}
-
-		for (int i = frame.lines.size(); i < linePool->sprites.size(); i++) {
-			if (linePool->sprites[i]->fade != 0) {
-				linePool->sprites[i]->Fade(startTime, startTime, 0, 0);
-			}
+			sprite->Color(startTime, startTime, Color(0), Color(0));
 		}
 	}
 }

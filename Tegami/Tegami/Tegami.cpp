@@ -18,21 +18,22 @@
 #include <vector>
 #include <random>
 
-int effects = Effects::Background | Effects::BackgroundDots | Effects::ForegroundDots | Effects::Foreground;
+int effects = Effects::Background | Effects::BackgroundDots | Effects::Animation | Effects::ForegroundDots | Effects::Foreground;
 
 void processEffect(Utility* utility, int bit) {
 	switch (bit) {
 		case Effects::Background: {
 			// Get rid of SB load
 			Sprite* bg = new Sprite("t", Vector2::Zero, Layer::Background);
-
+			
 			// Back is used for the majority of the time, it has a #lofifade around the edges
 			// Towards the finish of song, back fades to end to help fill in Okaerinsai image gaps
 			Sprite* end = new Sprite("s", Vector2::Zero, Layer::Background);
-			end->ScaleVector(Time("03:59:105").ms, Time("03:59:105").ms, Vector2(852,478), Vector2(852,478));
+			// Scale backgrounds a little larger than screen size so there is no gap at edges
+			end->ScaleVector(Time("03:59:105").ms, Time("03:59:105").ms, Vector2(854,480), Vector2(854, 480));
 			end->Color(Time("04:24:041").ms, Time("04:32:000").ms, utility->blueBg, Color(255));
 			Sprite* back = new Sprite("f", Vector2::Zero, Layer::Background);
-			auto scale = 480 / 1080.0f;
+			auto scale = 482 / 1080.0f;
 			back->Scale(Time("00:00:000").ms, Time("10:00:000").ms, scale, scale, Easing::Linear);
 			back->Color(Time("00:00:000").ms, Time("00:14:690").ms, Color(), utility->pinkBg);
 			back->Color(Time("02:19:365").ms, Time("02:44:300").ms, back->color, utility->blueBg);
